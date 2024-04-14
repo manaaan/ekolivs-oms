@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option go_package = "github.com/manaaan/ekolivs-oms/product/api";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service ProductService {
+  rpc GetProducts(google.protobuf.Empty) returns (ProductsRes) {}
+}
+
+message ProductsRes {
+  repeated Product products = 1;
+}
+
+message Product {
+  string id = 1;
+  string name = 2;
+  int32 sku = 3;
+  int32 barcode = 4;
+  // Sales price
+  Price price = 5;
+  // Purchase price from supplier
+  Price costPrice = 6;
+  string imageUrl = 7;
+  int32 vatPercentage = 8;
+  Status status = 9;
+  UnitType unitType = 10;
+  google.protobuf.Timestamp createdAt = 11;
+  google.protobuf.Timestamp updatedAt = 12;
+}
+
+message Price {
+  // Response with last 2 digits as decimals
+  int32 amount = 1;
+  // Default "SEK"
+  string currencyID = 2;
+}
+
+enum Status {
+  ACTIVE = 0;
+  HIDDEN = 1;
+}
+
+enum UnitType {
+  // pieces
+  PIECES = 0;
+  GRAMS = 1;
+  KILOGRAMS = 2;
+  LITER = 3;
+  MILLILITER = 4;
+}
