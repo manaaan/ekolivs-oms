@@ -73,13 +73,13 @@ func (service Service) getAccessToken() (*string, error) {
 		slog.Error(err.Error())
 		return nil, err
 	}
-	defer response.Body.Close()
 
 	if response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("Unexpected status code from getAccessToken %d", response.StatusCode)
 	}
 
 	var accessTokenResponse *accessTokenResponse
+	defer response.Body.Close()
 	if err := json.NewDecoder(response.Body).Decode(&accessTokenResponse); err != nil {
 		slog.Error(err.Error())
 		return nil, err
@@ -109,9 +109,9 @@ func (service Service) GetProducts() (*ProductResponse, error) {
 		slog.Error(err.Error())
 		return nil, err
 	}
-	defer response.Body.Close()
 
 	var products *ProductResponse
+	defer response.Body.Close()
 	if err := json.NewDecoder(response.Body).Decode(&products); err != nil {
 		slog.Error(err.Error())
 		return nil, err
