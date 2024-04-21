@@ -3,6 +3,7 @@ package product
 import (
 	"fmt"
 
+	"github.com/manaaan/ekolivs-oms/pkg/env"
 	"github.com/manaaan/ekolivs-oms/pkg/zettle"
 	"github.com/manaaan/ekolivs-oms/product/api"
 )
@@ -13,7 +14,10 @@ type Service struct {
 }
 
 func New() (*Service, error) {
-	zettleService, err := zettle.New()
+	zettleService, err := zettle.New(zettle.ServiceNewParams{
+		ClientId: env.Required("ZETTLE_ORG_UUID"),
+		ApiKey:   env.Required("ZETTLE_API_KEY"),
+	})
 	if err != nil {
 		return nil, err
 	}
