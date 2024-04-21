@@ -2,8 +2,8 @@ package zettle
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 )
 
@@ -15,22 +15,25 @@ func New() (*Service, error) {
 	return &Service{}, nil
 }
 
-func (Service) GetProducts() (ProductResponse, error) {
+func (Service) GetProducts() (*ProductResponse, error) {
 	response, err := http.Get(getProductsPath)
 	if err != nil {
-		fmt.Println(err)
-		return ProductResponse{}, err
+		slog.Error(err.Error())
+		return nil, err
 	}
 	defer response.Body.Close()
 
 	responseData, err := io.ReadAll(response.Body)
 	if err != nil {
-		fmt.Println(err)
-		return ProductResponse{}, err
+		slog.Error(err.Error())
+		return nil, err
 	}
 
-	var products ProductResponse
-	json.Unmarshal(responseData, &products)
+	var products *ProductResponse
+	if err := json.Unmarshal(responseData, &products); err != nil {
+		slog.Error(err.Error())
+		return nil, err
+	}
 
 	return products, nil
 }

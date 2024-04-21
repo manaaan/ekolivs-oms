@@ -1,6 +1,8 @@
 package product
 
 import (
+	"fmt"
+
 	"github.com/manaaan/ekolivs-oms/pkg/zettle"
 	"github.com/manaaan/ekolivs-oms/product/api"
 )
@@ -27,8 +29,11 @@ func (s Service) GetProducts() ([]*api.Product, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(zettleProducts)
 
 	storeProducts, err := s.storeService.GetProducts()
+	fmt.Println(storeProducts)
+
 	// transform to api.Product slice
 	return []*api.Product{}, nil
 }
