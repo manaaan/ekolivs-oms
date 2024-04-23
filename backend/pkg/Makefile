@@ -6,5 +6,8 @@ help: ## list all the Makefile commands
 ###########
 # general #
 ###########
-zettle: ## Generate go code from zettle openapi specification
+zettle-product-library: ## Generate go code from zettle product library openapi specification
 	oapi-codegen -package zettle -generate types -include-operation-ids getAllProductsV2,updateProduct https://products.izettle.com/openapi.json > ./zettle/zettle.gen.go
+
+zettle-inventory: ## Generate go code from zettle inventory openapi specification
+	oapi-codegen -package zettle -generate types https://inventory.izettle.com/openapi.json > ./zettle/zettle.gen.go
