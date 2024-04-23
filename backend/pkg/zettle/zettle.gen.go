@@ -13,6 +13,27 @@ const (
 	ZettleOauthScopes = "ZettleOauth.Scopes"
 )
 
+// Defines values for ConstraintViolationConstraintType.
+const (
+	DATEMUSTBEINTHEFUTURE  ConstraintViolationConstraintType = "DATE_MUST_BE_IN_THE_FUTURE"
+	DATEMUSTBEINTHEPAST    ConstraintViolationConstraintType = "DATE_MUST_BE_IN_THE_PAST"
+	DIGITOUTOFBOUNDS       ConstraintViolationConstraintType = "DIGIT_OUT_OF_BOUNDS"
+	INVALIDEMAIL           ConstraintViolationConstraintType = "INVALID_EMAIL"
+	INVALIDRANGE           ConstraintViolationConstraintType = "INVALID_RANGE"
+	INVALIDSIZE            ConstraintViolationConstraintType = "INVALID_SIZE"
+	MUSTBEFALSE            ConstraintViolationConstraintType = "MUST_BE_FALSE"
+	MUSTBEGREATEROREQUALTO ConstraintViolationConstraintType = "MUST_BE_GREATER_OR_EQUAL_TO"
+	MUSTBEGREATERTHAN      ConstraintViolationConstraintType = "MUST_BE_GREATER_THAN"
+	MUSTBELESSOREQUALTHAN  ConstraintViolationConstraintType = "MUST_BE_LESS_OR_EQUAL_THAN"
+	MUSTBELESSTHAN         ConstraintViolationConstraintType = "MUST_BE_LESS_THAN"
+	MUSTBENULL             ConstraintViolationConstraintType = "MUST_BE_NULL"
+	MUSTBETRUE             ConstraintViolationConstraintType = "MUST_BE_TRUE"
+	MUSTMATCHPATTERN       ConstraintViolationConstraintType = "MUST_MATCH_PATTERN"
+	MUSTNOTBEEMPTY         ConstraintViolationConstraintType = "MUST_NOT_BE_EMPTY"
+	MUSTNOTBENULL          ConstraintViolationConstraintType = "MUST_NOT_BE_NULL"
+	UNKNOWN                ConstraintViolationConstraintType = "UNKNOWN"
+)
+
 // Defines values for OnlinePropertiesStatus.
 const (
 	ACTIVE OnlinePropertiesStatus = "ACTIVE"
@@ -228,6 +249,46 @@ type CategoryDTO struct {
 	Uuid openapi_types.UUID `json:"uuid"`
 }
 
+// ConstraintViolation defines model for ConstraintViolation.
+type ConstraintViolation struct {
+	ConstraintType   *ConstraintViolationConstraintType `json:"constraintType,omitempty"`
+	DeveloperMessage *string                            `json:"developerMessage,omitempty"`
+	Expected         *string                            `json:"expected,omitempty"`
+	PropertyName     *string                            `json:"propertyName,omitempty"`
+	Value            *string                            `json:"value,omitempty"`
+}
+
+// ConstraintViolationConstraintType defines model for ConstraintViolation.ConstraintType.
+type ConstraintViolationConstraintType string
+
+// ErrorResponse defines model for ErrorResponse.
+type ErrorResponse struct {
+	DeveloperMessage *string                `json:"developerMessage,omitempty"`
+	ErrorType        *string                `json:"errorType,omitempty"`
+	Violations       *[]ConstraintViolation `json:"violations,omitempty"`
+}
+
+// FullProductUpdateRequest defines model for FullProductUpdateRequest.
+type FullProductUpdateRequest struct {
+	Categories               *[]string                 `json:"categories,omitempty"`
+	Category                 *CategoryDTO              `json:"category,omitempty"`
+	Description              *string                   `json:"description,omitempty"`
+	ExternalReference        *string                   `json:"externalReference,omitempty"`
+	ImageLookupKeys          *[]string                 `json:"imageLookupKeys,omitempty"`
+	Metadata                 *MetadataDTO              `json:"metadata,omitempty"`
+	Name                     string                    `json:"name"`
+	Online                   *OnlineProperties         `json:"online,omitempty"`
+	Presentation             *PresentationDTO          `json:"presentation,omitempty"`
+	TaxCode                  *string                   `json:"taxCode,omitempty"`
+	TaxExempt                *bool                     `json:"taxExempt,omitempty"`
+	TaxRates                 *[]openapi_types.UUID     `json:"taxRates,omitempty"`
+	UnitName                 *string                   `json:"unitName,omitempty"`
+	Uuid                     openapi_types.UUID        `json:"uuid"`
+	VariantOptionDefinitions *VariantOptionDefinitions `json:"variantOptionDefinitions,omitempty"`
+	Variants                 *[]VariantDTO             `json:"variants,omitempty"`
+	VatPercentage            *float32                  `json:"vatPercentage,omitempty"`
+}
+
 // MetadataDTO defines model for MetadataDTO.
 type MetadataDTO struct {
 	InPos  bool       `json:"inPos"`
@@ -370,3 +431,11 @@ type GetAllProductsV2Params struct {
 	// Sort If true, sorts response by created date
 	Sort *bool `form:"sort,omitempty" json:"sort,omitempty"`
 }
+
+// UpdateProductParams defines parameters for UpdateProduct.
+type UpdateProductParams struct {
+	IfMatch *string `json:"If-Match,omitempty"`
+}
+
+// UpdateProductJSONRequestBody defines body for UpdateProduct for application/json ContentType.
+type UpdateProductJSONRequestBody = FullProductUpdateRequest
