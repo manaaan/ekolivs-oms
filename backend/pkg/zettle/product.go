@@ -1,6 +1,7 @@
 package zettle
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -125,15 +126,21 @@ func (service Service) GetProducts() (*ProductResponse, error) {
 	return products, nil
 }
 
-// TODO: Actually we don't need it, but I want to talk to Pit about it <3
+// TODO: Return id of udpated product, etags and location (what is location?)
 func (service Service) UpdateProduct(params updateProductParams, productUpdate FullProductUpdateRequest) error {
 	accessToken, err := service.getAccessToken()
 	if err != nil {
 		return err
 	}
 
+	productUpdateJson, err := json.Marshal(productUpdate)
+	if err != nil {
+		slog.Error(err.Error())
+		return err
+	}
+
 	client := &http.Client{}
-	request, err := http.NewRequest(http.MethodPut, fmt.Sprintf("%s/products/v2/%s", service.BasePath, params.productUuid), nil)
+	request, err := http.NewRequest(http.MethodPut, fmt.Sprintf("%s/products/v2/%s", service.BasePath, params.productUuid), bytes.NewBuffer(productUpdateJson))
 	if err != nil {
 		slog.Error(err.Error())
 		return err
