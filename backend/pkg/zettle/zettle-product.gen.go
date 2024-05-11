@@ -4,8 +4,6 @@
 package zettle
 
 import (
-	"time"
-
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
@@ -286,7 +284,7 @@ type FullProductUpdateRequest struct {
 	Uuid                     openapi_types.UUID        `json:"uuid"`
 	VariantOptionDefinitions *VariantOptionDefinitions `json:"variantOptionDefinitions,omitempty"`
 	Variants                 *[]VariantDTO             `json:"variants,omitempty"`
-	VatPercentage            *float32                  `json:"vatPercentage,omitempty"`
+	VatPercentage            *string                   `json:"vatPercentage,omitempty"`
 }
 
 // MetadataDTO defines model for MetadataDTO.
@@ -335,7 +333,7 @@ type PriceCurrencyId string
 type ProductResponse struct {
 	Categories               *[]string                 `json:"categories,omitempty"`
 	Category                 *CategoryDTO              `json:"category,omitempty"`
-	Created                  time.Time                 `json:"created"`
+	Created                  *string                   `json:"created"`
 	Description              *string                   `json:"description,omitempty"`
 	Etag                     string                    `json:"etag"`
 	ExternalReference        *string                   `json:"externalReference,omitempty"`
@@ -348,12 +346,12 @@ type ProductResponse struct {
 	TaxExempt                *bool                     `json:"taxExempt,omitempty"`
 	TaxRates                 *[]openapi_types.UUID     `json:"taxRates,omitempty"`
 	UnitName                 *string                   `json:"unitName,omitempty"`
-	Updated                  time.Time                 `json:"updated"`
+	Updated                  *string                   `json:"updated"`
 	UpdatedBy                *openapi_types.UUID       `json:"updatedBy,omitempty"`
 	Uuid                     openapi_types.UUID        `json:"uuid"`
 	VariantOptionDefinitions *VariantOptionDefinitions `json:"variantOptionDefinitions,omitempty"`
 	Variants                 []VariantDTO              `json:"variants"`
-	VatPercentage            *float32                  `json:"vatPercentage,omitempty"`
+	VatPercentage            *string                   `json:"vatPercentage,omitempty"`
 }
 
 // SearchEngineOptimization defines model for SearchEngineOptimization.
@@ -391,7 +389,7 @@ type VariantDTO struct {
 	Sku          *string            `json:"sku,omitempty"`
 	Uuid         openapi_types.UUID `json:"uuid"`
 	// Deprecated:
-	VatPercentage *float32 `json:"vatPercentage,omitempty"`
+	VatPercentage *string 					`json:"vatPercentage,omitempty"`
 }
 
 // VariantOption defines model for VariantOption.

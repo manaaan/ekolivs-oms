@@ -38,7 +38,8 @@ type updateProductParams struct {
 
 func New(params ServiceNewParams) (*Service, error) {
 	return &Service{
-		BasePath: "/organizations/self",
+		// TODO: think about splitting this into different services or base paths (e.g. inventory api)
+		BasePath: "https://products.izettle.com/organizations/self",
 		ClientId: params.ClientId,
 		ApiKey:   params.ApiKey,
 	}, nil
@@ -96,7 +97,7 @@ func (service Service) getAccessToken() (*string, error) {
 	return service.accessToken, nil
 }
 
-func (service Service) GetProducts() (*ProductResponse, error) {
+func (service Service) GetProducts() ([]ProductResponse, error) {
 	accessToken, err := service.getAccessToken()
 	if err != nil {
 		return nil, err
@@ -117,7 +118,7 @@ func (service Service) GetProducts() (*ProductResponse, error) {
 	}
 	defer response.Body.Close()
 
-	var products *ProductResponse
+	var products []ProductResponse
 	if err := json.NewDecoder(response.Body).Decode(&products); err != nil {
 		slog.Error(err.Error())
 		return nil, err

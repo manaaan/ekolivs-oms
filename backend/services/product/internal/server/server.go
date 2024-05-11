@@ -2,15 +2,24 @@ package server
 
 import (
 	"context"
+	"log/slog"
 
 	"github.com/manaaan/ekolivs-oms/product/api"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"github.com/manaaan/ekolivs-oms/product/internal/product"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
-type Server struct{}
+type Server struct {
+	api.UnimplementedProductServiceServer
+	ProductService *product.Service
+}
 
-func (Server) GetProducts(context.Context, *emptypb.Empty) (*api.ProductsRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProducts not implemented")
+func (s Server) GetProducts(ctx context.Context, e *emptypb.Empty) (*api.ProductsRes, error) {
+	products, err := s.ProductService.GetProducts()
+	if err != nil {
+		slog.Error("Unable to get products")
+		return nil, err
+	}
+
+	return &api.ProductsRes{Products: products}, nil
 }
