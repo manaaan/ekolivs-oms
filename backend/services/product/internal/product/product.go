@@ -18,7 +18,7 @@ type Service struct {
 
 func New() (*Service, error) {
 	zettleService, err := zettle.New(zettle.ServiceNewParams{
-		ClientId: env.Required("ZETTLE_ORG_UUID"),
+		ClientId: env.Required("ZETTLE_CLIENT_ID"),
 		ApiKey:   env.Required("ZETTLE_API_KEY"),
 	})
 	if err != nil {
