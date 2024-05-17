@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = "github.com/manaaan/ekolivs-oms/demand/api";
+
+import "google/protobuf/timestamp.proto";
+
+service DemandService {
+  rpc CreateDemand(CreateDemandReq) returns (DemandRes) {}
+}
+
+message CreateDemandReq {
+  repeated Demand demands = 1;
+  string requesterId = 2;
+  string assigneeId = 3;
+}
+
+message Demand {
+  string productId = 1;
+  int32 amount = 2;
+}
+
+message DemandRes {
+  repeated Demand demands = 1;
+  string requesterId = 2;
+  string assigneeId = 3;
+  google.protobuf.Timestamp createdAt = 4;
+  google.protobuf.Timestamp updatedAt = 5;
+}
