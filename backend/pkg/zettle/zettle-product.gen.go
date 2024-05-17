@@ -389,7 +389,7 @@ type VariantDTO struct {
 	Sku          *string            `json:"sku,omitempty"`
 	Uuid         openapi_types.UUID `json:"uuid"`
 	// Deprecated:
-	VatPercentage *string 					`json:"vatPercentage,omitempty"`
+	VatPercentage *string `json:"vatPercentage,omitempty"`
 }
 
 // VariantOption defines model for VariantOption.
