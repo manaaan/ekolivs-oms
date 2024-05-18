@@ -6,6 +6,8 @@ import (
 
 	"github.com/manaaan/ekolivs-oms/demand/api"
 	"github.com/manaaan/ekolivs-oms/demand/internal/demand"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type Server struct {
@@ -20,5 +22,5 @@ func (s Server) CreateDemand(ctx context.Context, req *api.CreateDemandReq) (*ap
 		return nil, err
 	}
 
-	return &api.DemandRes{}, nil
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDemand not implemented")
 }
