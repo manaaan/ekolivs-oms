@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DemandServiceClient interface {
-	CreateDemand(ctx context.Context, in *CreateDemandReq, opts ...grpc.CallOption) (*DemandRes, error)
+	CreateDemand(ctx context.Context, in *CreateDemand_Req, opts ...grpc.CallOption) (*Demand, error)
 }
 
 type demandServiceClient struct {
@@ -37,8 +37,8 @@ func NewDemandServiceClient(cc grpc.ClientConnInterface) DemandServiceClient {
 	return &demandServiceClient{cc}
 }
 
-func (c *demandServiceClient) CreateDemand(ctx context.Context, in *CreateDemandReq, opts ...grpc.CallOption) (*DemandRes, error) {
-	out := new(DemandRes)
+func (c *demandServiceClient) CreateDemand(ctx context.Context, in *CreateDemand_Req, opts ...grpc.CallOption) (*Demand, error) {
+	out := new(Demand)
 	err := c.cc.Invoke(ctx, DemandService_CreateDemand_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func (c *demandServiceClient) CreateDemand(ctx context.Context, in *CreateDemand
 // All implementations must embed UnimplementedDemandServiceServer
 // for forward compatibility
 type DemandServiceServer interface {
-	CreateDemand(context.Context, *CreateDemandReq) (*DemandRes, error)
+	CreateDemand(context.Context, *CreateDemand_Req) (*Demand, error)
 	mustEmbedUnimplementedDemandServiceServer()
 }
 
@@ -58,7 +58,7 @@ type DemandServiceServer interface {
 type UnimplementedDemandServiceServer struct {
 }
 
-func (UnimplementedDemandServiceServer) CreateDemand(context.Context, *CreateDemandReq) (*DemandRes, error) {
+func (UnimplementedDemandServiceServer) CreateDemand(context.Context, *CreateDemand_Req) (*Demand, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateDemand not implemented")
 }
 func (UnimplementedDemandServiceServer) mustEmbedUnimplementedDemandServiceServer() {}
@@ -75,7 +75,7 @@ func RegisterDemandServiceServer(s grpc.ServiceRegistrar, srv DemandServiceServe
 }
 
 func _DemandService_CreateDemand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateDemandReq)
+	in := new(CreateDemand_Req)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func _DemandService_CreateDemand_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: DemandService_CreateDemand_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DemandServiceServer).CreateDemand(ctx, req.(*CreateDemandReq))
+		return srv.(DemandServiceServer).CreateDemand(ctx, req.(*CreateDemand_Req))
 	}
 	return interceptor(ctx, in, info, handler)
 }

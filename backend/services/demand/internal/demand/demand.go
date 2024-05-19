@@ -9,6 +9,6 @@ func New() (*Service, error) {
 	return &Service{}, nil
 }
 
-func (s Service) CreateDemand(input *api.CreateDemandReq) (api.DemandRes, error) {
-	return api.DemandRes{}, nil
+func (s Service) CreateDemand(input *api.CreateDemand_Req) (api.Demand, error) {
+	return api.Demand{}, nil
 }

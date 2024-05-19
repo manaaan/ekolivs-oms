@@ -15,7 +15,7 @@ type Server struct {
 	DemandService *demand.Service
 }
 
-func (s Server) CreateDemand(ctx context.Context, req *api.CreateDemandReq) (*api.DemandRes, error) {
+func (s Server) CreateDemand(ctx context.Context, req *api.CreateDemand_Req) (*api.Demand, error) {
 	_, err := s.DemandService.CreateDemand(req)
 	if err != nil {
 		slog.Error("Unable to create demand")

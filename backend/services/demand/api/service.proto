@@ -2,27 +2,45 @@ syntax = "proto3";
 
 option go_package = "github.com/manaaan/ekolivs-oms/demand/api";
 
-import "google/protobuf/timestamp.proto";
-
 service DemandService {
-  rpc CreateDemand(CreateDemandReq) returns (DemandRes) {}
+  rpc CreateDemand(CreateDemand.Req) returns (Demand) {}
 }
 
-message CreateDemandReq {
-  repeated Demand demands = 1;
-  string requesterId = 2;
-  string assigneeId = 3;
+message CreateDemand {
+  message Req {
+    repeated ProductDemand products = 1;
+    optional string note = 2;
+    string memberID = 3;
+  }
 }
 
 message Demand {
-  string productId = 1;
-  int32 amount = 2;
+  string ID = 1;
+  Status status = 2;
+  string memberID = 3;
+  repeated ProductDemand products = 4;
+  // (Optional) demand parent, if demand can only be partially fulfilled and needs to be split
+  optional string parentID = 5;
+  optional string note = 6;
+  // ISO 8601
+  string createdAt = 7;
+  // ISO 8601
+  string updatedAt = 8;
+
+  enum Status {
+    DEMAND_RECEIVED = 0;
+    DEMAND_ACCEPTED = 1;
+    DEMAND_REJECTED = 2;
+    ORDER_SENT_TO_SUPPLIER = 3;
+    DEMAND_FULFILLED = 4;
+    // Supplier accepted initially, but cannot fulfill delivery
+    // We split demand if it can only be partially fulfilled.
+    DEMAND_NOT_FULFILLED = 5;
+    DEMAND_COLLECTED = 6;
+  }
 }
 
-message DemandRes {
-  repeated Demand demands = 1;
-  string requesterId = 2;
-  string assigneeId = 3;
-  google.protobuf.Timestamp createdAt = 4;
-  google.protobuf.Timestamp updatedAt = 5;
+message ProductDemand {
+  string productId = 1;
+  int32 amount = 2;
 }
