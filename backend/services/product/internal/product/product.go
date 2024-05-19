@@ -50,7 +50,7 @@ func (s Service) GetProducts() ([]*api.Product, error) {
 
 			products = append(products, &api.Product{
 				Id:            variant.Uuid.String(),
-				Name:          zettleProduct.Name,
+				Name:          buidlProductName(zettleProduct, variant),
 				Sku:           variant.Sku,
 				Barcode:       variant.Barcode,
 				Price:         convertToPrice(variant.Price),
@@ -113,4 +113,11 @@ func convertToUnitType(unitName *string) api.UnitType {
 	default:
 		return api.UnitType_PIECES
 	}
+}
+
+func buidlProductName(zettleProduct zettle.ProductResponse, variant zettle.VariantDTO) string {
+	if variant.Name == nil {
+		return zettleProduct.Name
+	}
+	return fmt.Sprintf("%s - %s", zettleProduct.Name, *variant.Name)
 }
