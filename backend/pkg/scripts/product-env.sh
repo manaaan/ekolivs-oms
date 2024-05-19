@@ -21,16 +21,16 @@ if ! command -v go &> /dev/null; then
 fi
 
 # VatPercentage from *float32 to *string
-sed -i '' -E 's/(VatPercentage[[:space:]]+)\*float32/\1*string/g' $file_path
+sed -i -E 's/(VatPercentage[[:space:]]+)\*float32/\1*string/g' $file_path
 
 # Updated from time.Time to *string
-sed -i '' -E 's/(Updated[[:space:]]+)time.Time/\1*string/g' $file_path
+sed -i -E 's/(Updated[[:space:]]+)time.Time/\1*string/g' $file_path
 
 # Created from time.Time to *string
-sed -i '' -E 's/(Created[[:space:]]+)time.Time/\1*string/g' $file_path
+sed -i -E 's/(Created[[:space:]]+)time.Time/\1*string/g' $file_path
 
 # Remove leftover time import
-sed -i '' -E 's/"time"//g' $file_path
+sed -i -E 's/"time"//g' $file_path
 
 # Format the file
 go fmt $file_path
