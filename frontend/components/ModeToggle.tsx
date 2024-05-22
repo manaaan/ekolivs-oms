@@ -13,7 +13,7 @@ import {
 
 import { useTheme } from 'next-themes'
 
-export function ModeToggle() {
+export const ModeToggle = () => {
   const { setTheme } = useTheme()
 
   return (
