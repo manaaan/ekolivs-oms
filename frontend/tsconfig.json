@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@public/*": ["./public/*"]
     },
     "target": "ES2017"
   },
