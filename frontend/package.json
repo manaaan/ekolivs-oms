@@ -12,9 +12,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.379.0",
     "next": "14.3.0-canary.73",
     "react": "19.0.0-beta-04b058868c-20240508",
-    "react-dom": "19.0.0-beta-04b058868c-20240508"
+    "react-dom": "19.0.0-beta-04b058868c-20240508",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
