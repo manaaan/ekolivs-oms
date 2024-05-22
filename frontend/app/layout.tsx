@@ -1,7 +1,7 @@
+import { Inter as FontSans } from 'next/font/google'
+
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { cn } from '@/lib/utils'
-
-import { Inter as FontSans } from 'next/font/google'
 
 const fontSans = FontSans({
   subsets: ['latin'],
