@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/ThemeProvider'
 import { cn } from '@/lib/utils'
 
 import { Inter as FontSans } from 'next/font/google'
@@ -16,7 +17,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           fontSans.variable
         )}
       >
-        <main>{children}</main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main>{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   )
