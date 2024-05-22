@@ -1,4 +1,4 @@
-function Page() {
+const Page = () => {
   return <h1>Hello World</h1>
 }
 
