@@ -27,7 +27,7 @@ const LoginPage = () => {
       </div>
       <div className="relative hidden h-full flex-col justify-end bg-zinc-900 p-10 text-white dark:border-r lg:flex">
         <div className="m-auto max-w-md xl:max-w-2xl">
-          <Image src={logoTextWhitePic} alt="Logo in white" />
+          <Image priority src={logoTextWhitePic} alt="Logo in white" />
         </div>
         <blockquote className="space-y-2">
           <p className="text-lg">
