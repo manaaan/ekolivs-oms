@@ -3,6 +3,8 @@ import { Inter as FontSans } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { cn } from '@/lib/utils'
 
+import { TooltipProvider } from '@components/ui/tooltip'
+
 import '../styles/globals.css'
 
 const fontSans = FontSans({
@@ -25,7 +27,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           enableSystem
           disableTransitionOnChange
         >
-          <main>{children}</main>
+          <TooltipProvider>
+            <main>{children}</main>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

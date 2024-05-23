@@ -1,5 +1,12 @@
+import { SidebarNav } from '@/components/SidebarNav'
+
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>
+  return (
+    <>
+      <SidebarNav />
+      {children}
+    </>
+  )
 }
 
 export default DashboardLayout
