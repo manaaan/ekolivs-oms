@@ -46,7 +46,9 @@ const SidebarItem = ({ label, href }: SidebarItemProps) => {
             isActive && 'bg-primary'
           )}
         >
-          <Icon className={cn('h-5 w-5', isActive && 'text-white')} />
+          <Icon
+            className={cn('h-5 w-5', isActive && 'text-primary-foreground')}
+          />
           <span className="sr-only">{label}</span>
         </Link>
       </TooltipTrigger>
