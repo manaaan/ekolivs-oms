@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "cd .. && husky frontend/.husky"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -40,6 +41,8 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-react-compiler": "0.0.0-experimental-c8b3f72-20240517",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.4",
     "postcss": "^8.4.38",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
