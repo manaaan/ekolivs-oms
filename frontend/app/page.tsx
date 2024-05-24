@@ -20,6 +20,7 @@ const LoginPage = () => {
         <Link
           href="/dashboard"
           className={buttonVariants({ variant: 'ghost' })}
+          scroll={false}
         >
           Login
         </Link>
