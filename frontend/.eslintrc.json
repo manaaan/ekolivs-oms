@@ -14,7 +14,7 @@
     "@typescript-eslint/no-explicit-any": "error",
     "react-compiler/react-compiler": "error",
     "prefer-arrow/prefer-arrow-functions": [
-      "warn",
+      "error",
       {
         "disallowPrototype": true,
         "singleReturnOnly": false,
