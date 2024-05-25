@@ -1,10 +1,13 @@
 import { SidebarNav } from '@/components/SidebarNav'
+import { Sheet } from '@/components/ui/sheet'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <SidebarNav />
-      {children}
+      <Sheet>
+        <SidebarNav />
+        {children}
+      </Sheet>
     </>
   )
 }

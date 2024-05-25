@@ -1,39 +1,19 @@
 'use client'
 
-import {
-  Home,
-  Package,
-  Salad,
-  Settings,
-  ShoppingBag,
-  Users,
-} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { ROUTES } from '@/lib/constants'
+import { ROUTES_ICON } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@components/ui/tooltip'
 
-type SidebarItemProps = {
-  label: string
-  href: ROUTES
-}
+import { NavItemProps } from './types'
 
-const SIDEBAR_ICON = {
-  [ROUTES.DASHBOARD]: Home,
-  [ROUTES.ORDERS]: ShoppingBag,
-  [ROUTES.DEMANDS]: Package,
-  [ROUTES.PRODUCTS]: Salad,
-  [ROUTES.CUSTOMERS]: Users,
-  [ROUTES.SETTINGS]: Settings,
-}
-
-const SidebarItem = ({ label, href }: SidebarItemProps) => {
+const SidebarItem = ({ label, href }: NavItemProps) => {
   const pathname = usePathname()
   const isActive = pathname === href
-  const Icon = SIDEBAR_ICON[href]
+  const Icon = ROUTES_ICON[href]
 
   return (
     <Tooltip>
