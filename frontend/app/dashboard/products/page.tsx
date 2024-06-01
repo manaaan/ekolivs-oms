@@ -47,8 +47,18 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { productClient } from '@/lib/services/product'
 
 const ProductsPage = () => {
+  const products = []
+  productClient.GetProducts('', (err, prods) => {
+    if (err) {
+      console.log(err)
+    } else if (prods) {
+      products.push(...prods.products)
+    }
+  })
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
