@@ -27,10 +27,12 @@ unzip "protoc-$PROTOC_VERSION-$protoc_bin.zip" -d "$HOME/.local"
 rm "protoc-$PROTOC_VERSION-$protoc_bin.zip"
 
 echo ""
-echo "Make sure your shell startup script contains, to execute protoc:"
+echo -e '\e[46mMake sure your shell startup script contains following lines, adding to PATH to execute the commands:\e[0m'
 echo ""
 # shellcheck disable=SC2016
-echo 'export PATH=$PATH:$HOME/.local/bin'
+echo -e '\t\e[36mexport PATH="$PATH:$HOME/.local/bin"\e[0m'
+# shellcheck disable=SC2016
+echo -e '\t\e[36mexport PATH="$PATH:$(go env GOPATH)/bin"\e[0m'
 echo ""
 
 go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.34.1
