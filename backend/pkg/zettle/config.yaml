@@ -1,0 +1,8 @@
+package: zettle
+generate:
+  models: true
+output: zettle-product.gen.go
+output-options:
+  include-operation-ids:
+    - getAllProductsV2
+    - updateProduct
