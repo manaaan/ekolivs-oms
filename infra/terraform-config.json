@@ -6,7 +6,8 @@
     "logging.googleapis.com",
     "run.googleapis.com",
     "secretmanager.googleapis.com",
-    "cloudresourcemanager.googleapis.com"
+    "cloudresourcemanager.googleapis.com",
+    "firestore.googleapis.com"
   ],
   "terraformSvcRoles": [
     "roles/artifactregistry.admin",
@@ -21,6 +22,7 @@
     "roles/monitoring.admin",
     "roles/run.admin",
     "roles/secretmanager.admin",
-    "roles/storage.admin"
+    "roles/storage.admin",
+    "roles/datastore.owner"
   ]
 }
