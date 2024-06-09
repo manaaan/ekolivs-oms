@@ -1,0 +1,26 @@
+{
+  "apis": [
+    "artifactregistry.googleapis.com",
+    "cloudbuild.googleapis.com",
+    "iam.googleapis.com",
+    "logging.googleapis.com",
+    "run.googleapis.com",
+    "secretmanager.googleapis.com",
+    "cloudresourcemanager.googleapis.com"
+  ],
+  "terraformSvcRoles": [
+    "roles/artifactregistry.admin",
+    "roles/cloudbuild.builds.editor",
+    "roles/compute.admin",
+    "roles/iam.roleAdmin",
+    "roles/iam.securityAdmin",
+    "roles/iam.serviceAccountAdmin",
+    "roles/iam.serviceAccountUser",
+    "roles/logging.admin",
+    "roles/logging.configWriter",
+    "roles/monitoring.admin",
+    "roles/run.admin",
+    "roles/secretmanager.admin",
+    "roles/storage.admin"
+  ]
+}
