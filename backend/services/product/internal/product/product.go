@@ -3,12 +3,10 @@ package product
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/manaaan/ekolivs-oms/pkg/env"
 	"github.com/manaaan/ekolivs-oms/pkg/zettle"
 	"github.com/manaaan/ekolivs-oms/product/api"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Service struct {
@@ -49,7 +47,7 @@ func (s Service) GetProducts() ([]*api.Product, error) {
 			}
 
 			products = append(products, &api.Product{
-				Id:            variant.Uuid.String(),
+				ID:            variant.Uuid.String(),
 				Name:          buidlProductName(zettleProduct, variant),
 				Sku:           variant.Sku,
 				Barcode:       variant.Barcode,
@@ -59,8 +57,8 @@ func (s Service) GetProducts() ([]*api.Product, error) {
 				VatPercentage: zettleProduct.VatPercentage,
 				Status:        api.Status_ACTIVE,
 				UnitType:      convertToUnitType(zettleProduct.UnitName),
-				CreatedAt:     convertToTimestamp(zettleProduct.Created),
-				UpdatedAt:     convertToTimestamp(zettleProduct.Updated),
+				CreatedAt:     zettleProduct.Created,
+				UpdatedAt:     zettleProduct.Updated,
 			})
 		}
 	}
@@ -77,21 +75,6 @@ func convertToPrice(zettlePrice *zettle.Price) *api.Price {
 		Amount:     zettlePrice.Amount,
 		CurrencyID: string(zettlePrice.CurrencyId),
 	}
-}
-
-func convertToTimestamp(iso8601Time *string) *timestamppb.Timestamp {
-	if iso8601Time == nil {
-		return nil
-	}
-
-	layout := "2006-01-02T15:04:05.999-0700"
-	parsedTime, err := time.Parse(layout, *iso8601Time)
-	if err != nil {
-		fmt.Println("Error parsing time:", err)
-		return nil
-	}
-
-	return timestamppb.New(parsedTime)
 }
 
 func convertToUnitType(unitName *string) api.UnitType {
