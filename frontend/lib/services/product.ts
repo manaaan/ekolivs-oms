@@ -1,26 +1,31 @@
-import * as grpc from '@grpc/grpc-js'
-import * as protoLoader from '@grpc/proto-loader'
-import path from 'path'
+import { Product__Output } from '@/proto/Product'
 
-import { ProtoGrpcType } from '@/proto/service'
+import { GrpcError } from '../errors/GrpcError'
+import { productClient } from './grpc'
 
-const PROTO_PATH = path.join(
-  process.cwd(),
-  '../backend/services/product/api/service.proto'
-)
+type Product = Product__Output
 
-// suggested options for similarity to loading grpc.load behavior
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: true,
-  defaults: true,
-  oneofs: true,
-})
+export const getProducts = async (): Promise<Product[]> =>
+  new Promise((resolve, reject) => {
+    productClient.getProducts({}, (error, value) => {
+      if (error) {
+        reject(
+          new GrpcError(
+            error.message,
+            error.code,
+            error.details,
+            error.metadata,
+            { cause: error }
+          )
+        )
+        return
+      }
 
-const productService = grpc.loadPackageDefinition(
-  packageDefinition
-) as unknown as ProtoGrpcType
+      if (!value) {
+        resolve([])
+        return
+      }
 
-export const productClient = new productService.ProductService(
-  'localhost:8080',
-  grpc.credentials.createInsecure()
-)
+      resolve(value.products)
+    })
+  })

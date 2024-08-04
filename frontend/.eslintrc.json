@@ -1,9 +1,5 @@
 {
-  "plugins": [
-    "@typescript-eslint",
-    "prefer-arrow",
-    "eslint-plugin-react-compiler"
-  ],
+  "plugins": ["@typescript-eslint", "prefer-arrow"],
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
@@ -12,7 +8,6 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
-    "react-compiler/react-compiler": "error",
     "prefer-arrow/prefer-arrow-functions": [
       "error",
       {
