@@ -1,22 +1,25 @@
 package product
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
 
+	"cloud.google.com/go/firestore"
 	"github.com/manaaan/ekolivs-oms/pkg/env"
 	"github.com/manaaan/ekolivs-oms/pkg/zettle"
 	"github.com/manaaan/ekolivs-oms/product/api"
+	"github.com/manaaan/ekolivs-oms/product/pkg/product"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Service struct {
 	zettleService *zettle.Service
-	storeService  *Store
+	storeService  *product.Store
 }
 
-func New() (*Service, error) {
+func New(firestoreClient *firestore.Client) (*Service, error) {
 	zettleService, err := zettle.New(zettle.ServiceNewParams{
 		ClientId: env.Required("ZETTLE_CLIENT_ID"),
 		ApiKey:   env.Required("ZETTLE_API_KEY"),
@@ -27,17 +30,19 @@ func New() (*Service, error) {
 
 	return &Service{
 		zettleService: zettleService,
-		storeService:  &Store{},
+		storeService: &product.Store{
+			FirestoreClient: firestoreClient,
+		},
 	}, nil
 }
 
-func (s Service) GetProducts() ([]*api.Product, error) {
+func (s Service) GetProducts(ctx context.Context) ([]*api.Product, error) {
 	zettleProducts, err := s.zettleService.GetProducts()
 	if err != nil {
 		return nil, err
 	}
 
-	storeProducts, err := s.storeService.GetProducts()
+	storeProducts, err := s.storeService.GetProducts(ctx)
 	fmt.Println(storeProducts)
 
 	products := []*api.Product{}
@@ -50,7 +55,7 @@ func (s Service) GetProducts() ([]*api.Product, error) {
 
 			products = append(products, &api.Product{
 				Id:            variant.Uuid.String(),
-				Name:          buidlProductName(zettleProduct, variant),
+				Name:          buildProductName(zettleProduct, variant),
 				Sku:           variant.Sku,
 				Barcode:       variant.Barcode,
 				Price:         convertToPrice(variant.Price),
@@ -115,7 +120,7 @@ func convertToUnitType(unitName *string) api.UnitType {
 	}
 }
 
-func buidlProductName(zettleProduct zettle.ProductResponse, variant zettle.VariantDTO) string {
+func buildProductName(zettleProduct zettle.ProductResponse, variant zettle.VariantDTO) string {
 	if variant.Name == nil {
 		return zettleProduct.Name
 	}
