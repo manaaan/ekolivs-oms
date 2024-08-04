@@ -1,11 +1,13 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
+import { ArrowUpDown } from 'lucide-react'
 
 import { Checkbox } from '@/components/ui/checkbox'
 import { Product } from '@/lib/services/product'
 
 import DataTable from '../DataTable'
+import { Button } from '../ui/button'
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -31,16 +33,50 @@ export const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
+    id: 'name',
     accessorKey: 'name',
-    header: 'Name',
-  },
-  {
-    accessorKey: 'price.amount',
-    header: 'Price',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: 'sku',
     header: 'SKU',
+  },
+  {
+    id: 'price',
+    accessorKey: 'price.amount',
+    sortUndefined: -1,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="flexjustify-end"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Price
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const price = parseFloat(row.getValue('price') ?? 0)
+
+      const formatted = new Intl.NumberFormat('sv-SE', {
+        style: 'currency',
+        currency: 'SEK',
+      }).format(price / 1000)
+
+      return <div className="text-right font-medium">{formatted}</div>
+    },
   },
 ]
 
