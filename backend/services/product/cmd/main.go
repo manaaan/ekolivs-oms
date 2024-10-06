@@ -6,6 +6,7 @@ import (
 	"net"
 
 	"github.com/manaaan/ekolivs-oms/pkg/env"
+	"github.com/manaaan/ekolivs-oms/pkg/gcp"
 	"github.com/manaaan/ekolivs-oms/product/api"
 	"github.com/manaaan/ekolivs-oms/product/internal/product"
 	"github.com/manaaan/ekolivs-oms/product/internal/server"
@@ -15,7 +16,8 @@ import (
 
 func main() {
 	env.LoadEnv()
-	productService, err := product.New()
+	firestoreClient := gcp.InitFirestore()
+	productService, err := product.New(firestoreClient)
 	if err != nil {
 		log.Fatalf("Unable to initialize product service")
 		return

@@ -15,7 +15,7 @@ type Server struct {
 }
 
 func (s Server) GetProducts(ctx context.Context, e *emptypb.Empty) (*api.ProductsRes, error) {
-	products, err := s.ProductService.GetProducts()
+	products, err := s.ProductService.GetProducts(ctx)
 	if err != nil {
 		slog.Error("Unable to get products")
 		return nil, err

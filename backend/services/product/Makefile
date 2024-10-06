@@ -6,10 +6,17 @@ help: ## list all the Makefile commands
 ###########
 # general #
 ###########
-run: ## Run product service with go directly
+run: setgcpenv ## Run product service with go directly
 	go run ./cmd/main.go
 
 protogen: ## Generate go code from protobuf specifications
 	protoc --go_out=. --go_opt=paths=source_relative \
     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
     ./api/service.proto
+
+#######
+# GCP #
+#######
+
+setgcpenv:
+	$(eval export GOOGLE_CLOUD_PROJECT="$(shell gcloud config get-value project;echo $?)")
