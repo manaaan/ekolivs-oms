@@ -6,6 +6,8 @@ set -e
 echo "Set up tooling dependencies globally"
 
 PROTOC_VERSION=${PROTOC_VERSION:-27.0}
+PROTOC_GEN_GO_VERSION=${PROTOC_GEN_GO_VERSION:-1.34.1}
+PROTOC_GEN_GO_GRPC_VERSION=${PROTOC_GEN_GO_GRPC_VERSION:-1.4.0}
 
 architecture=""
 case $(uname -m) in
@@ -35,8 +37,8 @@ echo -e '\t\e[36mexport PATH="$PATH:$HOME/.local/bin"\e[0m'
 echo -e '\t\e[36mexport PATH="$PATH:$(go env GOPATH)/bin"\e[0m'
 echo ""
 
-go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.34.1
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.4.0
+go install "google.golang.org/protobuf/cmd/protoc-gen-go@v$PROTOC_GEN_GO_VERSION"
+go install "google.golang.org/grpc/cmd/protoc-gen-go-grpc@v$PROTOC_GEN_GO_GRPC_VERSION"
 
 echo "Installed all dependencies"
 echo ""
