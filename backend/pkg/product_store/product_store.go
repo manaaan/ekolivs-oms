@@ -1,4 +1,4 @@
-package product
+package product_store
 
 import (
 	"context"
@@ -16,14 +16,15 @@ type Store struct {
 	FirestoreClient *firestore.Client
 }
 
-type storeProduct struct {
+type StoreProduct struct {
 	api.Product
-	Supplier string `json:"supplier"`
+	Supplier string `json:"supplier" firestore:"supplier,omitempty"`
+	Source   string `json:"source" firestore:"source,omitempty"`
 }
 
 // TODO: add filters to query, which require firestore indexes
-func (s Store) GetProducts(ctx context.Context) ([]*storeProduct, error) {
-	products := []*storeProduct{}
+func (s Store) GetProducts(ctx context.Context) ([]*StoreProduct, error) {
+	products := []*StoreProduct{}
 	// TODO: Further sorting by price? Would require firestore indexes
 	iter := s.FirestoreClient.Collection(collection).OrderBy("name", firestore.Asc).Documents(ctx)
 	defer iter.Stop()
@@ -35,7 +36,7 @@ func (s Store) GetProducts(ctx context.Context) ([]*storeProduct, error) {
 		if err != nil {
 			return nil, err
 		}
-		var prod storeProduct
+		var prod StoreProduct
 		if err := dsnap.DataTo(&prod); err != nil {
 			return nil, err
 		}
@@ -44,12 +45,12 @@ func (s Store) GetProducts(ctx context.Context) ([]*storeProduct, error) {
 	return products, nil
 }
 
-func (s Store) GetProduct(ctx context.Context, id string) (*storeProduct, error) {
+func (s Store) GetProduct(ctx context.Context, id string) (*StoreProduct, error) {
 	dsnap, err := s.FirestoreClient.Collection(collection).Doc(id).Get(ctx)
 	if err != nil {
 		return nil, err
 	}
-	var prod storeProduct
+	var prod StoreProduct
 	if err := dsnap.DataTo(&prod); err != nil {
 		return nil, err
 	}
@@ -57,7 +58,7 @@ func (s Store) GetProduct(ctx context.Context, id string) (*storeProduct, error)
 }
 
 // Overwrites the product document in firestore completely
-func (s Store) CreateOrUpdateProduct(ctx context.Context, data *storeProduct) (*storeProduct, error) {
+func (s Store) CreateOrUpdateProduct(ctx context.Context, data *StoreProduct) (*StoreProduct, error) {
 	if _, err := s.FirestoreClient.Collection(collection).Doc(data.ID).Set(ctx, data); err != nil {
 		return nil, err
 	}
