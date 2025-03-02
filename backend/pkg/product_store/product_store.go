@@ -2,6 +2,7 @@ package product_store
 
 import (
 	"context"
+	"strings"
 
 	"cloud.google.com/go/firestore"
 	"github.com/manaaan/ekolivs-oms/product/api"
@@ -26,7 +27,8 @@ type StoreProduct struct {
 func (s Store) GetProducts(ctx context.Context) ([]*StoreProduct, error) {
 	products := []*StoreProduct{}
 	// TODO: Further sorting by price? Would require firestore indexes
-	iter := s.FirestoreClient.Collection(collection).OrderBy("name", firestore.Asc).Documents(ctx)
+	// `Name` is uppercase as in firestore, as we can't define the firestore structure in our .proto specs
+	iter := s.FirestoreClient.Collection(collection).OrderBy("Name", firestore.Asc).Documents(ctx)
 	defer iter.Stop()
 	for {
 		dsnap, err := iter.Next()
@@ -71,4 +73,13 @@ func (s Store) DeleteProduct(ctx context.Context, id string) error {
 		return err
 	}
 	return nil
+}
+
+func GetSupplierForProduct(productName string) string {
+	nameSplit := strings.Split(productName, " - ")
+	var supplier string
+	if len(nameSplit) > 1 {
+		supplier = nameSplit[1]
+	}
+	return supplier
 }

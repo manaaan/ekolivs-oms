@@ -31,9 +31,9 @@ type accessTokenResponse struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-type updateProductParams struct {
+type UpdateProductParamsExt struct {
 	UpdateProductParams
-	productUuid string
+	ProductUuid string
 }
 
 func New(params ServiceNewParams) (*Service, error) {
@@ -128,7 +128,7 @@ func (service Service) GetProducts() ([]ProductResponse, error) {
 }
 
 // TODO: Return id of udpated product, etags and location (what is location?)
-func (service Service) UpdateProduct(params updateProductParams, productUpdate FullProductUpdateRequest) error {
+func (service Service) UpdateProduct(params UpdateProductParamsExt, productUpdate FullProductUpdateRequest) error {
 	accessToken, err := service.getAccessToken()
 	if err != nil {
 		return err
@@ -141,7 +141,7 @@ func (service Service) UpdateProduct(params updateProductParams, productUpdate F
 	}
 
 	client := &http.Client{}
-	request, err := http.NewRequest(http.MethodPut, fmt.Sprintf("%s/products/v2/%s", service.BasePath, params.productUuid), bytes.NewBuffer(productUpdateJson))
+	request, err := http.NewRequest(http.MethodPut, fmt.Sprintf("%s/products/v2/%s", service.BasePath, params.ProductUuid), bytes.NewBuffer(productUpdateJson))
 	if err != nil {
 		slog.Error(err.Error())
 		return err
@@ -163,19 +163,19 @@ func (service Service) UpdateProduct(params updateProductParams, productUpdate F
 		}
 
 		// TODO: How to print violations? Should it be in the error log?
-		err := fmt.Errorf("Unable to update product. Got message %s", *errorResponse.DeveloperMessage)
+		err := fmt.Errorf("unable to update product. Got message %s", *errorResponse.DeveloperMessage)
 		slog.Error(err.Error())
 		return err
 	}
 
 	if response.StatusCode == http.StatusPreconditionFailed {
-		err := errors.New("Unable to update product. Invalid ETag provided.")
+		err := errors.New("unable to update product. Invalid ETag provided")
 		slog.Error(err.Error())
 		return err
 	}
 
 	if response.StatusCode != http.StatusNoContent {
-		err := errors.New("Unable to update product. Unexpected status code.")
+		err := errors.New("unable to update product. Unexpected status code")
 		slog.Error(err.Error())
 		return err
 	}

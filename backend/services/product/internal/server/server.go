@@ -23,3 +23,13 @@ func (s Server) GetProducts(ctx context.Context, e *emptypb.Empty) (*api.Product
 
 	return &api.ProductsRes{Products: products}, nil
 }
+
+func (s Server) UpdateProducts(ctx context.Context, prod *api.Product) (*api.Product, error) {
+	p, err := s.ProductService.UpdateProduct(ctx, prod)
+	if err != nil {
+		slog.Error("failed to update product", "error", err)
+		return nil, err
+	}
+
+	return p, nil
+}
