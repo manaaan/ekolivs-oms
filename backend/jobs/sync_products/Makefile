@@ -12,10 +12,8 @@ help: ## list all the Makefile commands
 run: setgcpenv ## Run product service with go directly
 	go run ./cmd/main.go
 
-protogen: ## Generate go code from protobuf specifications
-	protoc --go_out=. --go_opt=paths=source_relative \
-    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    ./api/service.proto
+build: ## Build image with docker
+	docker build . -f ./jobs/sync_products/Dockerfile -t sync-product
 
 #######
 # GCP #

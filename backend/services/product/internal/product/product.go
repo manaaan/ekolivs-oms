@@ -7,14 +7,14 @@ import (
 
 	"cloud.google.com/go/firestore"
 	"github.com/manaaan/ekolivs-oms/pkg/env"
+	"github.com/manaaan/ekolivs-oms/pkg/product_store"
 	"github.com/manaaan/ekolivs-oms/pkg/zettle"
 	"github.com/manaaan/ekolivs-oms/product/api"
-	"github.com/manaaan/ekolivs-oms/product/pkg/product"
 )
 
 type Service struct {
 	zettleService *zettle.Service
-	storeService  *product.Store
+	storeService  *product_store.Store
 }
 
 func New(firestoreClient *firestore.Client) (*Service, error) {
@@ -28,7 +28,7 @@ func New(firestoreClient *firestore.Client) (*Service, error) {
 
 	return &Service{
 		zettleService: zettleService,
-		storeService: &product.Store{
+		storeService: &product_store.Store{
 			FirestoreClient: firestoreClient,
 		},
 	}, nil
