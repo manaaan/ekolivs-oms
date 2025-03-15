@@ -1,14 +1,12 @@
-import { SidebarNav } from '@/components/SidebarNav'
-import { Sheet } from '@/components/ui/sheet'
+import { AppSidebar } from '@components/app-sidebar'
+import { SidebarProvider } from '@components/ui/sidebar'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <Sheet>
-        <SidebarNav />
-        {children}
-      </Sheet>
-    </>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="flex-1">{children}</main>
+    </SidebarProvider>
   )
 }
 

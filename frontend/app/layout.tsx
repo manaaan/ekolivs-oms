@@ -1,8 +1,8 @@
 import { Inter as FontSans } from 'next/font/google'
 
-import { ThemeProvider } from '@/components/ThemeProvider'
 import { cn } from '@/lib/utils'
 
+import { ThemeProvider } from '@components/theme-provider'
 import { TooltipProvider } from '@components/ui/tooltip'
 
 import './globals.css'

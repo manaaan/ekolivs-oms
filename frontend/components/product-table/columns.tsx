@@ -1,13 +1,12 @@
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 
-import { Checkbox } from '@/components/ui/checkbox'
-import { Product } from '@/lib/services/product'
+import type { Product } from '@/lib/services/product'
 
-import DataTable from '../DataTable'
-import { Button } from '../ui/button'
+import { Button } from '@components/ui/button'
+import { Checkbox } from '@components/ui/checkbox'
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -30,7 +29,6 @@ export const columns: ColumnDef<Product>[] = [
       />
     ),
     enableSorting: false,
-    enableHiding: false,
   },
   {
     id: 'name',
@@ -48,10 +46,6 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: 'sku',
-    header: 'SKU',
-  },
-  {
     id: 'price',
     accessorKey: 'price.amount',
     sortUndefined: -1,
@@ -59,7 +53,7 @@ export const columns: ColumnDef<Product>[] = [
       return (
         <Button
           variant="ghost"
-          className="flexjustify-end"
+          className="float-end"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Price
@@ -79,9 +73,3 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
 ]
-
-const ProductsTableDefinition = ({ products }: { products: Product[] }) => {
-  return <DataTable columns={columns} data={products} />
-}
-
-export default ProductsTableDefinition

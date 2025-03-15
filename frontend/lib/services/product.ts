@@ -1,6 +1,6 @@
-import { Product__Output } from '@/proto/Product'
+import { GrpcError } from '@/lib/errors/grpc-error'
+import type { Product__Output } from '@/proto/Product'
 
-import { GrpcError } from '../errors/GrpcError'
 import { productClient } from './grpc'
 
 export type Product = Product__Output
