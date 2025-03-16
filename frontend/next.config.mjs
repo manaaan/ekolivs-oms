@@ -5,11 +5,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.pravatar.cc',
+        hostname: 'image.izettle.com',
       },
       {
         protocol: 'https',
-        hostname: 'picsum.photos',
+        hostname: 'dummyimage.com',
       },
     ],
   },

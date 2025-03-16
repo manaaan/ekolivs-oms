@@ -5,6 +5,7 @@ import { ArrowUpDown, ExternalLinkIcon } from 'lucide-react'
 import Link from 'next/link'
 
 import type { Product } from '@/lib/services/product'
+import { formatPrice } from '@/lib/utils'
 
 import { Button } from '@components/ui/button'
 
@@ -36,14 +37,11 @@ export const columns: ColumnDef<Product>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue('price') ?? 0)
-
-      const formatted = new Intl.NumberFormat('sv-SE', {
-        style: 'currency',
-        currency: 'SEK',
-      }).format(price / 1000)
-
-      return <div className="font-medium">{formatted}</div>
+      return (
+        <div className="font-medium">
+          {formatPrice(parseInt(row.getValue('price') ?? '0', 10))}
+        </div>
+      )
     },
   },
   {
@@ -51,7 +49,7 @@ export const columns: ColumnDef<Product>[] = [
     enableSorting: false,
     header: () => <span className="float-end">Link</span>,
     cell: ({ row }) => {
-      const href = `/products/${row.original.ID}`
+      const href = `/dashboard/products/${row.original.ID}`
       return (
         <Link href={href} className="float-end">
           <ExternalLinkIcon />

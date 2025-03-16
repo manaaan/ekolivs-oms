@@ -1,8 +1,9 @@
 import * as grpc from '@grpc/grpc-js'
 import * as protoLoader from '@grpc/proto-loader'
 import path from 'path'
+import 'server-only'
 
-import { ProtoGrpcType } from '@/proto/service'
+import type { ProtoGrpcType } from '@/proto/service'
 
 const PRODUCT_PROTO_PATH = path.join(
   process.cwd(),

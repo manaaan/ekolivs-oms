@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { GrpcError } from '@/lib/errors/grpc-error'
 import type { Product__Output } from '@/proto/Product'
 
