@@ -95,7 +95,7 @@ async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
 async function generateStaticParams() {
   const products = await getProducts()
 
-  return products.map((product) => ({
+  return products.slice(0, 50).map((product) => ({
     id: product.ID,
   }))
 }

@@ -1,0 +1,13 @@
+.next
+__tests__
+.husky
+node_modules
+.eslintrc.json
+.lintstagedrc.js
+.prettierignore
+.prettierrc
+components.json
+Dockerfile
+../docker-compose.yml
+jest.config.ts
+README.md
