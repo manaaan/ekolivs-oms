@@ -1,6 +1,6 @@
 import { Metadata } from '@grpc/grpc-js'
 
-import { GrpcError } from '@/lib/errors/GrpcError'
+import { GrpcError } from '@/lib/errors/grpc-error'
 import { getProducts } from '@/lib/services/product'
 
 jest.mock('@/lib/services/grpc', () => ({
@@ -32,6 +32,6 @@ describe('product service', () => {
   })
 
   it('should throw an GrpcError', async () => {
-    expect(getProducts()).rejects.toThrow(GrpcError)
+    await expect(getProducts()).rejects.toThrow(GrpcError)
   })
 })
