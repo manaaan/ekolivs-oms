@@ -1,8 +1,18 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
+import { ROUTES } from '@/lib/constants'
 import { getProducts } from '@/lib/services/product'
 import { formatPrice } from '@/lib/utils'
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@components/ui/breadcrumb'
 import { SidebarTrigger } from '@components/ui/sidebar'
 
 async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
@@ -26,7 +36,21 @@ async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
     <div className="flex-1 p-4">
       <div className="flex items-center gap-2 pb-4">
         <SidebarTrigger />
-        {product.name}
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>Dashboard</BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={ROUTES.PRODUCTS}>Products</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{product.name}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
 
       <div className="container mx-auto grid items-start gap-4 lg:w-fit lg:grid-cols-3">
