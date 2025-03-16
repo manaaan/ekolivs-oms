@@ -20,7 +20,7 @@ async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
       </div>
     )
 
-  const imgUrl = product.imageUrl ?? 'https://dummyimage.com/400'
+  const imgUrl = product.imageUrl ?? 'https://dummyimage.com/384'
 
   return (
     <div className="flex-1 p-4">
@@ -31,8 +31,8 @@ async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
 
       <div className="container mx-auto grid items-start gap-4 lg:w-fit lg:grid-cols-3">
         <Image
-          width={400}
-          height={400}
+          width={384}
+          height={384}
           src={imgUrl}
           priority
           alt="Product image"
