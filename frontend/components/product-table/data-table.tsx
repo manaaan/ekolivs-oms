@@ -1,10 +1,16 @@
 'use client'
 
-import type { ColumnDef, SortingState } from '@tanstack/react-table'
-import { getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table'
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+} from '@tanstack/react-table'
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
@@ -18,7 +24,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { Button } from '@components/ui/button'
+import { DataTablePagination } from '@components/product-table/data-table-pagination'
+import { Input } from '@components/ui/input'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -34,6 +41,7 @@ export function DataTable<TData, TValue>({
     pageIndex: 0,
     pageSize: 20,
   })
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const table = useReactTable({
     data,
@@ -43,14 +51,27 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
       pagination,
+      columnFilters,
     },
   })
 
   return (
     <div>
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Filter products..."
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          onChange={(event) =>
+            table.getColumn('name')?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -101,29 +122,8 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between py-4">
-        <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="flex items-center justify-end space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+      <div className="mt-4">
+        <DataTablePagination table={table} />
       </div>
     </div>
   )

@@ -8,12 +8,15 @@ async function ProductsPage() {
   const products = await getProducts()
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="flex-1 p-4">
       <div className="flex items-center gap-2 pb-4">
         <SidebarTrigger />
         Products
       </div>
-      <DataTable columns={columns} data={products} />
+
+      <div className="container mx-auto">
+        <DataTable columns={columns} data={products} />
+      </div>
     </div>
   )
 }
