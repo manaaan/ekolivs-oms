@@ -5,10 +5,7 @@ import 'server-only'
 
 import type { ProtoGrpcType } from '@/proto/service'
 
-const PRODUCT_PROTO_PATH = path.join(
-  process.cwd(),
-  'proto-definitions/product.proto'
-)
+const PRODUCT_PROTO_PATH = path.join(process.cwd(), '../specs/product.proto')
 
 const productDefinition = protoLoader.loadSync(PRODUCT_PROTO_PATH, {
   longs: String,

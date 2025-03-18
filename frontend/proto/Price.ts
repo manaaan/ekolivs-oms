@@ -1,4 +1,4 @@
-// Original file: ../backend/services/product/api/service.proto
+// Original file: ../specs/product.proto
 
 import type { Long } from '@grpc/proto-loader';
 

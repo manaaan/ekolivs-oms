@@ -1,4 +1,4 @@
-// Original file: ../backend/services/product/api/service.proto
+// Original file: ../specs/product.proto
 
 import type { Product as _Product, Product__Output as _Product__Output } from './Product';
 
