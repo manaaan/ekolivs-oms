@@ -1,4 +1,4 @@
-import { Metadata, MetadataValue } from '@grpc/grpc-js'
+import type { Metadata, MetadataValue } from '@grpc/grpc-js'
 import { Status } from '@grpc/grpc-js/build/src/constants'
 
 export class GrpcError extends Error {

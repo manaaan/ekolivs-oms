@@ -1,11 +1,11 @@
 import { Inter as FontSans } from 'next/font/google'
 
-import { ThemeProvider } from '@/components/ThemeProvider'
 import { cn } from '@/lib/utils'
 
+import { ThemeProvider } from '@components/theme-provider'
 import { TooltipProvider } from '@components/ui/tooltip'
 
-import '../styles/globals.css'
+import './globals.css'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -17,7 +17,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          'bg-background min-h-screen font-sans antialiased',
           fontSans.variable
         )}
       >

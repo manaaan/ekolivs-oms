@@ -1,14 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.pravatar.cc',
+        hostname: 'image.izettle.com',
       },
       {
         protocol: 'https',
-        hostname: 'picsum.photos',
+        hostname: 'dummyimage.com',
       },
     ],
   },

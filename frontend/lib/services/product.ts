@@ -1,31 +1,36 @@
-import { Product__Output } from '@/proto/Product'
+import { cache } from 'react'
+import 'server-only'
 
-import { GrpcError } from '../errors/GrpcError'
+import { GrpcError } from '@/lib/errors/grpc-error'
+import type { Product__Output } from '@/proto/Product'
+
 import { productClient } from './grpc'
 
 export type Product = Product__Output
 
-export const getProducts = async (): Promise<Product[]> =>
-  new Promise((resolve, reject) => {
-    productClient.getProducts({}, (error, value) => {
-      if (error) {
-        reject(
-          new GrpcError(
-            error.message,
-            error.code,
-            error.details,
-            error.metadata,
-            { cause: error }
+export const getProducts = cache(
+  async (): Promise<Product[]> =>
+    new Promise((resolve, reject) => {
+      productClient.getProducts({}, (error, value) => {
+        if (error) {
+          reject(
+            new GrpcError(
+              error.message,
+              error.code,
+              error.details,
+              error.metadata,
+              { cause: error }
+            )
           )
-        )
-        return
-      }
+          return
+        }
 
-      if (!value) {
-        resolve([])
-        return
-      }
+        if (!value) {
+          resolve([])
+          return
+        }
 
-      resolve(value.products)
+        resolve(value.products)
+      })
     })
-  })
+)
