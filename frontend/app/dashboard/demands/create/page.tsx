@@ -3,8 +3,7 @@ import Link from 'next/link'
 import { ROUTES } from '@/lib/constants'
 import { getProducts } from '@/lib/services/product'
 
-import { columns } from '@components/product-table/columns'
-import { DataTable } from '@components/product-table/data-table'
+import { ProductCard } from '@components/product-card'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -40,7 +39,22 @@ async function CreateDemandPage() {
       </div>
 
       <div className="container mx-auto">
-        <DataTable columns={columns} data={products} />
+        <div className="flex flex-wrap justify-center gap-4">
+          {products.slice(0, 12).map((product) => {
+            async function handleAddToCart() {
+              'use server'
+              console.log('add to cart', product.ID)
+            }
+
+            return (
+              <ProductCard
+                key={product.ID}
+                onAddToCart={handleAddToCart}
+                {...product}
+              />
+            )
+          })}
+        </div>
       </div>
     </div>
   )
