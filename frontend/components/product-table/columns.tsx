@@ -4,12 +4,12 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, ExternalLinkIcon } from 'lucide-react'
 import Link from 'next/link'
 
-import type { Product } from '@/lib/services/product'
+import type { AppProduct } from '@/lib/services/product'
 import { formatPrice } from '@/lib/utils'
 
 import { Button } from '@components/ui/button'
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<AppProduct>[] = [
   {
     id: 'name',
     accessorKey: 'name',
@@ -49,7 +49,7 @@ export const columns: ColumnDef<Product>[] = [
     enableSorting: false,
     header: () => <span className="float-end">Link</span>,
     cell: ({ row }) => {
-      const href = `/dashboard/products/${row.original.ID}`
+      const href = `/dashboard/products/${row.original.id}`
       return (
         <Link href={href} className="float-end">
           <ExternalLinkIcon />
