@@ -8,3 +8,9 @@ help: ## list all the Makefile commands
 ###################
 setup: ## Set up tool dependencies for code generation
 	@PROTOC_VERSION=27.0 ./scripts/setup-tools.sh
+
+protogen: ## Generate go code from protobuf specifications
+	protoc --proto_path=specs \
+		--go_out=backend/services/product/api --go_opt=paths=source_relative \
+		--go-grpc_out=backend/services/product/api --go-grpc_opt=paths=source_relative \
+		./specs/product.proto

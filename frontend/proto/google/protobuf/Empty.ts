@@ -1,5 +1,8 @@
 // Original file: null
 
-export type Empty = object
 
-export type Empty__Output = object
+export interface Empty {
+}
+
+export interface Empty__Output {
+}

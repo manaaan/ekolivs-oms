@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "protogen": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=proto/ ../backend/services/product/api/service.proto",
+    "protogen": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=proto/ ../specs/product.proto",
     "prepare": "cd .. && husky frontend/.husky",
     "test": "jest",
     "test:watch": "jest --watch"
