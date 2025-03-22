@@ -66,11 +66,6 @@ func (s Service) SyncProducts(ctx context.Context) error {
 				if zettleProduct.Presentation != nil {
 					imageUrl = zettleProduct.Presentation.ImageUrl
 				}
-				nameSplit := strings.Split(zettleProduct.Name, " - ")
-				var supplier string
-				if len(nameSplit) > 1 {
-					supplier = nameSplit[1]
-				}
 
 				product := &product_store.StoreProduct{
 					Product: api.Product{
@@ -87,7 +82,7 @@ func (s Service) SyncProducts(ctx context.Context) error {
 						CreatedAt:     zettleProduct.Created,
 						UpdatedAt:     zettleProduct.Updated,
 					},
-					Supplier: supplier,
+					Supplier: product_store.GetSupplierForProduct(zettleProduct.Name),
 					Source:   "zettle",
 				}
 
