@@ -1,24 +1,24 @@
 services:
   frontend:
     build:
-      context: .
       dockerfile: ./frontend/Dockerfile
+      target: run
       args:
-        - PRODUCT_SERVICE_HOST=host.docker.internal:8080
+        - PRODUCT_SERVICE_HOST=http://product:8080
     environment:
-      - PRODUCT_SERVICE_HOST=host.docker.internal:8080
+      - PRODUCT_SERVICE_HOST=http://product:8080
     ports:
       - "3000:3000"
     networks:
       - internal
-    depends_on:
-      - product
-  product:
-    build:
-      context: .
-      dockerfile: ./backend/services/product/Dockerfile
-    networks:
-      - internal
+# Add when we have a product service Dockerfile
+#    depends_on:
+#      - product
+#  product:
+#    build:
+#      dockerfile: ./backend/services/product/Dockerfile
+#    networks:
+#      - internal
 
 networks:
   internal:
