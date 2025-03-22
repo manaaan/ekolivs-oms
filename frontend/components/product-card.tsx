@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import type { Product } from '@/lib/services/product'
+import type { AppProduct } from '@/lib/services/product'
 import { formatPrice } from '@/lib/utils'
 
 import { Button } from '@components/ui/button'
@@ -13,35 +13,25 @@ import {
   CardTitle,
 } from '@components/ui/card'
 
-interface ProductCardProps extends Product {
+interface ProductCardProps extends AppProduct {
   onAddToCart: () => void
 }
 
-function ProductCard({
-  name,
-  costPrice,
-  imageUrl,
-  onAddToCart,
-}: ProductCardProps) {
+function ProductCard({ name, price, imageUrl, onAddToCart }: ProductCardProps) {
   const imgUrl = imageUrl ?? 'https://dummyimage.com/329x192'
 
   return (
-    <Card className="w-80 overflow-hidden pt-0">
-      <Image
-        priority
-        src={imgUrl}
-        alt={name}
-        width={320}
-        height={192}
-        className="h-48 w-80 object-cover"
-      />
+    <Card className="w-full overflow-hidden pt-0 md:w-80">
+      <div className="relative h-48 w-full">
+        <Image fill src={imgUrl} alt={name} className="object-cover" />
+      </div>
       <CardHeader>
         <CardTitle>{name}</CardTitle>
         <CardDescription>
-          {costPrice?.amount && formatPrice(parseInt(costPrice.amount, 10))}
+          {price?.amount && formatPrice(parseInt(price.amount, 10))}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="mt-auto">
         <CardAction>
           <Button onClick={onAddToCart}>Add to cart</Button>
         </CardAction>

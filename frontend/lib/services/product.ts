@@ -6,10 +6,34 @@ import type { Product__Output } from '@/proto/Product'
 
 import { productClient } from './grpc'
 
-export type Product = Product__Output
+export type AppProduct = ReturnType<typeof toAppProduct>
+
+function toAppProduct({
+  ID,
+  name,
+  sku,
+  imageUrl,
+  price,
+  createdAt,
+  updatedAt,
+  status,
+  vatPercentage,
+}: Product__Output) {
+  return {
+    id: ID,
+    name,
+    sku,
+    imageUrl,
+    price,
+    createdAt,
+    updatedAt,
+    status,
+    vatPercentage,
+  }
+}
 
 export const getProducts = cache(
-  async (): Promise<Product[]> =>
+  async (): Promise<AppProduct[]> =>
     new Promise((resolve, reject) => {
       productClient.getProducts({}, (error, value) => {
         if (error) {
@@ -30,7 +54,7 @@ export const getProducts = cache(
           return
         }
 
-        resolve(value.products)
+        resolve(value.products.map(toAppProduct))
       })
     })
 )
