@@ -6,7 +6,7 @@ import "google/protobuf/empty.proto";
 
 service ProductService {
   rpc GetProducts(google.protobuf.Empty) returns (ProductsRes) {}
-  rpc UpdateProducts(Product) returns (Product) {}
+  rpc UpdateProduct(Product) returns (Product) {}
 }
 
 message ProductsRes {
