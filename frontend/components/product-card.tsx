@@ -33,7 +33,9 @@ function ProductCard({ name, price, imageUrl, onAddToCart }: ProductCardProps) {
       </CardHeader>
       <CardContent className="mt-auto">
         <CardAction>
-          <Button onClick={onAddToCart}>Add to cart</Button>
+          <Button onClick={onAddToCart} className="cursor-pointer">
+            Add to cart
+          </Button>
         </CardAction>
       </CardContent>
     </Card>
