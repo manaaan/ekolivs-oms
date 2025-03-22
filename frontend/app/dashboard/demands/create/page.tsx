@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ROUTES } from '@/lib/constants'
 import { getProducts } from '@/lib/services/product'
 
-import { ProductCard } from '@components/product-card'
+import { ProductMasonry } from '@components/create-demand/product-masonry'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -39,22 +39,7 @@ async function CreateDemandPage() {
       </div>
 
       <div className="container mx-auto">
-        <div className="flex flex-wrap justify-center gap-4">
-          {products.slice(0, 12).map((product) => {
-            async function handleAddToCart() {
-              'use server'
-              console.log('add to cart', product.ID)
-            }
-
-            return (
-              <ProductCard
-                key={product.ID}
-                onAddToCart={handleAddToCart}
-                {...product}
-              />
-            )
-          })}
-        </div>
+        <ProductMasonry products={products} />
       </div>
     </div>
   )

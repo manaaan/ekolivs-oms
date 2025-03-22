@@ -9,6 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@components/ui/breadcrumb'
+import { Button } from '@components/ui/button'
 import { SidebarTrigger } from '@components/ui/sidebar'
 
 function DemandsPage() {
@@ -28,7 +29,9 @@ function DemandsPage() {
       </div>
 
       <div className="container mx-auto">
-        <Link href={ROUTES.DEMANDS_CREATE}>Create new</Link>
+        <Button asChild>
+          <Link href={ROUTES.DEMANDS_CREATE}>Create new</Link>
+        </Button>
       </div>
     </div>
   )
