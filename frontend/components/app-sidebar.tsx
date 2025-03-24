@@ -1,4 +1,4 @@
-import { BananaIcon, LogOutIcon } from 'lucide-react'
+import { BananaIcon, LogOutIcon, ShoppingCartIcon } from 'lucide-react'
 import Link from 'next/link'
 
 import { ROUTES } from '@/lib/constants'
@@ -27,6 +27,11 @@ const items: NavItem[] = [
     name: 'Products',
     href: ROUTES.PRODUCTS,
     icon: BananaIcon,
+  },
+  {
+    name: 'Demands',
+    href: ROUTES.DEMANDS,
+    icon: ShoppingCartIcon,
   },
   {
     name: 'Log out',

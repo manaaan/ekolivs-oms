@@ -18,7 +18,7 @@ import { SidebarTrigger } from '@components/ui/sidebar'
 async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const products = await getProducts()
-  const product = products.find((product) => product.ID === id)
+  const product = products.find((product) => product.id === id)
 
   if (!product)
     return (
@@ -58,7 +58,6 @@ async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
           width={384}
           height={384}
           src={imgUrl}
-          priority
           alt="Product image"
           className="bg-card h-96 w-96 rounded-xl border object-cover shadow"
         />
@@ -96,7 +95,7 @@ async function generateStaticParams() {
   const products = await getProducts()
 
   return products.slice(0, 50).map((product) => ({
-    id: product.ID,
+    id: product.id,
   }))
 }
 
