@@ -5,27 +5,13 @@ import { useState } from 'react'
 
 import type { AppProduct } from '@/lib/services/product'
 
+import { Cart } from '@components/create-demand/cart'
 import { ProductCard } from '@components/product-card'
-import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
-import { Separator } from '@components/ui/separator'
-import {
-  Sheet,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@components/ui/sheet'
+import { Sheet, SheetTrigger } from '@components/ui/sheet'
 
 interface ProductMasonryProps {
   products: AppProduct[]
-}
-
-interface ProductSheetProps extends AppProduct {
-  amount: number
-  onIncreaseAmount: () => void
-  onDecreaseAmount: () => void
 }
 
 type ProductCart = {
@@ -34,31 +20,6 @@ type ProductCart = {
     product: AppProduct
     position: number
   }
-}
-
-function CartItem({
-  name,
-  amount,
-  onIncreaseAmount,
-  onDecreaseAmount,
-}: ProductSheetProps) {
-  return (
-    <>
-      <div className="flex flex-wrap items-center gap-2 md:flex-nowrap">
-        <p className="grow">{name}</p>
-        <div className="flex items-center justify-evenly space-x-2">
-          <Button onClick={onIncreaseAmount} className="cursor-pointer">
-            +
-          </Button>
-          <p className="font-bold">{amount}x</p>
-          <Button onClick={onDecreaseAmount} className="cursor-pointer">
-            -
-          </Button>
-        </div>
-      </div>
-      <Separator />
-    </>
-  )
 }
 
 function getHighestPosition(productsInCart: ProductCart) {
@@ -144,51 +105,31 @@ function ProductMasonry({ products }: ProductMasonryProps) {
         className="max-w-sm"
       />
 
-      <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-        <div className="flex flex-wrap justify-center gap-4">
-          {products
-            .filter(({ name }) =>
-              name.toLowerCase().includes(filter.toLowerCase())
+      <div className="flex flex-wrap gap-4">
+        {products
+          .filter(({ name }) =>
+            name.toLowerCase().includes(filter.toLowerCase())
+          )
+          .slice(0, 12)
+          .map((product) => {
+            return (
+              <ProductCard
+                key={product.id}
+                onAddToCart={handleAddToCart(product)}
+                {...product}
+              />
             )
-            .slice(0, 12)
-            .map((product) => {
-              return (
-                <ProductCard
-                  key={product.id}
-                  onAddToCart={handleAddToCart(product)}
-                  {...product}
-                />
-              )
-            })}
-        </div>
+          })}
+      </div>
+      <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
         <SheetTrigger className="bg-accent fixed right-4 bottom-4 cursor-pointer rounded-full border p-5 shadow transition-shadow hover:shadow-lg">
           <ShoppingCartIcon className="size-6" />
         </SheetTrigger>
-
-        <SheetContent side="right">
-          <SheetHeader>
-            <SheetTitle>Demand</SheetTitle>
-            {Object.values(cartItems)
-              .toSorted((a, b) => a.position - b.position)
-              .map(({ amount, product }) => (
-                <CartItem
-                  key={product.id}
-                  amount={amount}
-                  onIncreaseAmount={handleIncreaseAmount(product)}
-                  onDecreaseAmount={handleDecreaseAmount(product)}
-                  {...product}
-                />
-              ))}
-          </SheetHeader>
-          <SheetFooter>
-            <Button
-              onClick={() => alert(JSON.stringify(cartItems, null, 2))}
-              className="cursor-pointer"
-            >
-              Order
-            </Button>
-          </SheetFooter>
-        </SheetContent>
+        <Cart
+          cartItems={cartItems}
+          handleIncreaseAmount={handleIncreaseAmount}
+          handleDecreaseAmount={handleDecreaseAmount}
+        />
       </Sheet>
     </div>
   )
