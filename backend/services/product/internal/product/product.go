@@ -62,6 +62,18 @@ func (s Service) GetProducts(ctx context.Context) ([]*api.Product, error) {
 	return products, nil
 }
 
+func (s Service) GetProductByID(ctx context.Context, id string) (*api.Product, error) {
+	storeProduct, err := s.storeService.GetProduct(ctx, id)
+	if err != nil {
+		slog.Error("failed to get products from product store", "error", err)
+		return nil, err
+	}
+
+	product := mapStoreToAPIProduct(storeProduct)
+
+	return product, nil
+}
+
 func (s Service) UpdateProduct(ctx context.Context, product *api.Product) (*api.Product, error) {
 	g, fetchCtx := errgroup.WithContext(ctx)
 
@@ -94,6 +106,26 @@ func (s Service) UpdateProduct(ctx context.Context, product *api.Product) (*api.
 	}
 
 	return product, nil
+}
+
+func mapStoreToAPIProduct(storeProduct *product_store.StoreProduct) *api.Product {
+	if storeProduct == nil {
+		return nil
+	}
+	return &api.Product{
+		ID:            storeProduct.ID,
+		Name:          storeProduct.Name,
+		Sku:           storeProduct.Sku,
+		Barcode:       storeProduct.Barcode,
+		Price:         storeProduct.Price,
+		CostPrice:     storeProduct.CostPrice,
+		ImageUrl:      storeProduct.ImageUrl,
+		VatPercentage: storeProduct.VatPercentage,
+		Status:        storeProduct.Status,
+		UnitType:      storeProduct.UnitType,
+		CreatedAt:     storeProduct.CreatedAt,
+		UpdatedAt:     storeProduct.UpdatedAt,
+	}
 }
 
 func mapAPIToStoreProduct(product *api.Product) *product_store.StoreProduct {
