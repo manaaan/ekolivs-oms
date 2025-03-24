@@ -2,11 +2,12 @@ package server
 
 import (
 	"context"
-	"errors"
 	"log/slog"
 
 	"github.com/manaaan/ekolivs-oms/product/api"
 	"github.com/manaaan/ekolivs-oms/product/internal/product"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -36,14 +37,15 @@ func (s Server) UpdateProduct(ctx context.Context, prod *api.Product) (*api.Prod
 }
 
 func (s Server) GetProductByID(ctx context.Context, req *api.ProductIDReq) (*api.Product, error) {
-	if req == nil || len(req.GetID()) == 0 {
-		return nil, errors.New("invalid request, missing product ID")
+	if len(req.GetID()) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "invalid request, missing product ID")
 	}
 
 	p, err := s.ProductService.GetProductByID(ctx, req.GetID())
 	if err != nil {
-		slog.Error("failed to update product", "error", err)
-		return nil, err
+		// TODO: improve error handling
+		slog.Error("failed to fetch product", "error", err, "id", req.GetID())
+		return nil, status.Error(codes.NotFound, "failed to fetch product")
 	}
 
 	return p, nil
