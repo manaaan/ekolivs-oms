@@ -10,8 +10,6 @@ import type {
 } from './ProductService'
 
 type SubtypeConstructor<
-  // TODO: if possible avoid explicit any
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Constructor extends new (...args: any) => any,
   Subtype,
 > = {
@@ -31,7 +29,6 @@ export interface ProtoGrpcType {
   google: {
     protobuf: {
       Empty: MessageTypeDefinition
-      Timestamp: MessageTypeDefinition
     }
   }
 }

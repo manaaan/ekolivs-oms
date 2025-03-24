@@ -1,4 +1,4 @@
-// Original file: ../backend/services/product/api/service.proto
+// Original file: ../specs/product.proto
 
 export const UnitType = {
   PIECES: 'PIECES',
@@ -6,7 +6,7 @@ export const UnitType = {
   KILOGRAMS: 'KILOGRAMS',
   LITER: 'LITER',
   MILLILITER: 'MILLILITER',
-} as const
+} as const;
 
 export type UnitType =
   | 'PIECES'
@@ -20,4 +20,4 @@ export type UnitType =
   | 'MILLILITER'
   | 4
 
-export type UnitType__Output = (typeof UnitType)[keyof typeof UnitType]
+export type UnitType__Output = typeof UnitType[keyof typeof UnitType]

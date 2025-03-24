@@ -1,9 +1,11 @@
 'use client'
 
-import {
+import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
+} from '@tanstack/react-table'
+import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -22,33 +24,38 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { Button } from './ui/button'
-import { Input } from './ui/input'
+import { DataTablePagination } from '@components/product-table/data-table-pagination'
+import { Input } from '@components/ui/input'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
-export const DataTable = <TData, TValue>({
-  data,
+
+export function DataTable<TData, TValue>({
   columns,
-}: DataTableProps<TData, TValue>) => {
-  const [rowSelection, setRowSelection] = useState({})
+  data,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 20,
+  })
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onPaginationChange: setPagination,
     getPaginationRowModel: getPaginationRowModel(),
-    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
-      rowSelection,
+      pagination,
       columnFilters,
     },
   })
@@ -57,7 +64,7 @@ export const DataTable = <TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter names..."
+          placeholder="Filter products..."
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
@@ -72,7 +79,7 @@ export const DataTable = <TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="last:text-end">
+                    <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -115,26 +122,9 @@ export const DataTable = <TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="mt-4">
+        <DataTablePagination table={table} />
       </div>
     </div>
   )
 }
-
-export default DataTable
