@@ -1,0 +1,37 @@
+syntax = 'proto3';
+
+option  go_package = 'github.com/manaaan/ekolivs-oms/demand/api';
+
+import "google/protobuf/empty.proto";
+
+service DemandService {
+  rpc GetDemands(google.protobuf.Empty) returns (DemandsRes) {}
+}
+
+message DemandsRes {
+  repeated Demand demands = 1;
+}
+
+message Demand {
+  string ID = 1;
+  Position positions = 2;
+  Status status = 3;
+  optional string fulfilledAt = 4;
+  string createdAt = 5;
+}
+
+message Position {
+  string ID = 1;
+  string productId = 2;
+  int32 amount = 3;
+  int32 position = 4;
+}
+
+enum Status {
+  RECEIVED = 0;
+  ACCEPTED = 1;
+  REJECTED = 2;
+  IN_PROGRESS = 3;
+  FULFILLED = 4; // The order contained the demand, so it has been fulfilled and can be collected.
+  CONCLUDED = 5; // The member has collected the order.
+}
