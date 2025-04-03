@@ -1,13 +1,22 @@
 # ekolivs-oms
+
 Ekolivs order management system
 
-## Setup
+## Onboarding
 
-Run make command:
+### Backend
 
-```bash
-make setup
-```
+1. Install Go
+  https://grpc.io/docs/languages/go/quickstart/
+2. Setup tooling
+  Run make command:
 
-https://grpc.io/docs/protoc-installation/
-https://grpc.io/docs/languages/go/quickstart/
+  ```bash
+  make setup
+  ```
+  
+  https://grpc.io/docs/protoc-installation/
+
+### Frontend
+
+1. Install node and pnpm
