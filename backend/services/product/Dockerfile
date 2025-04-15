@@ -1,5 +1,7 @@
 # Dockerfile needs to be executed from /backend folder
-# docker build . -f ./jobs/sync_products/Dockerfile -t sync-product
+# docker build . -f ./services/product/Dockerfile -t product
+# Run with env vars
+# docker run --env-file ./services/product/.env product:latest
 
 # Builder stage
 # =============================================================================
@@ -9,19 +11,18 @@ FROM golang:1.23-bookworm AS builder
 WORKDIR /build
 
 # Copy the entire source code into the container
-COPY ./jobs/sync_products ./jobs/sync_products
+COPY ./services/product ./services/product
 
 # Copy internal dependencies into container (replace statements)
 COPY ./pkg ./pkg
-COPY ./services/product ./services/product
 
-WORKDIR /build/jobs/sync_products
+WORKDIR /build/services/product
 # Install dependencies (external and internal)
 RUN go mod download
 
 # Build the application
 # Turn off CGO to ensure static binaries
-RUN CGO_ENABLED=0 go build -C ./cmd -o sync-products
+RUN CGO_ENABLED=0 go build -C ./cmd -o product
 
 # Production stage
 # =============================================================================
@@ -32,10 +33,10 @@ FROM scratch AS production
 WORKDIR /prod
 
 # Copy binary from builder stage
-COPY --from=builder /build/jobs/sync_products/cmd/sync-products ./
+COPY --from=builder /build/services/product/cmd/product ./
 
 # Document the port that may need to be published
 EXPOSE 8080
 
 # Start the application
-CMD ["/prod/sync-products"]
+CMD ["/prod/product"]
