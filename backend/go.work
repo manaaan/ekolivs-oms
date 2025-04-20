@@ -5,3 +5,4 @@ use ./jobs/sync_products
 use ./services/product
 
 use ./pkg
+use services/demand
