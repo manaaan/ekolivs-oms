@@ -6,10 +6,20 @@ import "google/protobuf/empty.proto";
 
 service DemandService {
   rpc GetDemands(google.protobuf.Empty) returns (DemandsRes) {}
+  rpc CreateDemand(CreateDemandReq) returns (Demand) {}
+  rpc DeleteDemand(IdReq) returns (google.protobuf.Empty) {}
 }
 
 message DemandsRes {
   repeated Demand demands = 1;
+}
+
+message CreateDemandReq {
+  Position positions = 1;
+}
+
+message IdReq {
+  string id = 1;
 }
 
 message Demand {
