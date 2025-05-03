@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strconv"
 
 	"github.com/manaaan/ekolivs-oms/pkg/env"
 	"github.com/manaaan/ekolivs-oms/pkg/gcp"
@@ -23,7 +24,11 @@ func main() {
 		return
 	}
 
-	port := 8080
+	port, err := strconv.Atoi(env.Required("PORT"))
+	if err != nil {
+		log.Fatalf("failed to convert port to number: %v", err)
+	}
+
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

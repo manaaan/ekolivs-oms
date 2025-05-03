@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/manaaan/ekolivs-oms/pkg/env"
 	"log"
 	"net"
+	"strconv"
 
 	"github.com/manaaan/ekolivs-oms/demand/api"
 	"github.com/manaaan/ekolivs-oms/demand/internal/demand"
@@ -17,7 +19,11 @@ func main() {
 	firestoreClient := gcp.InitFirestore()
 	demandService := demand.New(firestoreClient)
 
-	port := 8081
+	port, err := strconv.Atoi(env.Required("PORT"))
+	if err != nil {
+		log.Fatalf("failed to convert port to number: %v", err)
+	}
+
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
