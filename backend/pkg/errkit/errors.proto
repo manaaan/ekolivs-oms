@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package errkit;
+
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/manaaan/ekolivs-oms/pkg/errkit;errkit";
+
+message UnavailableDetails {
+  // (optional) Custom message about error
+  string msg = 1;
+}
+
+message TimeoutDetails {
+  // Timeout which the request operation exceeded.
+  google.protobuf.Duration timeout = 1;
+}
+
+message VFDets {
+  // List of validations that failed
+  repeated Val validations = 1;
+  message Val {
+    // Validation code for machine identification of failed validation.
+    string code = 1;
+    // Human readable description of what failed on this validation.
+    string detail = 2;
+  }
+}
+
+message ConversionDetails {
+  // Target struct type that could not be converted to
+	string struct = 1;
+}
+
+message ReadFileDetails {
+  // (optional) Path to fail that was attempted to read
+	string filePath = 1;
+}
+
+message MarshalDetails {}
+
+message UnmarshalDetails {
+  // Name of input data to unmarshal.
+	string dataName = 1;
+}
+
+message InternalDetails {
+  // (optional) Custom message about error
+  string msg = 1;
+}
+
+message NotFoundDetails {
+  // Name of the data type that could not be found e.g. `product`.
+  string dataName = 1;
+  // Request query that was used to try fetching the data e.g. `UNIQUE_PRODUCT_ID`
+  string query = 2;
+}
+
+message PermissionDeniedDetails {
+  // (optional) Custom message why the access has been denied
+  string msg = 1;
+	// Name of user that was denied access
+  string username = 2;
+}

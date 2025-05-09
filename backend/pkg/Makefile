@@ -12,3 +12,12 @@ zettle-product: ## Generate go code from zettle product library openapi specific
 
 zettle-inventory: ## Generate go code from zettle inventory openapi specification
 	@go run github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen@v2.1.0 -package zettle -generate types https://inventory.izettle.com/openapi.json > ./zettle/zettle-inventory.gen.go
+
+##########
+# errkit #
+##########
+
+errkit-gen-proto: ## Generate go detail structs for errors from proto specs
+	@cd ./errkit && protoc --proto_path=. \
+		--go_out=. --go_opt=paths=source_relative \
+		errors.proto
