@@ -20,8 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	ProductService_GetProducts_FullMethodName   = "/ProductService/GetProducts"
-	ProductService_UpdateProduct_FullMethodName = "/ProductService/UpdateProduct"
+	ProductService_GetProducts_FullMethodName    = "/ProductService/GetProducts"
+	ProductService_GetProductByID_FullMethodName = "/ProductService/GetProductByID"
+	ProductService_UpdateProduct_FullMethodName  = "/ProductService/UpdateProduct"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -29,6 +30,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
 	GetProducts(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ProductsRes, error)
+	GetProductByID(ctx context.Context, in *ProductIDReq, opts ...grpc.CallOption) (*Product, error)
 	UpdateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*Product, error)
 }
 
@@ -50,6 +52,16 @@ func (c *productServiceClient) GetProducts(ctx context.Context, in *emptypb.Empt
 	return out, nil
 }
 
+func (c *productServiceClient) GetProductByID(ctx context.Context, in *ProductIDReq, opts ...grpc.CallOption) (*Product, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Product)
+	err := c.cc.Invoke(ctx, ProductService_GetProductByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *productServiceClient) UpdateProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*Product, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Product)
@@ -65,6 +77,7 @@ func (c *productServiceClient) UpdateProduct(ctx context.Context, in *Product, o
 // for forward compatibility
 type ProductServiceServer interface {
 	GetProducts(context.Context, *emptypb.Empty) (*ProductsRes, error)
+	GetProductByID(context.Context, *ProductIDReq) (*Product, error)
 	UpdateProduct(context.Context, *Product) (*Product, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
@@ -75,6 +88,9 @@ type UnimplementedProductServiceServer struct {
 
 func (UnimplementedProductServiceServer) GetProducts(context.Context, *emptypb.Empty) (*ProductsRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProducts not implemented")
+}
+func (UnimplementedProductServiceServer) GetProductByID(context.Context, *ProductIDReq) (*Product, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProductByID not implemented")
 }
 func (UnimplementedProductServiceServer) UpdateProduct(context.Context, *Product) (*Product, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProduct not implemented")
@@ -110,6 +126,24 @@ func _ProductService_GetProducts_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProductService_GetProductByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProductIDReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).GetProductByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProductService_GetProductByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).GetProductByID(ctx, req.(*ProductIDReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProductService_UpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Product)
 	if err := dec(in); err != nil {
@@ -138,6 +172,10 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProducts",
 			Handler:    _ProductService_GetProducts_Handler,
+		},
+		{
+			MethodName: "GetProductByID",
+			Handler:    _ProductService_GetProductByID_Handler,
 		},
 		{
 			MethodName: "UpdateProduct",

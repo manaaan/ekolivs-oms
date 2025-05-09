@@ -6,11 +6,16 @@ import "google/protobuf/empty.proto";
 
 service ProductService {
   rpc GetProducts(google.protobuf.Empty) returns (ProductsRes) {}
+  rpc GetProductByID(ProductIDReq) returns (Product) {}
   rpc UpdateProduct(Product) returns (Product) {}
 }
 
 message ProductsRes {
   repeated Product products = 1;
+}
+
+message ProductIDReq {
+  string ID = 1;
 }
 
 message Product {
