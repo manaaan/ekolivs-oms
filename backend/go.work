@@ -2,6 +2,9 @@ go 1.23.3
 
 use ./jobs/sync_products
 
-use ./services/product
+use (
+  ./services/product
+  ./services/order
+)
 
 use ./pkg
