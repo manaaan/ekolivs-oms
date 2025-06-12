@@ -34,7 +34,15 @@ const Key Logger = "logger"
 
 // New creates a new logger instance prioritizing data extraction from gRPC metadata,
 // falling back to HTTP context or a fallback.
+//
+// Will firstly attempt to reuse logger from ctx
 func New(ctx context.Context) (*slog.Logger, context.Context) {
+	if logger := ctx.Value(Key); logger != nil {
+		if resLogger, ok := logger.(*slog.Logger); ok {
+			return resLogger, ctx
+		}
+	}
+
 	var traceParent string
 
 	if md, ok := metadata.FromIncomingContext(ctx); ok {

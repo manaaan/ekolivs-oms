@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option go_package = "github.com/manaaan/ekolivs-oms/order/order_api";
+
+import "google/protobuf/empty.proto";
+
+service OrderService {
+  rpc GetOrders(google.protobuf.Empty) returns (OrdersRes) {}
+  rpc GetOrderByID(OrderIDReq) returns (Order) {}
+  rpc CreateOrder(Order) returns (Order) {}
+  rpc UpdateOrder(Order) returns (Order) {}
+}
+
+message OrderIDReq {
+  string ID = 1;
+}
+
+message OrdersRes {
+  repeated Order orders = 1;
+}
+
+message Order {
+  string ID = 1;
+  repeated Position position = 2;
+  string creationDate = 3;
+  optional string fulfilmentDate = 4;
+  Status status = 5;
+  string supplier = 6;
+}
+
+enum Status {
+  DRAFT = 0;
+  SENT = 1;
+  ACCEPTED = 2;
+  REJECTED = 3;
+  RECEIVED = 4;
+}
+
+message Position {
+  string ID = 1;
+  string OrderID = 2;
+  string productId = 3;
+  string productName = 4;
+  int32 amount = 5;
+  int32 position = 6;
+}
