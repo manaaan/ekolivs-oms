@@ -21,9 +21,9 @@ func New(firestoreClient *firestore.Client) *Service {
 	}
 }
 
-func (s Service) GetOrders(ctx context.Context) ([]*order_api.Order, error) {
+func (s Service) GetOrders(ctx context.Context, req *order_api.OrdersReq) ([]*order_api.Order, error) {
 	log, ctx := tlog.New(ctx)
-	orders, err := s.Store.GetOrders(ctx)
+	orders, err := s.Store.GetOrders(ctx, req)
 	if err != nil {
 		log.Error("failed to get orders from order store", "error", err)
 		return nil, err

@@ -41,3 +41,16 @@ func (s Server) GetOrderByID(ctx context.Context, req *order_api.OrderIDReq) (*o
 
 	return order, nil
 }
+
+func (s Server) GetOrders(ctx context.Context, req *order_api.OrdersReq) (*order_api.OrdersRes, error) {
+	log, ctx := tlog.New(ctx)
+	orders, err := s.OrderService.GetOrders(ctx, req)
+	if err != nil {
+		log.Error("failed to get orders", "error", err)
+		return nil, err
+	}
+
+	return &order_api.OrdersRes{
+		Orders: orders,
+	}, nil
+}

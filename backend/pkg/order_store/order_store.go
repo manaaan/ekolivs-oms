@@ -16,11 +16,14 @@ type Store struct {
 	FirestoreClient *firestore.Client
 }
 
-// TODO: add filters to query, which require firestore indexes
-func (s Store) GetOrders(ctx context.Context) ([]*order_api.Order, error) {
+func (s Store) GetOrders(ctx context.Context, req *order_api.OrdersReq) ([]*order_api.Order, error) {
 	orders := []*order_api.Order{}
+	query := s.FirestoreClient.Collection(collection).Query
+	if req != nil && req.Supplier != nil {
+		query = query.Where("Supplier", "==", *req.Supplier)
+	}
 	// `Name` is uppercase as in firestore, as we can't define the firestore structure in our .proto specs
-	iter := s.FirestoreClient.Collection(collection).Documents(ctx)
+	iter := query.OrderBy("CreationDate", firestore.Desc).Documents(ctx)
 	defer iter.Stop()
 	for {
 		dsnap, err := iter.Next()

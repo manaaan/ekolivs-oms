@@ -7,7 +7,7 @@ help: ## list all the Makefile commands
 # setup + tooling #
 ###################
 setup: ## Set up tool dependencies for code generation
-	@PROTOC_VERSION=27.0 ./scripts/setup-tools.sh
+	@PROTOC_VERSION=29.3 ./scripts/setup-tools.sh
 
 protogen: ## Generate go code from protobuf specifications
 	protoc --proto_path=specs \

@@ -10,6 +10,13 @@ https://github.com/tofuutils/tenv
 tenv tofu install latest
 ```
 
+### Apply infrastructure changes
+
+To check for planned changes, run `tofu plan`.
+To apply the changes, run `tofu apply`.
+
+In the future the infra changes will be applied in CI/CD.
+
 ## Install gcloud
 
 https://cloud.google.com/sdk/docs/install
