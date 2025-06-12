@@ -2,10 +2,8 @@ syntax = "proto3";
 
 option go_package = "github.com/manaaan/ekolivs-oms/order/order_api";
 
-import "google/protobuf/empty.proto";
-
 service OrderService {
-  rpc GetOrders(google.protobuf.Empty) returns (OrdersRes) {}
+  rpc GetOrders(OrdersReq) returns (OrdersRes) {}
   rpc GetOrderByID(OrderIDReq) returns (Order) {}
   rpc CreateOrder(Order) returns (Order) {}
   rpc UpdateOrder(Order) returns (Order) {}
@@ -13,6 +11,10 @@ service OrderService {
 
 message OrderIDReq {
   string ID = 1;
+}
+
+message OrdersReq {
+  optional string supplier = 1;
 }
 
 message OrdersRes {
