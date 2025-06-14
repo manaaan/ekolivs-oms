@@ -24,7 +24,7 @@ message IdReq {
 
 message Demand {
   string ID = 1;
-  Position positions = 2;
+  repeated Position positions = 2;
   Status status = 3;
   optional string fulfilledAt = 4;
   string createdAt = 5;
