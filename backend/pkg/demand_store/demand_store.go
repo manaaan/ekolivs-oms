@@ -9,19 +9,16 @@ import (
 	"github.com/manaaan/ekolivs-oms/demand/api"
 )
 
-const collection = "demands"
+const Collection = "demands"
 
 type Store struct {
 	FirestoreClient *firestore.Client
 }
 
-type StorePosition struct {
-	api.Position
-}
-
 func (s Store) GetDemands(ctx context.Context) ([]*api.Demand, error) {
 	var demands []*api.Demand
-	iter := s.FirestoreClient.Collection(collection).Documents(ctx)
+
+	iter := s.FirestoreClient.Collection(Collection).Documents(ctx)
 	defer iter.Stop()
 	for {
 		dsnap, err := iter.Next()
@@ -37,54 +34,29 @@ func (s Store) GetDemands(ctx context.Context) ([]*api.Demand, error) {
 		}
 		demands = append(demands, &demand)
 	}
+
 	return demands, nil
 }
 
-// TODO: create connected positions
-// Mocked response
-func (s Store) CreateDemand(ctx context.Context, create *api.CreateDemandReq) (*api.Demand, error) {
-	return &api.Demand{
-		ID:          "",
-		Positions:   create.Positions,
-		Status:      0,
-		FulfilledAt: nil,
-		CreatedAt:   "",
-	}, nil
-}
-
-func (s Store) DeleteDemand(ctx context.Context, id string) error {
-	if _, err := s.FirestoreClient.Collection(collection).Doc(id).Delete(ctx); err != nil {
-		return err
+func (s Store) CreateOrUpdateDemand(ctx context.Context, data *api.Demand) (*api.Demand, error) {
+	if _, err := s.FirestoreClient.Collection(Collection).Doc(data.ID).Set(ctx, data); err != nil {
+		return nil, err
 	}
-	return nil
+	return data, nil
 }
 
-// TODO: Should this stay here or in a demand_postition_store.go?
-func (s Store) GetDemandPositions(ctx context.Context, productId string) ([]*api.Position, error) {
-	var positions []*api.Position
-	iter := s.FirestoreClient.Collection("positions").Where("ProductId", "==", productId).Documents(ctx)
-	defer iter.Stop()
-	for {
-		dsnap, err := iter.Next()
-		if errors.Is(err, iterator.Done) {
-			break
-		}
-		if err != nil {
-			return nil, err
-		}
-		var prod api.Position
-		if err := dsnap.DataTo(&prod); err != nil {
-			return nil, err
-		}
-		positions = append(positions, &prod)
-	}
-	return positions, nil
-}
-
-func (s Store) CreateDemandPosition(ctx context.Context, position *api.Position) (*api.Position, error) {
-	if _, _, err := s.FirestoreClient.Collection("positions").Add(ctx, position); err != nil {
+func (s Store) CreateOrUpdateDemandWithTx(tx *firestore.Transaction, dr *firestore.DocumentRef, data *api.Demand) (*api.Demand, error) {
+	if err := tx.Set(dr, data); err != nil {
 		return nil, err
 	}
 
-	return position, nil
+	return data, nil
+}
+
+func (s Store) DeleteDemand(ctx context.Context, id string) error {
+	if _, err := s.FirestoreClient.Collection(Collection).Doc(id).Delete(ctx); err != nil {
+		return err
+	}
+
+	return nil
 }
