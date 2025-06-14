@@ -21,7 +21,7 @@ const _ = grpc.SupportPackageIsVersion8
 
 const (
 	DemandService_GetDemands_FullMethodName   = "/DemandService/GetDemands"
-	DemandService_CreateDemand_FullMethodName = "/DemandService/CreateDemand"
+	DemandService_CreateDemand_FullMethodName = "/DemandService/CreateOrUpdateDemand"
 	DemandService_DeleteDemand_FullMethodName = "/DemandService/DeleteDemand"
 )
 
@@ -90,7 +90,7 @@ func (UnimplementedDemandServiceServer) GetDemands(context.Context, *emptypb.Emp
 	return nil, status.Errorf(codes.Unimplemented, "method GetDemands not implemented")
 }
 func (UnimplementedDemandServiceServer) CreateDemand(context.Context, *CreateDemandReq) (*Demand, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateDemand not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrUpdateDemand not implemented")
 }
 func (UnimplementedDemandServiceServer) DeleteDemand(context.Context, *IdReq) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteDemand not implemented")
@@ -174,7 +174,7 @@ var DemandService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _DemandService_GetDemands_Handler,
 		},
 		{
-			MethodName: "CreateDemand",
+			MethodName: "CreateOrUpdateDemand",
 			Handler:    _DemandService_CreateDemand_Handler,
 		},
 		{

@@ -25,8 +25,8 @@ func (s Server) GetDemands(ctx context.Context, _ *emptypb.Empty) (*api.DemandsR
 	return &api.DemandsRes{Demands: demands}, nil
 }
 
-func (s Server) CreateDemand(ctx context.Context, create *api.CreateDemandReq) (*api.Demand, error) {
-	d, err := s.DemandService.CreateDemand(ctx, create)
+func (s Server) CreateDemand(ctx context.Context, data *api.Demand) (*api.Demand, error) {
+	d, err := s.DemandService.CreateOrUpdateDemand(ctx, data)
 	if err != nil {
 		slog.Error("failed to update product", "error", err)
 		return nil, err
