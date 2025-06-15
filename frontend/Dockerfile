@@ -17,7 +17,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY ./frontend ./frontend
 COPY ./specs ./specs
-COPY ./frontend/package.json ./.
 ARG PRODUCT_SERVICE_HOST
 ENV PRODUCT_SERVICE_HOST $PRODUCT_SERVICE_HOST
 RUN cd frontend && \
@@ -32,6 +31,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 COPY --from=build --chown=nextjs:nodejs /app/frontend/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs /app/frontend/.next/static ./.next/static
+COPY --from=build --chown=nextjs:nodejs /app/frontend/package.json ./package.json
 COPY --from=build /app/frontend/public ./public
 USER nextjs
 CMD [ "node", "server.js" ]
