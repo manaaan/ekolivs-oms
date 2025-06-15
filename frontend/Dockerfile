@@ -1,5 +1,9 @@
 FROM node:22-slim AS base
 
+# Install ca-certificates (if not already present)
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+# Update the CA store
+RUN update-ca-certificates
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
