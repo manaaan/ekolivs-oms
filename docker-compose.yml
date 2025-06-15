@@ -1,4 +1,12 @@
 services:
+  product:
+    build:
+      dockerfile: ./backend/services/product/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./secrets/sample.env:/prod/.env
+      - ./secrets/firestore-sa.json:/prod/firestore-sa.json
   frontend:
     build:
       dockerfile: ./frontend/Dockerfile
