@@ -4,6 +4,7 @@ go 1.24.4
 
 require (
 	cloud.google.com/go/firestore v1.18.0
+	github.com/manaaan/ekolivs-oms/jobs/sync_products v0.0.0-00010101000000-000000000000
 	github.com/manaaan/ekolivs-oms/pkg v0.0.0-00010101000000-000000000000
 	golang.org/x/sync v0.11.0
 	google.golang.org/grpc v1.72.0
@@ -46,6 +47,8 @@ require (
 )
 
 replace github.com/manaaan/ekolivs-oms/pkg => ../../pkg
+
+replace github.com/manaaan/ekolivs-oms/jobs/sync_products => ../../jobs/sync_products
 
 tool (
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc
