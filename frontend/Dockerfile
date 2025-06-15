@@ -1,5 +1,4 @@
 FROM node:22-slim AS base
-
 # Install ca-certificates (if not already present)
 RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 # Update the CA store
@@ -38,5 +37,7 @@ USER nextjs
 CMD [ "node", "server.js" ]
 
 FROM base AS dev
+COPY ./frontend ./frontend
+WORKDIR /app/frontend
 EXPOSE 3000
 CMD [ "pnpm", "dev" ]
