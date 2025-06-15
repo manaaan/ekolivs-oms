@@ -39,6 +39,7 @@ func (s Server) UpdateProduct(ctx context.Context, prod *api.Product) (*api.Prod
 }
 
 func (s Server) GetProductByID(ctx context.Context, req *api.ProductIDReq) (*api.Product, error) {
+	log, ctx := tlog.New(ctx)
 	if len(req.GetID()) == 0 {
 		return nil, status.Error(codes.InvalidArgument, "invalid request, missing product ID")
 	}
@@ -46,7 +47,7 @@ func (s Server) GetProductByID(ctx context.Context, req *api.ProductIDReq) (*api
 	p, err := s.ProductService.GetProductByID(ctx, req.GetID())
 	if err != nil {
 		// TODO: improve error handling
-		slog.Error("failed to fetch product", "error", err, "id", req.GetID())
+		log.Error("failed to fetch product", "error", err, "id", req.GetID())
 		return nil, status.Error(codes.NotFound, "failed to fetch product")
 	}
 
