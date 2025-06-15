@@ -10,17 +10,19 @@ RUN corepack enable
 WORKDIR /app
 
 FROM base AS deps
-COPY /frontend/package.json /frontend/pnpm-lock.yaml* ./
+COPY ./frontend/package.json ./frontend/pnpm-lock.yaml* ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 FROM base AS build
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
-COPY /frontend ./frontend
-COPY /specs ./specs
+COPY ./frontend ./frontend
+COPY ./specs ./specs
+COPY ./frontend/package.json ./.
 ARG PRODUCT_SERVICE_HOST
 ENV PRODUCT_SERVICE_HOST $PRODUCT_SERVICE_HOST
-RUN pnpm run build
+RUN cd frontend && \
+  pnpm run build
 
 FROM base AS run
 ENV NEXT_TELEMETRY_DISABLED=1
