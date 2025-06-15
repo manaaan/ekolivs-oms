@@ -7,6 +7,7 @@ services:
     volumes:
       - ./secrets/sample.env:/prod/.env
       - ./secrets/firestore-sa.json:/prod/firestore-sa.json
+    network_mode: "host"
   frontend:
     build:
       dockerfile: ./frontend/Dockerfile
@@ -17,16 +18,10 @@ services:
       - PRODUCT_SERVICE_HOST=http://product:8080
     ports:
       - "3000:3000"
-    networks:
-      - internal
-# Add when we have a product service Dockerfile
-#    depends_on:
-#      - product
-#  product:
-#    build:
-#      dockerfile: ./backend/services/product/Dockerfile
-#    networks:
-#      - internal
-
+    network_mode: "host"
+    # Add when we have a product service Dockerfile
+    depends_on:
+      - product
 networks:
-  internal:
+  default:
+    enable_ipv6: false
