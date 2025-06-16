@@ -1,15 +1,15 @@
-module github.com/manaaan/ekolivs-oms/sync-products
+module github.com/manaaan/ekolivs-oms/backend/jobs/sync_products
 
 go 1.24.4
 
-replace github.com/manaaan/ekolivs-oms/pkg => ../../pkg
+replace github.com/manaaan/ekolivs-oms/backend/pkg => ../../pkg
 
-replace github.com/manaaan/ekolivs-oms/product => ../../services/product
+replace github.com/manaaan/ekolivs-oms/backend/services/product => ../../services/product
 
 require (
 	cloud.google.com/go/firestore v1.18.0
-	github.com/manaaan/ekolivs-oms/pkg v0.0.0-00010101000000-000000000000
-	github.com/manaaan/ekolivs-oms/product v0.0.0-00010101000000-000000000000
+	github.com/manaaan/ekolivs-oms/backend/pkg v0.0.0-00010101000000-000000000000
+	github.com/manaaan/ekolivs-oms/backend/services/product v0.0.0-00010101000000-000000000000
 	golang.org/x/sync v0.11.0
 )
 

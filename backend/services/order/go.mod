@@ -1,12 +1,12 @@
-module github.com/manaaan/ekolivs-oms/order
+module github.com/manaaan/ekolivs-oms/backend/services/order
 
 go 1.24.4
 
-replace github.com/manaaan/ekolivs-oms/pkg => ../../pkg
+replace github.com/manaaan/ekolivs-oms/backend/pkg => ../../pkg
 
 require (
 	cloud.google.com/go/firestore v1.18.0
-	github.com/manaaan/ekolivs-oms/pkg v0.0.0-00010101000000-000000000000
+	github.com/manaaan/ekolivs-oms/backend/pkg v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.72.0
 	google.golang.org/protobuf v1.36.6
 )

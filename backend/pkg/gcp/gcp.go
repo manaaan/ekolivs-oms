@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/pkg/env"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
 )
 
 func InitFirestore() *firestore.Client {

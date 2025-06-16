@@ -5,11 +5,11 @@ import (
 	"log"
 	"net"
 
-	"github.com/manaaan/ekolivs-oms/pkg/env"
-	"github.com/manaaan/ekolivs-oms/pkg/gcp"
-	"github.com/manaaan/ekolivs-oms/product/api"
-	"github.com/manaaan/ekolivs-oms/product/internal/product"
-	"github.com/manaaan/ekolivs-oms/product/internal/server"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/gcp"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/internal/product"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/internal/server"
 
 	"google.golang.org/grpc"
 )
