@@ -77,7 +77,8 @@ func New(ctx context.Context) (*slog.Logger, context.Context) {
 				}
 			}
 			return a
-		}}))
+		},
+	}))
 
 	logger := log.With(slog.String("traceparent", traceParent))
 
