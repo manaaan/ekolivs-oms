@@ -1,10 +1,10 @@
-go 1.23.3
+go 1.24.4
 
 use ./jobs/sync_products
 
 use (
-  ./services/product
-  ./services/order
+	./services/order
+	./services/product
 )
 
 use ./pkg
