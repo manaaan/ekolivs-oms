@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/order/order_api"
-	"github.com/manaaan/ekolivs-oms/pkg/order_store"
-	"github.com/manaaan/ekolivs-oms/pkg/tlog"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/order_store"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
 )
 
 type Service struct {

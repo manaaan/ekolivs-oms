@@ -5,9 +5,9 @@ import (
 	"log"
 	"log/slog"
 
-	"github.com/manaaan/ekolivs-oms/pkg/env"
-	"github.com/manaaan/ekolivs-oms/pkg/gcp"
-	"github.com/manaaan/ekolivs-oms/sync-products/internal/product"
+	"github.com/manaaan/ekolivs-oms/backend/jobs/sync_products/internal/product"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/gcp"
 )
 
 func main() {

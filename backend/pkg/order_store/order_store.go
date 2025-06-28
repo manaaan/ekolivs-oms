@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/order/order_api"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
 	"google.golang.org/api/iterator"
 )
 
