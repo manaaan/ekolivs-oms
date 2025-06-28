@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"log/slog"
 
 	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog"
 	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
