@@ -20,3 +20,10 @@ Ekolivs order management system
 ### Frontend
 
 1. Install node and pnpm
+
+Start the frontend. In `frontend` run
+
+```bash
+pnpm # installs dependencies
+pnpm dev # starts dev server
+```
