@@ -1,13 +1,12 @@
-package demand_postition_store
+package demand_position_store
 
 import (
+	"cloud.google.com/go/firestore"
 	"context"
 	"errors"
-	"google.golang.org/api/iterator"
-
-	"cloud.google.com/go/firestore"
 	"github.com/manaaan/ekolivs-oms/demand/api"
 	"github.com/manaaan/ekolivs-oms/pkg/demand_store"
+	"google.golang.org/api/iterator"
 )
 
 const Collection = "demandPositions"
@@ -51,7 +50,13 @@ func (s Store) CreateOrUpdatePosition(ctx context.Context, demand *api.Demand, p
 	return position, nil
 }
 
-func (s Store) CreateOrUpdatePositionWithTx(tx *firestore.Transaction, dr *firestore.DocumentRef, position *api.Position) (*api.Position, error) {
+func (s Store) CreateOrUpdatePositionWithTx(tx *firestore.Transaction, demandId string, position *api.Position) (*api.Position, error) {
+	if len(position.ID) == 0 {
+		position.ID = s.FirestoreClient.Collection(Collection).NewDoc().ID
+	}
+
+	dr := s.FirestoreClient.Collection(demand_store.Collection).Doc(demandId).Collection(Collection).Doc(position.ID)
+
 	if err := tx.Set(dr, position); err != nil {
 		return nil, err
 	}

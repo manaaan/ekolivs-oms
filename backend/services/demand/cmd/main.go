@@ -16,6 +16,8 @@ import (
 )
 
 func main() {
+	env.LoadEnv()
+
 	firestoreClient := gcp.InitFirestore()
 	demandService := demand.New(firestoreClient)
 

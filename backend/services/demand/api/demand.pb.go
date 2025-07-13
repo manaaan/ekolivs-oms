@@ -131,7 +131,7 @@ type CreateDemandReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Positions *Position `protobuf:"bytes,1,opt,name=positions,proto3" json:"positions,omitempty"`
+	Positions []*Position `protobuf:"bytes,1,rep,name=positions,proto3" json:"positions,omitempty"`
 }
 
 func (x *CreateDemandReq) Reset() {
@@ -166,7 +166,7 @@ func (*CreateDemandReq) Descriptor() ([]byte, []int) {
 	return file_demand_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateDemandReq) GetPositions() *Position {
+func (x *CreateDemandReq) GetPositions() []*Position {
 	if x != nil {
 		return x.Positions
 	}
@@ -226,7 +226,7 @@ type Demand struct {
 	unknownFields protoimpl.UnknownFields
 
 	ID          string      `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
-	Positions   []*Position `protobuf:"bytes,2,rep,name=positions,proto3" json:"positions,omitempty"`
+	Positions   []*Position `protobuf:"bytes,2,rep,name=positions,proto3" json:"positions,omitempty" firestore:"positions,omitempty"`
 	Status      Status      `protobuf:"varint,3,opt,name=status,proto3,enum=Status" json:"status,omitempty"`
 	FulfilledAt *string     `protobuf:"bytes,4,opt,name=fulfilledAt,proto3,oneof" json:"fulfilledAt,omitempty"`
 	CreatedAt   string      `protobuf:"bytes,5,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
@@ -380,7 +380,7 @@ var file_demand_proto_rawDesc = []byte{
 	0x61, 0x6e, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x07, 0x2e, 0x44, 0x65, 0x6d,
 	0x61, 0x6e, 0x64, 0x52, 0x07, 0x64, 0x65, 0x6d, 0x61, 0x6e, 0x64, 0x73, 0x22, 0x3a, 0x0a, 0x0f,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x44, 0x65, 0x6d, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x12,
-	0x27, 0x0a, 0x09, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x01,
+	0x27, 0x0a, 0x09, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03,
 	0x28, 0x0b, 0x32, 0x09, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x09, 0x70,
 	0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x17, 0x0a, 0x05, 0x49, 0x64, 0x52, 0x65,
 	0x71, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69,
@@ -454,10 +454,10 @@ var file_demand_proto_depIdxs = []int32{
 	5, // 2: Demand.positions:type_name -> Position
 	0, // 3: Demand.status:type_name -> Status
 	6, // 4: DemandService.GetDemands:input_type -> google.protobuf.Empty
-	2, // 5: DemandService.CreateOrUpdateDemand:input_type -> CreateDemandReq
+	2, // 5: DemandService.CreateDemand:input_type -> CreateDemandReq
 	3, // 6: DemandService.DeleteDemand:input_type -> IdReq
 	1, // 7: DemandService.GetDemands:output_type -> DemandsRes
-	4, // 8: DemandService.CreateOrUpdateDemand:output_type -> Demand
+	4, // 8: DemandService.CreateDemand:output_type -> Demand
 	6, // 9: DemandService.DeleteDemand:output_type -> google.protobuf.Empty
 	7, // [7:10] is the sub-list for method output_type
 	4, // [4:7] is the sub-list for method input_type

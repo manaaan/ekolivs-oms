@@ -15,7 +15,7 @@ message DemandsRes {
 }
 
 message CreateDemandReq {
-  Position positions = 1;
+  repeated Position positions = 1;
 }
 
 message IdReq {

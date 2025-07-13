@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"google.golang.org/api/iterator"
+	"google.golang.org/protobuf/proto"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/manaaan/ekolivs-oms/demand/api"
@@ -45,8 +47,19 @@ func (s Store) CreateOrUpdateDemand(ctx context.Context, data *api.Demand) (*api
 	return data, nil
 }
 
-func (s Store) CreateOrUpdateDemandWithTx(tx *firestore.Transaction, dr *firestore.DocumentRef, data *api.Demand) (*api.Demand, error) {
-	if err := tx.Set(dr, data); err != nil {
+func (s Store) CreateOrUpdateDemandWithTx(tx *firestore.Transaction, data *api.Demand) (*api.Demand, error) {
+	if len(data.ID) == 0 {
+		data.ID = s.FirestoreClient.Collection(Collection).NewDoc().ID
+		data.CreatedAt = time.Now().Format(time.RFC3339)
+	}
+
+	// remove positions since they are created as a subcollection of demand
+	myCopy := proto.Clone(data).(*api.Demand)
+	myCopy.Positions = nil
+
+	dr := s.FirestoreClient.Collection(Collection).Doc(myCopy.ID)
+
+	if err := tx.Set(dr, myCopy); err != nil {
 		return nil, err
 	}
 

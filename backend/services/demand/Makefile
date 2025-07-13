@@ -9,7 +9,7 @@ help: ## list all the Makefile commands
 ###########
 # general #
 ###########
-run: setgcpenv ## Run product service with go directly
+run: setgcpenv ## Run demand service with go directly
 	go run ./cmd/main.go
 
 protogen: ## Generate go code from protobuf specifications

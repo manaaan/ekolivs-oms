@@ -4,7 +4,7 @@ import (
 	"cloud.google.com/go/firestore"
 	"context"
 	"github.com/manaaan/ekolivs-oms/demand/api"
-	"github.com/manaaan/ekolivs-oms/pkg/demand_postition_store"
+	"github.com/manaaan/ekolivs-oms/pkg/demand_position_store"
 	"github.com/manaaan/ekolivs-oms/pkg/demand_store"
 	"log/slog"
 )
@@ -12,7 +12,7 @@ import (
 type Service struct {
 	firestoreClient *firestore.Client
 	demandStore     *demand_store.Store
-	positionStore   *demand_postition_store.Store
+	positionStore   *demand_position_store.Store
 }
 
 func New(firestoreClient *firestore.Client) *Service {
@@ -21,7 +21,7 @@ func New(firestoreClient *firestore.Client) *Service {
 		demandStore: &demand_store.Store{
 			FirestoreClient: firestoreClient,
 		},
-		positionStore: &demand_postition_store.Store{
+		positionStore: &demand_position_store.Store{
 			FirestoreClient: firestoreClient,
 		},
 	}
@@ -49,22 +49,15 @@ func (s Service) GetDemands(ctx context.Context) ([]*api.Demand, error) {
 }
 
 func (s Service) CreateOrUpdateDemand(ctx context.Context, data *api.Demand) (*api.Demand, error) {
-	demandRef := s.firestoreClient.Collection("demands").Doc(data.ID)
-	positionsCollection := demandRef.Collection("positions")
-	positionRefs := make(map[string]*firestore.DocumentRef)
-	for _, position := range data.Positions {
-		positionRefs[position.ID] = positionsCollection.Doc(position.ID)
-	}
-
 	err := s.firestoreClient.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
-		_, err := s.demandStore.CreateOrUpdateDemandWithTx(tx, demandRef, data)
+		demand, err := s.demandStore.CreateOrUpdateDemandWithTx(tx, data)
 		if err != nil {
 			slog.Error("failed to create or update demand", "error", err)
 			return err
 		}
 
 		for _, position := range data.Positions {
-			_, err := s.positionStore.CreateOrUpdatePositionWithTx(tx, positionRefs[position.ID], position)
+			_, err := s.positionStore.CreateOrUpdatePositionWithTx(tx, demand.ID, position)
 			if err != nil {
 				slog.Error("failed to create or update position", "error", err)
 				return err
@@ -81,7 +74,7 @@ func (s Service) CreateOrUpdateDemand(ctx context.Context, data *api.Demand) (*a
 	return data, nil
 }
 
-// TODO: delete positions
+// TODO: Add DeleteDemandPosition, add UpdateDemandPosition
 func (s Service) DeleteDemand(ctx context.Context, id string) error {
 	err := s.demandStore.DeleteDemand(ctx, id)
 	if err != nil {

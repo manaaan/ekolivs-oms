@@ -25,10 +25,18 @@ func (s Server) GetDemands(ctx context.Context, _ *emptypb.Empty) (*api.DemandsR
 	return &api.DemandsRes{Demands: demands}, nil
 }
 
-func (s Server) CreateDemand(ctx context.Context, data *api.Demand) (*api.Demand, error) {
+func (s Server) CreateDemand(ctx context.Context, req *api.CreateDemandReq) (*api.Demand, error) {
+	if req == nil || req.Positions == nil || len(req.Positions) == 0 {
+		return nil, nil
+	}
+
+	data := &api.Demand{
+		Positions: req.Positions,
+	}
+
 	d, err := s.DemandService.CreateOrUpdateDemand(ctx, data)
 	if err != nil {
-		slog.Error("failed to update product", "error", err)
+		slog.Error("failed to update demand", "error", err)
 		return nil, err
 	}
 
