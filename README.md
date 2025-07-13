@@ -32,7 +32,7 @@ As we're using gRPC services, we need tools to test our endpoints.
 
    `go install github.com/fullstorydev/grpcui/cmd/grpcui@latest`
 
-   Exampel to target against local product service:
+   Example to target against local product service:
 
     ```
     grpcui -proto ./specs/product.proto -plaintext localhost:8080
