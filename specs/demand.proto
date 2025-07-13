@@ -24,6 +24,7 @@ message IdReq {
 
 message Demand {
   string ID = 1;
+  // @gotags: firestore:"positions,omitempty"
   repeated Position positions = 2;
   Status status = 3;
   optional string fulfilledAt = 4;

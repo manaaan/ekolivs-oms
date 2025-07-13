@@ -225,7 +225,8 @@ type Demand struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID          string      `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	// @gotags: firestore:"positions,omitempty"
 	Positions   []*Position `protobuf:"bytes,2,rep,name=positions,proto3" json:"positions,omitempty" firestore:"positions,omitempty"`
 	Status      Status      `protobuf:"varint,3,opt,name=status,proto3,enum=Status" json:"status,omitempty"`
 	FulfilledAt *string     `protobuf:"bytes,4,opt,name=fulfilledAt,proto3,oneof" json:"fulfilledAt,omitempty"`

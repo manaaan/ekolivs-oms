@@ -17,6 +17,8 @@ protogen: ## Generate go code from protobuf specifications
 		--go_out=api --go_opt=paths=source_relative \
 		--go-grpc_out=api --go-grpc_opt=paths=source_relative \
 		demand.proto
+	# Inject custom tags
+	protoc-go-inject-tag -input=api/demand.pb.go
 
 #######
 # GCP #
