@@ -2,27 +2,24 @@ package main
 
 import (
 	"fmt"
+	"github.com/manaaan/ekolivs-oms/pkg/env"
 	"log"
 	"net"
 	"strconv"
 
-	"github.com/manaaan/ekolivs-oms/pkg/env"
+	"github.com/manaaan/ekolivs-oms/demand/api"
+	"github.com/manaaan/ekolivs-oms/demand/internal/demand"
+	"github.com/manaaan/ekolivs-oms/demand/internal/server"
 	"github.com/manaaan/ekolivs-oms/pkg/gcp"
-	"github.com/manaaan/ekolivs-oms/product/api"
-	"github.com/manaaan/ekolivs-oms/product/internal/product"
-	"github.com/manaaan/ekolivs-oms/product/internal/server"
 
 	"google.golang.org/grpc"
 )
 
 func main() {
 	env.LoadEnv()
+
 	firestoreClient := gcp.InitFirestore()
-	productService, err := product.New(firestoreClient)
-	if err != nil {
-		log.Fatalf("Unable to initialize product service")
-		return
-	}
+	demandService := demand.New(firestoreClient)
 
 	port, err := strconv.Atoi(env.Required("PORT"))
 	if err != nil {
@@ -36,11 +33,12 @@ func main() {
 
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)
-	api.RegisterProductServiceServer(grpcServer, server.Server{
-		ProductService: productService,
+	api.RegisterDemandServiceServer(grpcServer, server.Server{
+		DemandService: demandService,
 	})
-	fmt.Printf("product service listening on %d\n", port)
+	fmt.Printf("demand service listening on %d\n", port)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+
 }

@@ -8,6 +8,7 @@ echo "Set up tooling dependencies globally"
 PROTOC_VERSION=${PROTOC_VERSION:-27.0}
 PROTOC_GEN_GO_VERSION=${PROTOC_GEN_GO_VERSION:-1.34.1}
 PROTOC_GEN_GO_GRPC_VERSION=${PROTOC_GEN_GO_GRPC_VERSION:-1.4.0}
+PROTOC_GO_INJECT_TAG=${PROTOC_GO_INJECT_TAG:-1.4.0}
 
 architecture=""
 case $(uname -m) in
@@ -29,16 +30,17 @@ unzip "protoc-$PROTOC_VERSION-$protoc_bin.zip" -d "$HOME/.local"
 rm "protoc-$PROTOC_VERSION-$protoc_bin.zip"
 
 echo ""
-echo -e '\e[46mMake sure your shell startup script contains following lines, adding to PATH to execute the commands:\e[0m'
+echo -e 'Make sure your shell startup script contains following lines, adding to PATH to execute the commands:'
 echo ""
 # shellcheck disable=SC2016
-echo -e '\t\e[36mexport PATH="$PATH:$HOME/.local/bin"\e[0m'
+echo -e '\texport PATH="$PATH:$HOME/.local/bin"'
 # shellcheck disable=SC2016
-echo -e '\t\e[36mexport PATH="$PATH:$(go env GOPATH)/bin"\e[0m'
+echo -e '\texport PATH="$PATH:$(go env GOPATH)/bin"'
 echo ""
 
 go install "google.golang.org/protobuf/cmd/protoc-gen-go@v$PROTOC_GEN_GO_VERSION"
 go install "google.golang.org/grpc/cmd/protoc-gen-go-grpc@v$PROTOC_GEN_GO_GRPC_VERSION"
+go install "github.com/favadi/protoc-go-inject-tag@v$PROTOC_GO_INJECT_TAG"
 
 echo "Installed all dependencies"
 echo ""
