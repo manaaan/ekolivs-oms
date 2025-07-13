@@ -1,6 +1,6 @@
 module github.com/manaaan/ekolivs-oms/product
 
-go 1.23.3
+go 1.24.4
 
 require (
 	cloud.google.com/go/firestore v1.18.0
@@ -42,6 +42,12 @@ require (
 	google.golang.org/genproto v0.0.0-20241118233622-e639e219e697 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250218202821-56aae31c358a // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250218202821-56aae31c358a // indirect
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.5.1 // indirect
 )
 
 replace github.com/manaaan/ekolivs-oms/pkg => ../../pkg
+
+tool (
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc
+	google.golang.org/protobuf/cmd/protoc-gen-go
+)

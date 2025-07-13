@@ -1,6 +1,6 @@
 module github.com/manaaan/ekolivs-oms/sync-products
 
-go 1.23.3
+go 1.24.4
 
 replace github.com/manaaan/ekolivs-oms/pkg => ../../pkg
 
