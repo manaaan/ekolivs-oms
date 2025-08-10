@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 
-	"github.com/manaaan/ekolivs-oms/order/internal/order"
-	"github.com/manaaan/ekolivs-oms/order/order_api"
-	"github.com/manaaan/ekolivs-oms/pkg/errkit"
-	"github.com/manaaan/ekolivs-oms/pkg/tlog"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/errkit"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/internal/order"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
 )
 
 type Server struct {

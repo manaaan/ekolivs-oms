@@ -5,10 +5,10 @@ import (
 	"log/slog"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/pkg/env"
-	"github.com/manaaan/ekolivs-oms/pkg/product_store"
-	"github.com/manaaan/ekolivs-oms/pkg/zettle"
-	"github.com/manaaan/ekolivs-oms/product/api"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/product_store"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/zettle"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
 	"golang.org/x/sync/errgroup"
 )
 

@@ -23,7 +23,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/manaaan/ekolivs-oms/pkg/tlog/traceparent"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog/traceparent"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -77,7 +77,8 @@ func New(ctx context.Context) (*slog.Logger, context.Context) {
 				}
 			}
 			return a
-		}}))
+		},
+	}))
 
 	logger := log.With(slog.String("traceparent", traceParent))
 
