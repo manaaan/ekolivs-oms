@@ -37,7 +37,6 @@ USER nextjs
 CMD [ "node", "server.js" ]
 
 FROM base AS dev
-COPY ./frontend ./frontend
 WORKDIR /app/frontend
 EXPOSE 3000
 CMD [ "pnpm", "dev" ]

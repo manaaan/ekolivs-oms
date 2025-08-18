@@ -23,6 +23,7 @@ services:
       - ./specs:/app/specs
     network_mode: "host"
     # Add when we have a product service Dockerfile
+      - ./frontend:/app/frontend
     depends_on:
       - product
 networks:
