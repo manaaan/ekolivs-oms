@@ -7,24 +7,25 @@ services:
     volumes:
       - ./secrets/sample.env:/prod/.env
       - ./secrets/firestore-sa.json:/prod/firestore-sa.json
-    network_mode: "host"
+    networks:
+      - internal
   frontend:
     build:
       dockerfile: ./frontend/Dockerfile
       target: dev
-      #args:
-      #  - PRODUCT_SERVICE_HOST=product:8080
     environment:
-      - PRODUCT_SERVICE_HOST=localhost:8080
+      - PRODUCT_SERVICE_HOST=product:8080
       - GRPC_TRACE=all
     ports:
       - "3000:3000"
     volumes:
       - ./specs:/app/specs
-    network_mode: "host"
-    # Add when we have a product service Dockerfile
+      - ./frontend:/app/frontend
+    networks:
+      - internal
     depends_on:
       - product
+
 networks:
-  default:
-    enable_ipv6: false
+  internal:
+    driver: bridge
