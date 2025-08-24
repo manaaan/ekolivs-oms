@@ -6,11 +6,11 @@ import (
 	"net"
 	"strconv"
 
-	"github.com/manaaan/ekolivs-oms/order/internal/order"
-	"github.com/manaaan/ekolivs-oms/order/internal/server"
-	"github.com/manaaan/ekolivs-oms/order/order_api"
-	"github.com/manaaan/ekolivs-oms/pkg/env"
-	"github.com/manaaan/ekolivs-oms/pkg/gcp"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/gcp"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/internal/order"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/internal/server"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
 
 	"google.golang.org/grpc"
 )

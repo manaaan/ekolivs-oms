@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/product/api"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
 	"google.golang.org/api/iterator"
 )
 

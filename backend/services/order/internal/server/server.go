@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 
-	"github.com/manaaan/ekolivs-oms/order/internal/order"
-	"github.com/manaaan/ekolivs-oms/order/order_api"
-	"github.com/manaaan/ekolivs-oms/pkg/errkit"
-	"github.com/manaaan/ekolivs-oms/pkg/tlog"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/errkit"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/internal/order"
+	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
 )
 
 type Server struct {
@@ -40,4 +40,17 @@ func (s Server) GetOrderByID(ctx context.Context, req *order_api.OrderIDReq) (*o
 	}
 
 	return order, nil
+}
+
+func (s Server) GetOrders(ctx context.Context, req *order_api.OrdersReq) (*order_api.OrdersRes, error) {
+	log, ctx := tlog.New(ctx)
+	orders, err := s.OrderService.GetOrders(ctx, req)
+	if err != nil {
+		log.Error("failed to get orders", "error", err)
+		return nil, err
+	}
+
+	return &order_api.OrdersRes{
+		Orders: orders,
+	}, nil
 }

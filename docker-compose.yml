@@ -1,24 +1,31 @@
 services:
+  product:
+    build:
+      dockerfile: ./backend/services/product/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./secrets/sample.env:/prod/.env
+      - ./secrets/firestore-sa.json:/prod/firestore-sa.json
+    networks:
+      - internal
   frontend:
     build:
       dockerfile: ./frontend/Dockerfile
-      target: run
-      args:
-        - PRODUCT_SERVICE_HOST=http://product:8080
+      target: dev
     environment:
-      - PRODUCT_SERVICE_HOST=http://product:8080
+      - PRODUCT_SERVICE_HOST=product:8080
+      - GRPC_TRACE=all
     ports:
       - "3000:3000"
+    volumes:
+      - ./specs:/app/specs
+      - ./frontend:/app/frontend
     networks:
       - internal
-# Add when we have a product service Dockerfile
-#    depends_on:
-#      - product
-#  product:
-#    build:
-#      dockerfile: ./backend/services/product/Dockerfile
-#    networks:
-#      - internal
+    depends_on:
+      - product
 
 networks:
   internal:
+    driver: bridge

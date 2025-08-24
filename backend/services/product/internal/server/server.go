@@ -3,9 +3,9 @@ package server
 import (
 	"context"
 
-	"github.com/manaaan/ekolivs-oms/pkg/tlog"
-	"github.com/manaaan/ekolivs-oms/product/api"
-	"github.com/manaaan/ekolivs-oms/product/internal/product"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/internal/product"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"

@@ -1,4 +1,4 @@
-module github.com/manaaan/ekolivs-oms/pkg
+module github.com/manaaan/ekolivs-oms/backend/pkg
 
 go 1.24.4
 
@@ -7,8 +7,8 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
-	github.com/manaaan/ekolivs-oms/order v0.0.0-00010101000000-000000000000
-	github.com/manaaan/ekolivs-oms/product v0.0.0-00010101000000-000000000000
+	github.com/manaaan/ekolivs-oms/backend/services/order v0.0.0-00010101000000-000000000000
+	github.com/manaaan/ekolivs-oms/backend/services/product v0.0.0-00010101000000-000000000000
 	github.com/oapi-codegen/runtime v1.1.1
 	google.golang.org/api v0.214.0
 	google.golang.org/grpc v1.72.0
@@ -46,6 +46,6 @@ require (
 )
 
 replace (
-	github.com/manaaan/ekolivs-oms/order => ../services/order
-	github.com/manaaan/ekolivs-oms/product => ../services/product
+	github.com/manaaan/ekolivs-oms/backend/services/order => ../services/order
+	github.com/manaaan/ekolivs-oms/backend/services/product => ../services/product
 )

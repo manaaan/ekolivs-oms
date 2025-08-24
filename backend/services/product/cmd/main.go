@@ -6,11 +6,11 @@ import (
 	"net"
 	"strconv"
 
-	"github.com/manaaan/ekolivs-oms/pkg/env"
-	"github.com/manaaan/ekolivs-oms/pkg/gcp"
-	"github.com/manaaan/ekolivs-oms/product/api"
-	"github.com/manaaan/ekolivs-oms/product/internal/product"
-	"github.com/manaaan/ekolivs-oms/product/internal/server"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/gcp"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/internal/product"
+	"github.com/manaaan/ekolivs-oms/backend/services/product/internal/server"
 
 	"google.golang.org/grpc"
 )
@@ -29,7 +29,7 @@ func main() {
 		log.Fatalf("failed to convert port to number: %v", err)
 	}
 
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
+	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
