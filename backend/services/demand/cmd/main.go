@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/manaaan/ekolivs-oms/pkg/env"
 	"log"
 	"net"
 	"strconv"
 
-	"github.com/manaaan/ekolivs-oms/demand/api"
-	"github.com/manaaan/ekolivs-oms/demand/internal/demand"
-	"github.com/manaaan/ekolivs-oms/demand/internal/server"
-	"github.com/manaaan/ekolivs-oms/pkg/gcp"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
+	"github.com/manaaan/ekolivs-oms/backend/specs/demand_api"
+
+	"github.com/manaaan/ekolivs-oms/backend/pkg/gcp"
+	"github.com/manaaan/ekolivs-oms/backend/services/demand/internal/demand"
+	"github.com/manaaan/ekolivs-oms/backend/services/demand/internal/server"
 
 	"google.golang.org/grpc"
 )
@@ -33,7 +34,7 @@ func main() {
 
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)
-	api.RegisterDemandServiceServer(grpcServer, server.Server{
+	demand_api.RegisterDemandServiceServer(grpcServer, server.Server{
 		DemandService: demandService,
 	})
 	fmt.Printf("demand service listening on %d\n", port)

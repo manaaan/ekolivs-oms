@@ -1,9 +1,15 @@
-module github.com/manaaan/ekolivs-oms/demand
+module github.com/manaaan/ekolivs-oms/backend/services/demand
 
-go 1.23.3
+go 1.24.4
+
+replace github.com/manaaan/ekolivs-oms/backend/pkg => ../../pkg
+
+replace github.com/manaaan/ekolivs-oms/backend/specs => ../../specs
 
 require (
 	cloud.google.com/go/firestore v1.18.0
+	github.com/manaaan/ekolivs-oms/backend/pkg v0.0.0-00010101000000-000000000000
+	github.com/manaaan/ekolivs-oms/backend/specs v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.72.0
 	google.golang.org/protobuf v1.36.6
 )
@@ -20,6 +26,7 @@ require (
 	github.com/google/s2a-go v0.1.8 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.4 // indirect
 	github.com/googleapis/gax-go/v2 v2.14.0 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.54.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.54.0 // indirect

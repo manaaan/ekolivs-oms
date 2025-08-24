@@ -5,8 +5,7 @@ use ./jobs/sync_products
 use (
 	./services/order
 	./services/product
+	./services/demand
+	./pkg
+	./specs
 )
-
-use ./pkg
-
-use services/demand

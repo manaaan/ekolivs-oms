@@ -1,12 +1,13 @@
 package demand
 
 import (
-	"cloud.google.com/go/firestore"
 	"context"
-	"github.com/manaaan/ekolivs-oms/demand/api"
-	"github.com/manaaan/ekolivs-oms/pkg/demand_position_store"
-	"github.com/manaaan/ekolivs-oms/pkg/demand_store"
 	"log/slog"
+
+	"cloud.google.com/go/firestore"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/demand_position_store"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/demand_store"
+	"github.com/manaaan/ekolivs-oms/backend/specs/demand_api"
 )
 
 type Service struct {
@@ -27,16 +28,16 @@ func New(firestoreClient *firestore.Client) *Service {
 	}
 }
 
-func (s Service) GetDemands(ctx context.Context) ([]*api.Demand, error) {
-	demands, err := s.demandStore.GetDemands(ctx)
+func (s Service) GetDemands(ctx context.Context, req *demand_api.DemandsReq) ([]*demand_api.Demand, error) {
+	// TODO: Introduce concurrency to improve response times
+	demands, err := s.demandStore.GetDemands(ctx, req)
 	if err != nil {
 		slog.Error("failed to get demands from demand store", "error", err)
 		return nil, err
 	}
 
-	var positions []*api.Position
 	for _, demand := range demands {
-		positions, err = s.positionStore.GetPositions(ctx, demand)
+		positions, err := s.positionStore.GetPositions(ctx, demand)
 		if err != nil {
 			slog.Error("failed to get positions from position store", "error", err)
 			return nil, err
@@ -48,7 +49,7 @@ func (s Service) GetDemands(ctx context.Context) ([]*api.Demand, error) {
 	return demands, nil
 }
 
-func (s Service) CreateOrUpdateDemand(ctx context.Context, data *api.Demand) (*api.Demand, error) {
+func (s Service) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Demand) (*demand_api.Demand, error) {
 	err := s.firestoreClient.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
 		demand, err := s.demandStore.CreateOrUpdateDemandWithTx(tx, data)
 		if err != nil {
@@ -75,11 +76,13 @@ func (s Service) CreateOrUpdateDemand(ctx context.Context, data *api.Demand) (*a
 }
 
 // TODO: Add DeleteDemandPosition, add UpdateDemandPosition
+// NOTE: Not exposed yet, as we don't fully delete the Demand with Positions
 func (s Service) DeleteDemand(ctx context.Context, id string) error {
-	err := s.demandStore.DeleteDemand(ctx, id)
-	if err != nil {
-		slog.Error("failed to delete demand", "error", err)
-		return err
-	}
 	return nil
+	// err := s.demandStore.DeleteDemand(ctx, id)
+	// if err != nil {
+	// 	slog.Error("failed to delete demand", "error", err)
+	// 	return err
+	// }
+	// return nil
 }

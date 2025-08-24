@@ -1,13 +1,17 @@
 syntax = 'proto3';
 
-option  go_package = 'github.com/manaaan/ekolivs-oms/demand/api';
+option  go_package = 'github.com/manaaan/ekolivs-oms/backend/specs/demand_api';
 
 import "google/protobuf/empty.proto";
 
 service DemandService {
-  rpc GetDemands(google.protobuf.Empty) returns (DemandsRes) {}
+  rpc GetDemands(DemandsReq) returns (DemandsRes) {}
   rpc CreateDemand(CreateDemandReq) returns (Demand) {}
   rpc DeleteDemand(IdReq) returns (google.protobuf.Empty) {}
+}
+
+message DemandsReq {
+  optional string member = 1; // member identification, initially with an E-mail
 }
 
 message DemandsRes {
@@ -29,6 +33,7 @@ message Demand {
   Status status = 3;
   optional string fulfilledAt = 4;
   string createdAt = 5;
+  string member = 6; // member identification, initially with an E-mail
 }
 
 message Position {
