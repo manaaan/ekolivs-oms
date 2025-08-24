@@ -42,3 +42,10 @@ As we're using gRPC services, we need tools to test our endpoints.
 ### Frontend
 
 1. Install node and pnpm
+
+Start the frontend. In `frontend` run
+
+```bash
+pnpm # installs dependencies
+pnpm dev # starts dev server
+```

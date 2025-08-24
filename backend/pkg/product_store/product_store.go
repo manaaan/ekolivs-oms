@@ -2,6 +2,7 @@ package product_store
 
 import (
 	"context"
+	"errors"
 	"strings"
 
 	"cloud.google.com/go/firestore"
@@ -25,14 +26,14 @@ type StoreProduct struct {
 
 // TODO: add filters to query, which require firestore indexes
 func (s Store) GetProducts(ctx context.Context) ([]*StoreProduct, error) {
-	products := []*StoreProduct{}
+	var products []*StoreProduct
 	// TODO: Further sorting by price? Would require firestore indexes
 	// `Name` is uppercase as in firestore, as we can't define the firestore structure in our .proto specs
 	iter := s.FirestoreClient.Collection(collection).OrderBy("Name", firestore.Asc).Documents(ctx)
 	defer iter.Stop()
 	for {
 		dsnap, err := iter.Next()
-		if err == iterator.Done {
+		if errors.Is(err, iterator.Done) {
 			break
 		}
 		if err != nil {
