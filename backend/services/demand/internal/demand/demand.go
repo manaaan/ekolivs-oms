@@ -5,7 +5,7 @@ import (
 	"log/slog"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/backend/pkg/demand_position_store"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/demand_article_store"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/demand_store"
 	"github.com/manaaan/ekolivs-oms/backend/specs/demand_api"
 )
@@ -13,7 +13,7 @@ import (
 type Service struct {
 	firestoreClient *firestore.Client
 	demandStore     *demand_store.Store
-	positionStore   *demand_position_store.Store
+	articleStore    *demand_article_store.Store
 }
 
 func New(firestoreClient *firestore.Client) *Service {
@@ -22,7 +22,7 @@ func New(firestoreClient *firestore.Client) *Service {
 		demandStore: &demand_store.Store{
 			FirestoreClient: firestoreClient,
 		},
-		positionStore: &demand_position_store.Store{
+		articleStore: &demand_article_store.Store{
 			FirestoreClient: firestoreClient,
 		},
 	}
@@ -37,13 +37,13 @@ func (s Service) GetDemands(ctx context.Context, req *demand_api.DemandsReq) ([]
 	}
 
 	for _, demand := range demands {
-		positions, err := s.positionStore.GetPositions(ctx, demand)
+		articles, err := s.articleStore.GetArticles(ctx, demand)
 		if err != nil {
-			slog.Error("failed to get positions from position store", "error", err)
+			slog.Error("failed to get articles from article store", "error", err)
 			return nil, err
 		}
 
-		demand.Positions = positions
+		demand.Articles = articles
 	}
 
 	return demands, nil
@@ -57,10 +57,10 @@ func (s Service) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Dema
 			return err
 		}
 
-		for _, position := range data.Positions {
-			_, err := s.positionStore.CreateOrUpdatePositionWithTx(tx, demand.ID, position)
+		for _, article := range data.Articles {
+			_, err := s.articleStore.CreateOrUpdateDemandArticleWithTx(tx, demand.ID, article)
 			if err != nil {
-				slog.Error("failed to create or update position", "error", err)
+				slog.Error("failed to create or update article", "error", err)
 				return err
 			}
 		}
@@ -75,8 +75,8 @@ func (s Service) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Dema
 	return data, nil
 }
 
-// TODO: Add DeleteDemandPosition, add UpdateDemandPosition
-// NOTE: Not exposed yet, as we don't fully delete the Demand with Positions
+// TODO: Add DeleteDemandArticle, add UpdateDemandArticle
+// NOTE: Not exposed yet, as we don't fully delete the Demand with Articles
 func (s Service) DeleteDemand(ctx context.Context, id string) error {
 	return nil
 	// err := s.demandStore.DeleteDemand(ctx, id)

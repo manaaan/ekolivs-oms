@@ -65,12 +65,12 @@ func (s Store) CreateOrUpdateDemandWithTx(tx *firestore.Transaction, data *deman
 func prepToCreateOrUpdateDemand(firestoreClient *firestore.Client, data *demand_api.Demand) (*firestore.DocumentRef, *demand_api.Demand) {
 	if len(data.ID) == 0 {
 		data.ID = firestoreClient.Collection(Collection).NewDoc().ID
-		data.CreatedAt = time.Now().Format(time.RFC3339)
+		data.CreationDate = time.Now().Format(time.RFC3339)
 	}
 
-	// remove positions since they are created as a subcollection of demand
+	// remove articles since they are created as a subcollection of demand
 	myCopy := proto.Clone(data).(*demand_api.Demand)
-	myCopy.Positions = nil
+	myCopy.Articles = nil
 
 	dr := firestoreClient.Collection(Collection).Doc(myCopy.ID)
 	return dr, myCopy

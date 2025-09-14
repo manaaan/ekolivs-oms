@@ -26,12 +26,12 @@ func (s Server) GetDemands(ctx context.Context, req *demand_api.DemandsReq) (*de
 }
 
 func (s Server) CreateDemand(ctx context.Context, req *demand_api.CreateDemandReq) (*demand_api.Demand, error) {
-	if req == nil || req.Positions == nil || len(req.Positions) == 0 {
+	if req == nil || req.Articles == nil || len(req.Articles) == 0 {
 		return nil, nil
 	}
 
 	data := &demand_api.Demand{
-		Positions: req.Positions,
+		Articles: req.Articles,
 	}
 
 	d, err := s.DemandService.CreateOrUpdateDemand(ctx, data)

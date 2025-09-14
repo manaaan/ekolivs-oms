@@ -19,7 +19,7 @@ message DemandsRes {
 }
 
 message CreateDemandReq {
-  repeated Position positions = 1;
+  repeated Article articles = 1;
 }
 
 message IdReq {
@@ -28,19 +28,22 @@ message IdReq {
 
 message Demand {
   string ID = 1;
-  // @gotags: firestore:"positions,omitempty"
-  repeated Position positions = 2;
-  Status status = 3;
-  optional string fulfilledAt = 4;
-  string createdAt = 5;
-  string member = 6; // member identification, initially with an E-mail
+  // @gotags: firestore:"articles,omitempty"
+  repeated Article articles = 2;
+  string creationDate = 3;
+  optional string fulfilmentDate = 4;
+  string member = 5; // member identification, initially with an E-mail
 }
 
-message Position {
+message Article {
   string ID = 1;
-  string productId = 2;
-  int32 amount = 3;
-  int32 position = 4;
+  string demandID = 2;
+  string productId = 3;
+  int32 amount = 4;
+  int32 position = 5; // for sorting of the demand
+  Status status = 6;
+  optional string fulfilmentDate = 7;
+  string creationDate = 8;
 }
 
 enum Status {
