@@ -6,12 +6,14 @@ import "google/protobuf/empty.proto";
 
 service DemandService {
   rpc GetDemands(DemandsReq) returns (DemandsRes) {}
+  rpc GetDemand(IdReq) returns (Demand) {}
   rpc CreateDemand(CreateDemandReq) returns (Demand) {}
   rpc DeleteDemand(IdReq) returns (google.protobuf.Empty) {}
 }
 
 message DemandsReq {
-  optional string member = 1; // member identification, initially with an E-mail
+  optional string member = 1; // member identification, initially with an E-mail`
+  optional bool extendItems = 2;
 }
 
 message DemandsRes {

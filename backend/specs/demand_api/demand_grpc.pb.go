@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	DemandService_GetDemands_FullMethodName   = "/DemandService/GetDemands"
+	DemandService_GetDemand_FullMethodName    = "/DemandService/GetDemand"
 	DemandService_CreateDemand_FullMethodName = "/DemandService/CreateDemand"
 	DemandService_DeleteDemand_FullMethodName = "/DemandService/DeleteDemand"
 )
@@ -30,6 +31,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DemandServiceClient interface {
 	GetDemands(ctx context.Context, in *DemandsReq, opts ...grpc.CallOption) (*DemandsRes, error)
+	GetDemand(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Demand, error)
 	CreateDemand(ctx context.Context, in *CreateDemandReq, opts ...grpc.CallOption) (*Demand, error)
 	DeleteDemand(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -46,6 +48,16 @@ func (c *demandServiceClient) GetDemands(ctx context.Context, in *DemandsReq, op
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DemandsRes)
 	err := c.cc.Invoke(ctx, DemandService_GetDemands_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *demandServiceClient) GetDemand(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Demand, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Demand)
+	err := c.cc.Invoke(ctx, DemandService_GetDemand_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,6 +89,7 @@ func (c *demandServiceClient) DeleteDemand(ctx context.Context, in *IdReq, opts 
 // for forward compatibility.
 type DemandServiceServer interface {
 	GetDemands(context.Context, *DemandsReq) (*DemandsRes, error)
+	GetDemand(context.Context, *IdReq) (*Demand, error)
 	CreateDemand(context.Context, *CreateDemandReq) (*Demand, error)
 	DeleteDemand(context.Context, *IdReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedDemandServiceServer()
@@ -91,6 +104,9 @@ type UnimplementedDemandServiceServer struct{}
 
 func (UnimplementedDemandServiceServer) GetDemands(context.Context, *DemandsReq) (*DemandsRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDemands not implemented")
+}
+func (UnimplementedDemandServiceServer) GetDemand(context.Context, *IdReq) (*Demand, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDemand not implemented")
 }
 func (UnimplementedDemandServiceServer) CreateDemand(context.Context, *CreateDemandReq) (*Demand, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateDemand not implemented")
@@ -133,6 +149,24 @@ func _DemandService_GetDemands_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DemandServiceServer).GetDemands(ctx, req.(*DemandsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DemandService_GetDemand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DemandServiceServer).GetDemand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DemandService_GetDemand_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DemandServiceServer).GetDemand(ctx, req.(*IdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -183,6 +217,10 @@ var DemandService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDemands",
 			Handler:    _DemandService_GetDemands_Handler,
+		},
+		{
+			MethodName: "GetDemand",
+			Handler:    _DemandService_GetDemand_Handler,
 		},
 		{
 			MethodName: "CreateDemand",
