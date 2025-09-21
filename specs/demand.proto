@@ -19,7 +19,7 @@ message DemandsRes {
 }
 
 message CreateDemandReq {
-  repeated Article articles = 1;
+  repeated Item items = 1;
 }
 
 message IdReq {
@@ -28,14 +28,14 @@ message IdReq {
 
 message Demand {
   string ID = 1;
-  // @gotags: firestore:"articles,omitempty"
-  repeated Article articles = 2;
+  // @gotags: firestore:"items,omitempty"
+  repeated Item items = 2;
   string creationDate = 3;
   optional string fulfilmentDate = 4;
   string member = 5; // member identification, initially with an E-mail
 }
 
-message Article {
+message Item {
   string ID = 1;
   string demandID = 2;
   string productId = 3;

@@ -68,9 +68,10 @@ func prepToCreateOrUpdateDemand(firestoreClient *firestore.Client, data *demand_
 		data.CreationDate = time.Now().Format(time.RFC3339)
 	}
 
-	// remove articles since they are created as a subcollection of demand
+	// remove items from demand object (JSON) since they are created as a subcollection of demand
+	// and should not be stored twice in firestore
 	myCopy := proto.Clone(data).(*demand_api.Demand)
-	myCopy.Articles = nil
+	myCopy.Items = nil
 
 	dr := firestoreClient.Collection(Collection).Doc(myCopy.ID)
 	return dr, myCopy
