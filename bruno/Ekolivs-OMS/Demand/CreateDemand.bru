@@ -1,0 +1,33 @@
+meta {
+  name: CreateDemand
+  type: grpc
+  seq: 3
+}
+
+grpc {
+  url: grpc://localhost:8082
+  method: /DemandService/CreateDemand
+  body: grpc
+  protoPath: ../../specs/demand.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "items": [
+        {
+          "productId": "671eaad4-bba9-11ee-bda5-85260a5ec403",
+          "amount": 1
+        },
+        {
+          "productId": "f2985561-2ed7-11ee-9091-69ea2505a3a4",
+          "amount": 3
+        }
+      ],
+      "member": "test@ekolivs.se"
+    }
+  '''
+}

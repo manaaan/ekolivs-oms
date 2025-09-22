@@ -1,0 +1,23 @@
+meta {
+  name: GetProductByID
+  type: grpc
+  seq: 2
+}
+
+grpc {
+  url: http://localhost:8080
+  method: /ProductService/GetProductByID
+  body: grpc
+  protoPath: ../../specs/product.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "ID": "d59129f1-2f00-11ee-bd92-67357ec59249"
+    }
+  '''
+}

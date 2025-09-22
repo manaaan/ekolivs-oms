@@ -21,8 +21,8 @@ Ekolivs order management system
 
 As we're using gRPC services, we need tools to test our endpoints.
 
-1. Postman
-   Support for gRPC requests by importing the proto specs. Can be challenging to get in updates on the gRPC requests.
+1. Bruno: https://docs.usebruno.com/send-requests/grpc/overview
+   Bruno enabled gRPC calls on beta (Sep 2025), which allows us to share the requests directly in Git.
 2. gRPCurl: https://github.com/fullstorydev/grpcurl
    curl-like CLI to run against gRPC services.
 
@@ -37,8 +37,17 @@ As we're using gRPC services, we need tools to test our endpoints.
     ```
     grpcui -proto ./specs/product.proto -plaintext localhost:8080
     ```
+3. Postman
+   Support for gRPC requests by importing the proto specs. Can be challenging to get in updates on the gRPC requests.
 
 
 ### Frontend
 
 1. Install node and pnpm
+
+Start the frontend. In `frontend` run
+
+```bash
+pnpm # installs dependencies
+pnpm dev # starts dev server
+```
