@@ -13,12 +13,7 @@ run: setgcpenv ## Run demand service with go directly
 	go run ./cmd/main.go
 
 protogen: ## Generate go code from protobuf specifications
-	protoc --proto_path=../../../specs \
-		--go_out=api --go_opt=paths=source_relative \
-		--go-grpc_out=api --go-grpc_opt=paths=source_relative \
-		demand.proto
-	# Inject custom tags
-	protoc-go-inject-tag -input=api/demand.pb.go
+	cd ../../specs && make demand-protogen
 
 #######
 # GCP #

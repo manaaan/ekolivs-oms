@@ -1,0 +1,23 @@
+meta {
+  name: DeleteDemand
+  type: grpc
+  seq: 4
+}
+
+grpc {
+  url: grpc://localhost:8082
+  method: /DemandService/DeleteDemand
+  body: grpc
+  protoPath: ../../specs/demand.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "id": "bosma0s5r7943zku5DsR"
+    }
+  '''
+}

@@ -125,8 +125,8 @@ func (s Store) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Demand
 			return err
 		}
 
-		for _, item := range data.Items {
-			_, err := s.ItemsStore.CreateOrUpdateDemandItemWithTx(tx, data.ID, item)
+		for position, item := range data.Items {
+			_, err := s.ItemsStore.CreateOrUpdateDemandItemWithTx(tx, data.ID, item, position+1)
 			if err != nil {
 				log.Error("failed to create or update item", "error", err)
 				return err

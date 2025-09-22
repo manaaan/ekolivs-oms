@@ -3,6 +3,7 @@ package demand_store
 import (
 	"context"
 	"errors"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/manaaan/ekolivs-oms/backend/specs/demand_api"
@@ -38,8 +39,8 @@ func (s ItemStore) GetItems(ctx context.Context, demand *demand_api.Demand) ([]*
 	return items, nil
 }
 
-func (s ItemStore) CreateOrUpdateDemandItem(ctx context.Context, demand *demand_api.Demand, item *demand_api.Item) (*demand_api.Item, error) {
-	dr := prepToCreateOrUpdateDemandItem(s.FirestoreClient, demand.ID, item)
+func (s ItemStore) CreateOrUpdateDemandItem(ctx context.Context, demand *demand_api.Demand, item *demand_api.Item, position int) (*demand_api.Item, error) {
+	dr := prepToCreateOrUpdateDemandItem(s.FirestoreClient, demand.ID, item, position)
 	if _, err := dr.Set(ctx, item); err != nil {
 		return nil, err
 	}
@@ -47,8 +48,8 @@ func (s ItemStore) CreateOrUpdateDemandItem(ctx context.Context, demand *demand_
 	return item, nil
 }
 
-func (s ItemStore) CreateOrUpdateDemandItemWithTx(tx *firestore.Transaction, demandId string, item *demand_api.Item) (*demand_api.Item, error) {
-	dr := prepToCreateOrUpdateDemandItem(s.FirestoreClient, demandId, item)
+func (s ItemStore) CreateOrUpdateDemandItemWithTx(tx *firestore.Transaction, demandId string, item *demand_api.Item, position int) (*demand_api.Item, error) {
+	dr := prepToCreateOrUpdateDemandItem(s.FirestoreClient, demandId, item, position)
 	if err := tx.Set(dr, item); err != nil {
 		return nil, err
 	}
@@ -56,9 +57,13 @@ func (s ItemStore) CreateOrUpdateDemandItemWithTx(tx *firestore.Transaction, dem
 	return item, nil
 }
 
-func prepToCreateOrUpdateDemandItem(firestoreClient *firestore.Client, demandId string, item *demand_api.Item) *firestore.DocumentRef {
+func prepToCreateOrUpdateDemandItem(firestoreClient *firestore.Client, demandId string, item *demand_api.Item, position int) *firestore.DocumentRef {
 	if len(item.ID) == 0 {
 		item.ID = firestoreClient.Collection(Collection).Doc(demandId).Collection(ItemCollection).NewDoc().ID
+		item.CreationDate = time.Now().Format(time.RFC3339)
+		item.DemandID = demandId
+		item.Status = demand_api.Status_RECEIVED
+		item.Position = int32(position)
 	}
 
 	dr := firestoreClient.Collection(Collection).Doc(demandId).Collection(ItemCollection).Doc(item.ID)
