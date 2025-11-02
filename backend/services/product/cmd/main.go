@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -15,8 +16,20 @@ import (
 	"google.golang.org/grpc"
 )
 
+var filename = ".env"
+
+func init() {
+	flag.StringVar(&filename, "f", ".env", "Requires the absolute path of the filename slash the filename. Example: /absolute_path/filename")
+}
+
 func main() {
-	env.LoadEnv()
+	flag.Parse()
+
+	if filename != ".env" {
+		env.LoadEnvFromAbsolutePath(filename)
+	} else {
+		env.LoadEnv()
+	}
 	firestoreClient := gcp.InitFirestore()
 	productService, err := product.New(firestoreClient)
 	if err != nil {
