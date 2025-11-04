@@ -24,12 +24,8 @@ func init() {
 
 func main() {
 	flag.Parse()
+	env.LoadEnv(filename)
 
-	if filename != ".env" {
-		env.LoadEnvFromAbsolutePath(filename)
-	} else {
-		env.LoadEnv()
-	}
 	firestoreClient := gcp.InitFirestore()
 	productService, err := product.New(firestoreClient)
 	if err != nil {
