@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"log"
 	"log/slog"
 
@@ -10,9 +11,16 @@ import (
 	"github.com/manaaan/ekolivs-oms/backend/pkg/gcp"
 )
 
+var fileName = ".env"
+
+func init() {
+	flag.StringVar(&fileName, "f", ".env", "Requires the absolute path of the filename slash the fileName. Example: /absolute_path/fileName")
+}
+
 func main() {
+	flag.Parse()
+	env.LoadEnv(fileName)
 	slog.Info("Received request to sync_products")
-	env.LoadEnv()
 	firestoreClient := gcp.InitFirestore()
 
 	productService := product.Init(firestoreClient)
