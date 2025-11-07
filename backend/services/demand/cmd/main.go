@@ -16,15 +16,15 @@ import (
 	"github.com/manaaan/ekolivs-oms/backend/services/demand/internal/server"
 )
 
-var filename = ".env"
+var fileName = ".env"
 
 func init() {
-	flag.StringVar(&filename, "f", ".env", "Requires the absolute path of the filename slash the filename. Example: /absolute_path/filename")
+	flag.StringVar(&fileName, "f", ".env", "Requires the absolute path of the filename slash the filename. Example: /absolute_path/filename")
 }
 
 func main() {
 	flag.Parse()
-	env.LoadEnv(filename)
+	env.LoadEnv(fileName)
 
 	firestoreClient := gcp.InitFirestore()
 	demandService := demand.New(firestoreClient)
