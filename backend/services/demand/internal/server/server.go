@@ -68,7 +68,6 @@ func (s Server) DeleteDemand(ctx context.Context, id *demand_api.IdReq) (*emptyp
 	err := s.DemandService.DeleteDemand(ctx, id.Id)
 	if err != nil {
 		log.Error("failed to delete demand", "error", err)
-		return nil, err
 	}
-	return nil, nil
+	return nil, err
 }
