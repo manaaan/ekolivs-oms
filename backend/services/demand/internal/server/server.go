@@ -44,7 +44,7 @@ func (s Server) CreateDemand(ctx context.Context, req *demand_api.CreateDemandRe
 	log, ctx := tlog.New(ctx)
 	if req == nil || req.Items == nil || len(req.Items) == 0 {
 		return nil, errkit.BuildGRPCStatusErr(ctx, &errkit.ErrBadRequest{Err: errors.New("missing required input: items")})
-	} else if len(req.Member) == 0 {
+	} else if req.Member == "" {
 		log.Info(req.Member)
 		return nil, errkit.BuildGRPCStatusErr(ctx, &errkit.ErrBadRequest{Err: errors.New("missing required input: member")})
 	}
