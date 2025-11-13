@@ -1,0 +1,59 @@
+syntax = 'proto3';
+
+option  go_package = 'github.com/manaaan/ekolivs-oms/backend/specs/demand_api';
+
+import "google/protobuf/empty.proto";
+
+service DemandService {
+  rpc GetDemands(DemandsReq) returns (DemandsRes) {}
+  rpc GetDemand(IdReq) returns (Demand) {}
+  rpc CreateDemand(CreateDemandReq) returns (Demand) {}
+  rpc DeleteDemand(IdReq) returns (google.protobuf.Empty) {}
+}
+
+message DemandsReq {
+  optional string member = 1; // member identification, initially with an E-mail`
+  optional bool extendItems = 2;
+}
+
+message DemandsRes {
+  repeated Demand demands = 1;
+}
+
+message CreateDemandReq {
+  repeated Item items = 1;
+  string member = 2; // member identification, initially with an E-mail - TODO: should be infered from auth system later
+}
+
+message IdReq {
+  string id = 1;
+}
+
+message Demand {
+  string ID = 1;
+  // @gotags: firestore:"items,omitempty"
+  repeated Item items = 2;
+  string creationDate = 3;
+  optional string fulfilmentDate = 4;
+  string member = 5; // member identification, initially with an E-mail
+}
+
+message Item {
+  string ID = 1;
+  string demandID = 2;
+  string productId = 3;
+  int32 amount = 4;
+  int32 position = 5; // for sorting of the demand
+  Status status = 6;
+  optional string fulfilmentDate = 7;
+  string creationDate = 8;
+}
+
+enum Status {
+  RECEIVED = 0;
+  ACCEPTED = 1;
+  REJECTED = 2;
+  IN_PROGRESS = 3;
+  FULFILLED = 4; // The order contained the demand, so it has been fulfilled and can be collected.
+  CONCLUDED = 5; // The member has collected the order.
+}

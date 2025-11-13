@@ -1,0 +1,21 @@
+meta {
+  name: GetProducts
+  type: grpc
+  seq: 3
+}
+
+grpc {
+  url: http://localhost:8080
+  method: /ProductService/GetProducts
+  body: grpc
+  protoPath: ../../specs/product.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {}
+  '''
+}
