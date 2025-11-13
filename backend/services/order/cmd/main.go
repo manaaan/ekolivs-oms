@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -15,8 +16,16 @@ import (
 	"google.golang.org/grpc"
 )
 
+var fileName = ".env"
+
+func init() {
+	flag.StringVar(&fileName, "f", ".env", "Requires the absolute path of the filename slash the filename. Example: /absolute_path/filename")
+}
+
 func main() {
-	env.LoadEnv()
+	flag.Parse()
+	env.LoadEnv(fileName)
+
 	firestoreClient := gcp.InitFirestore()
 	orderService := order.New(firestoreClient)
 
@@ -24,6 +33,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to convert port to number: %v", err)
 	}
+
+	//nolint
+	// deactivate the linting of the below
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

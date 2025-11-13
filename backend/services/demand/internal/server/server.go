@@ -33,18 +33,18 @@ func (s Server) GetDemand(ctx context.Context, idReq *demand_api.IdReq) (*demand
 		return nil, errkit.BuildGRPCStatusErr(ctx, &errkit.ErrBadRequest{Err: errors.New("need ID to get demand")})
 	}
 	log, ctx := tlog.New(ctx)
-	demand, err := s.DemandService.GetDemand(ctx, idReq)
+	demandClient, err := s.DemandService.GetDemand(ctx, idReq)
 	if err != nil {
 		log.Error("unable to get demand", "error", err)
 	}
-	return demand, nil
+	return demandClient, nil
 }
 
 func (s Server) CreateDemand(ctx context.Context, req *demand_api.CreateDemandReq) (*demand_api.Demand, error) {
 	log, ctx := tlog.New(ctx)
 	if req == nil || req.Items == nil || len(req.Items) == 0 {
 		return nil, errkit.BuildGRPCStatusErr(ctx, &errkit.ErrBadRequest{Err: errors.New("missing required input: items")})
-	} else if len(req.Member) == 0 {
+	} else if req.Member == "" {
 		log.Info(req.Member)
 		return nil, errkit.BuildGRPCStatusErr(ctx, &errkit.ErrBadRequest{Err: errors.New("missing required input: member")})
 	}
@@ -68,7 +68,6 @@ func (s Server) DeleteDemand(ctx context.Context, id *demand_api.IdReq) (*emptyp
 	err := s.DemandService.DeleteDemand(ctx, id.Id)
 	if err != nil {
 		log.Error("failed to delete demand", "error", err)
-		return nil, err
 	}
-	return nil, nil
+	return nil, err
 }
