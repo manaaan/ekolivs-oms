@@ -52,8 +52,7 @@ func (s Service) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Dema
 	return demand, nil
 }
 
-// TODO: Add DeleteDemandItem, add UpdateDemandItem
-// NOTE: Not exposed yet, as we don't fully delete the Demand with Items
+//nolint:all
 func (s Service) DeleteDemand(ctx context.Context, id string) error {
 	return nil
 	// err := s.demandStore.DeleteDemand(ctx, id)

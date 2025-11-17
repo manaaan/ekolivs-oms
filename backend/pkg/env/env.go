@@ -16,8 +16,8 @@ func Required(e string) string {
 	return value
 }
 
-func LoadEnv() {
-	err := godotenv.Load(".env")
+func LoadEnv(fileName string) {
+	err := godotenv.Load(fileName)
 	if err != nil {
 		// If injected on runtime, this is not an issue
 		log.Println("Unable to load .env file")
