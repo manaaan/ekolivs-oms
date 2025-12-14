@@ -8,7 +8,7 @@
   ],
   "size": 0,
   "filesCount": 0,
-  "grpc": {
+  "protobuf": {
     "protoFiles": [
       {
         "path": "../../specs/demand.proto",

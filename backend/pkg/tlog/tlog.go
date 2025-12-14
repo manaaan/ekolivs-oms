@@ -22,6 +22,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog/traceparent"
 	"google.golang.org/grpc/metadata"
@@ -57,8 +58,23 @@ func New(ctx context.Context) (*slog.Logger, context.Context) {
 		traceParent, _ = traceparent.TraceParentFromContext(ctx)
 	}
 
+	lvl, ok := os.LookupEnv("LOG_LEVEL")
+	var logLevel slog.Level
+	if ok {
+		switch strings.ToUpper(lvl) {
+		case "DEBUG":
+			logLevel = slog.LevelDebug
+		case "WARN":
+			logLevel = slog.LevelWarn
+		case "ERROR":
+			logLevel = slog.LevelError
+		default:
+			logLevel = slog.LevelInfo
+		}
+	}
 	log := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		AddSource: true,
+		Level:     logLevel,
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 			if a.Key == slog.LevelKey {
 				// Rename the level key from "level" to "severity", to have GCP interpret it correctly

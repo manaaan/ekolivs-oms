@@ -10,13 +10,10 @@ help: ## list all the Makefile commands
 # general #
 ###########
 run: setgcpenv ## Run product service with go directly
-	go run ./cmd/main.go
+	LOG_LEVEL=DEBUG go run ./cmd/main.go
 
 protogen: ## Generate go code from protobuf specifications
-	protoc --proto_path=../../../specs \
-		--go_out=api --go_opt=paths=source_relative \
-		--go-grpc_out=api --go-grpc_opt=paths=source_relative \
-		product.proto
+	cd ../../specs && make demand-protogen
 
 #######
 # GCP #

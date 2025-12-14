@@ -10,7 +10,7 @@ help: ## list all the Makefile commands
 # general #
 ###########
 run: setgcpenv ## Run product service with go directly
-	go run ./cmd/main.go
+	LOG_LEVEL=DEBUG go run ./cmd/main.go
 
 build: ## Build image with docker
 	docker build . -f ./jobs/sync_products/Dockerfile -t sync-product
