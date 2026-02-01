@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/manaaan/ekolivs-oms/product/api";
+option go_package = "github.com/manaaan/ekolivs-oms/product/product_api";
 
 import "google/protobuf/empty.proto";
 

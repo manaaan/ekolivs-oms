@@ -9,9 +9,9 @@ import (
 
 	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/gcp"
-	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
 	"github.com/manaaan/ekolivs-oms/backend/services/product/internal/product"
 	"github.com/manaaan/ekolivs-oms/backend/services/product/internal/server"
+	"github.com/manaaan/ekolivs-oms/backend/specs/product_api"
 
 	"google.golang.org/grpc"
 )
@@ -47,7 +47,7 @@ func main() {
 
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)
-	api.RegisterProductServiceServer(grpcServer, server.Server{
+	product_api.RegisterProductServiceServer(grpcServer, server.Server{
 		ProductService: productService,
 	})
 	fmt.Printf("product service listening on %d\n", port)

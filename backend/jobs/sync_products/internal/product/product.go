@@ -11,7 +11,7 @@ import (
 	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/product_store"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/zettle"
-	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
+	"github.com/manaaan/ekolivs-oms/backend/specs/product_api"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -68,7 +68,7 @@ func (s Service) SyncProducts(ctx context.Context) error {
 				}
 
 				product := &product_store.StoreProduct{
-					Product: api.Product{
+					Product: product_api.Product{
 						ID:            variant.Uuid.String(),
 						Name:          buildProductName(zettleProduct, variant),
 						Sku:           variant.Sku,
@@ -77,7 +77,7 @@ func (s Service) SyncProducts(ctx context.Context) error {
 						CostPrice:     convertToPrice(variant.CostPrice),
 						ImageUrl:      imageUrl,
 						VatPercentage: zettleProduct.VatPercentage,
-						Status:        api.Status_ACTIVE,
+						Status:        product_api.Status_ACTIVE,
 						UnitType:      convertToUnitType(zettleProduct.UnitName),
 						CreatedAt:     zettleProduct.Created,
 						UpdatedAt:     zettleProduct.Updated,
@@ -104,35 +104,35 @@ func (s Service) SyncProducts(ctx context.Context) error {
 	return nil
 }
 
-func convertToPrice(zettlePrice *zettle.Price) *api.Price {
+func convertToPrice(zettlePrice *zettle.Price) *product_api.Price {
 	if zettlePrice == nil {
 		return nil
 	}
 
-	return &api.Price{
+	return &product_api.Price{
 		Amount:     zettlePrice.Amount,
 		CurrencyID: string(zettlePrice.CurrencyId),
 	}
 }
 
-func convertToUnitType(unitName *string) api.UnitType {
+func convertToUnitType(unitName *string) product_api.UnitType {
 	if unitName == nil {
-		return api.UnitType_PIECES
+		return product_api.UnitType_PIECES
 	}
 
 	switch strings.ToLower(*unitName) {
 	case "st":
-		return api.UnitType_PIECES
+		return product_api.UnitType_PIECES
 	case "g":
-		return api.UnitType_GRAMS
+		return product_api.UnitType_GRAMS
 	case "kg":
-		return api.UnitType_KILOGRAMS
+		return product_api.UnitType_KILOGRAMS
 	case "ml":
-		return api.UnitType_MILLILITER
+		return product_api.UnitType_MILLILITER
 	case "l":
-		return api.UnitType_LITER
+		return product_api.UnitType_LITER
 	default:
-		return api.UnitType_PIECES
+		return product_api.UnitType_PIECES
 	}
 }
 

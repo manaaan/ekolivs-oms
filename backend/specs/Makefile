@@ -10,10 +10,21 @@ help: ## list all the Makefile commands
 # generate #
 ############
 
+all-protogen: demand-protogen product-protogen ## Generate go code for all specs from protobuf specifications
+
 demand-protogen: ## Generate go code for demand specs from protobuf specifications
-	protoc --proto_path=../../specs \
+	@protoc --proto_path=../../specs \
 		--go_out=demand_api --go_opt=paths=source_relative \
 		--go-grpc_out=demand_api --go-grpc_opt=paths=source_relative \
 		demand.proto
-	# Inject custom tags
-	protoc-go-inject-tag -input=demand_api/demand.pb.go
+	@# Inject custom tags
+	@protoc-go-inject-tag -input=demand_api/demand.pb.go
+	@echo "Generated protogen for demand_api"
+
+product-protogen: ## Generate go code for product specs from protobuf specifications
+	@protoc --proto_path=../../specs \
+		--go_out=product_api --go_opt=paths=source_relative \
+		--go-grpc_out=product_api --go-grpc_opt=paths=source_relative \
+		product.proto
+	@protoc-go-inject-tag -input=product_api/product.pb.go
+	@echo "Generated protogen for product_api"

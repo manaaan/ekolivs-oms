@@ -56,7 +56,7 @@ $(TARGET): rund setgcpenv
 	
 
 protogen: ## Generate go code from protobuf specifications
-	cd ../../specs && make demand-protogen
+	cd ../specs && make all-protogen
 
 #######
 # GCP #

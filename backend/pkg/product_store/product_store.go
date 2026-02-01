@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
+	"github.com/manaaan/ekolivs-oms/backend/specs/product_api"
 	"google.golang.org/api/iterator"
 )
 
@@ -19,7 +19,7 @@ type Store struct {
 }
 
 type StoreProduct struct {
-	api.Product
+	product_api.Product
 	Supplier string `json:"supplier" firestore:"supplier,omitempty"`
 	Source   string `json:"source" firestore:"source,omitempty"`
 }

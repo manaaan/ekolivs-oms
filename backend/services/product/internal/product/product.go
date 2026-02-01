@@ -8,7 +8,7 @@ import (
 	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/product_store"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/zettle"
-	"github.com/manaaan/ekolivs-oms/backend/services/product/api"
+	"github.com/manaaan/ekolivs-oms/backend/specs/product_api"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -34,16 +34,16 @@ func New(firestoreClient *firestore.Client) (*Service, error) {
 	}, nil
 }
 
-func (s Service) GetProducts(ctx context.Context) ([]*api.Product, error) {
+func (s Service) GetProducts(ctx context.Context) ([]*product_api.Product, error) {
 	storeProducts, err := s.storeService.GetProducts(ctx)
 	if err != nil {
 		slog.Error("failed to get products from product store", "error", err)
 		return nil, err
 	}
 
-	products := []*api.Product{}
+	products := []*product_api.Product{}
 	for _, storeProduct := range storeProducts {
-		products = append(products, &api.Product{
+		products = append(products, &product_api.Product{
 			ID:            storeProduct.ID,
 			Name:          storeProduct.Name,
 			Sku:           storeProduct.Sku,
@@ -62,7 +62,7 @@ func (s Service) GetProducts(ctx context.Context) ([]*api.Product, error) {
 	return products, nil
 }
 
-func (s Service) GetProductByID(ctx context.Context, id string) (*api.Product, error) {
+func (s Service) GetProductByID(ctx context.Context, id string) (*product_api.Product, error) {
 	storeProduct, err := s.storeService.GetProduct(ctx, id)
 	if err != nil {
 		slog.Error("failed to get products from product store", "error", err)
@@ -74,7 +74,7 @@ func (s Service) GetProductByID(ctx context.Context, id string) (*api.Product, e
 	return product, nil
 }
 
-func (s Service) UpdateProduct(ctx context.Context, product *api.Product) (*api.Product, error) {
+func (s Service) UpdateProduct(ctx context.Context, product *product_api.Product) (*product_api.Product, error) {
 	g, fetchCtx := errgroup.WithContext(ctx)
 
 	g.Go(func() error {
@@ -108,11 +108,11 @@ func (s Service) UpdateProduct(ctx context.Context, product *api.Product) (*api.
 	return product, nil
 }
 
-func mapStoreToAPIProduct(storeProduct *product_store.StoreProduct) *api.Product {
+func mapStoreToAPIProduct(storeProduct *product_store.StoreProduct) *product_api.Product {
 	if storeProduct == nil {
 		return nil
 	}
-	return &api.Product{
+	return &product_api.Product{
 		ID:            storeProduct.ID,
 		Name:          storeProduct.Name,
 		Sku:           storeProduct.Sku,
@@ -128,12 +128,12 @@ func mapStoreToAPIProduct(storeProduct *product_store.StoreProduct) *api.Product
 	}
 }
 
-func mapAPIToStoreProduct(product *api.Product) *product_store.StoreProduct {
+func mapAPIToStoreProduct(product *product_api.Product) *product_store.StoreProduct {
 	if product == nil {
 		return nil
 	}
 	return &product_store.StoreProduct{
-		Product: api.Product{
+		Product: product_api.Product{
 			ID:            product.ID,
 			Name:          product.Name,
 			Sku:           product.Sku,
@@ -147,7 +147,7 @@ func mapAPIToStoreProduct(product *api.Product) *product_store.StoreProduct {
 			CreatedAt:     product.CreatedAt,
 			UpdatedAt:     product.UpdatedAt,
 		},
-		// TODO: Should they not just be part of the api.Product proto specs?
+		// TODO: Should they not just be part of the product_api.Product proto specs?
 		Supplier: product_store.GetSupplierForProduct(product.Name),
 		Source:   "zettle", // TODO: hardcoded Zettle right now
 	}
