@@ -35,15 +35,15 @@ message Demand {
   repeated Item items = 2;
   string creationDate = 3;
   optional string fulfilmentDate = 4;
-  string member = 5; // member identification, initially with an E-mail
+  string member = 5; // member identification, initially with an E-mail.
 }
 
 message Item {
   string ID = 1;
   string demandID = 2;
   string productId = 3;
-  int32 amount = 4;
-  int32 position = 5; // for sorting of the demand
+  float amount = 4;
+  uint32 position = 5; // for sorting of the demand and position will never be a negative number.
   Status status = 6;
   optional string fulfilmentDate = 7;
   string creationDate = 8;
