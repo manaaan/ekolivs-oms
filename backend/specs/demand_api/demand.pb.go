@@ -279,7 +279,7 @@ type Demand struct {
 	Items          []*Item `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	CreationDate   string  `protobuf:"bytes,3,opt,name=creationDate,proto3" json:"creationDate,omitempty"`
 	FulfilmentDate *string `protobuf:"bytes,4,opt,name=fulfilmentDate,proto3,oneof" json:"fulfilmentDate,omitempty"`
-	Member         string  `protobuf:"bytes,5,opt,name=member,proto3" json:"member,omitempty"` // member identification, initially with an E-mail
+	Member         string  `protobuf:"bytes,5,opt,name=member,proto3" json:"member,omitempty"` // member identification, initially with an E-mail.
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -354,8 +354,8 @@ type Item struct {
 	ID             string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
 	DemandID       string                 `protobuf:"bytes,2,opt,name=demandID,proto3" json:"demandID,omitempty"`
 	ProductId      string                 `protobuf:"bytes,3,opt,name=productId,proto3" json:"productId,omitempty"`
-	Amount         int32                  `protobuf:"varint,4,opt,name=amount,proto3" json:"amount,omitempty"`
-	Position       int32                  `protobuf:"varint,5,opt,name=position,proto3" json:"position,omitempty"` // for sorting of the demand
+	Amount         float32                `protobuf:"fixed32,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	Position       uint32                 `protobuf:"varint,5,opt,name=position,proto3" json:"position,omitempty"` // for sorting of the demand and position will never be a negative number.
 	Status         Status                 `protobuf:"varint,6,opt,name=status,proto3,enum=Status" json:"status,omitempty"`
 	FulfilmentDate *string                `protobuf:"bytes,7,opt,name=fulfilmentDate,proto3,oneof" json:"fulfilmentDate,omitempty"`
 	CreationDate   string                 `protobuf:"bytes,8,opt,name=creationDate,proto3" json:"creationDate,omitempty"`
@@ -414,14 +414,14 @@ func (x *Item) GetProductId() string {
 	return ""
 }
 
-func (x *Item) GetAmount() int32 {
+func (x *Item) GetAmount() float32 {
 	if x != nil {
 		return x.Amount
 	}
 	return 0
 }
 
-func (x *Item) GetPosition() int32 {
+func (x *Item) GetPosition() uint32 {
 	if x != nil {
 		return x.Position
 	}
@@ -479,8 +479,8 @@ const file_demand_proto_rawDesc = "" +
 	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\x1a\n" +
 	"\bdemandID\x18\x02 \x01(\tR\bdemandID\x12\x1c\n" +
 	"\tproductId\x18\x03 \x01(\tR\tproductId\x12\x16\n" +
-	"\x06amount\x18\x04 \x01(\x05R\x06amount\x12\x1a\n" +
-	"\bposition\x18\x05 \x01(\x05R\bposition\x12\x1f\n" +
+	"\x06amount\x18\x04 \x01(\x02R\x06amount\x12\x1a\n" +
+	"\bposition\x18\x05 \x01(\rR\bposition\x12\x1f\n" +
 	"\x06status\x18\x06 \x01(\x0e2\a.StatusR\x06status\x12+\n" +
 	"\x0efulfilmentDate\x18\a \x01(\tH\x00R\x0efulfilmentDate\x88\x01\x01\x12\"\n" +
 	"\fcreationDate\x18\b \x01(\tR\fcreationDateB\x11\n" +

@@ -349,7 +349,7 @@ func (x *Product) GetUpdatedAt() string {
 type Price struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Response with last 2 digits as decimals
-	Amount int64 `protobuf:"varint,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount float32 `protobuf:"fixed32,1,opt,name=amount,proto3" json:"amount,omitempty"`
 	// Default "SEK"
 	CurrencyID    string `protobuf:"bytes,2,opt,name=currencyID,proto3" json:"currencyID,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -386,7 +386,7 @@ func (*Price) Descriptor() ([]byte, []int) {
 	return file_product_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *Price) GetAmount() int64 {
+func (x *Price) GetAmount() float32 {
 	if x != nil {
 		return x.Amount
 	}
@@ -433,7 +433,7 @@ const file_product_proto_rawDesc = "" +
 	"\n" +
 	"_updatedAt\"?\n" +
 	"\x05Price\x12\x16\n" +
-	"\x06amount\x18\x01 \x01(\x03R\x06amount\x12\x1e\n" +
+	"\x06amount\x18\x01 \x01(\x02R\x06amount\x12\x1e\n" +
 	"\n" +
 	"currencyID\x18\x02 \x01(\tR\n" +
 	"currencyID* \n" +
@@ -453,7 +453,7 @@ const file_product_proto_rawDesc = "" +
 	"\x0eProductService\x125\n" +
 	"\vGetProducts\x12\x16.google.protobuf.Empty\x1a\f.ProductsRes\"\x00\x12+\n" +
 	"\x0eGetProductByID\x12\r.ProductIDReq\x1a\b.Product\"\x00\x12%\n" +
-	"\rUpdateProduct\x12\b.Product\x1a\b.Product\"\x00B4Z2github.com/manaaan/ekolivs-oms/product/product_apib\x06proto3"
+	"\rUpdateProduct\x12\b.Product\x1a\b.Product\"\x00B:Z8github.com/manaaan/ekolivs-oms/backend/specs/product_apib\x06proto3"
 
 var (
 	file_product_proto_rawDescOnce sync.Once
