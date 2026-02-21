@@ -7,7 +7,7 @@ import type {
 import type {
   ProductServiceClient as _ProductServiceClient,
   ProductServiceDefinition as _ProductServiceDefinition,
-} from './ProductService'
+} from './product/ProductService'
 
 type SubtypeConstructor<
   Constructor extends new (...args: any) => any,

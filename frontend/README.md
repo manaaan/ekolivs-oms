@@ -10,8 +10,9 @@ To run it locally, do the following:
 
 1. install the pnpm by using [the official documentation](https://pnpm.io/installation)
 2. change directory to frontend `cd frontend`
-3. Execute once `pnpm` to install dependencies
+3. Execute once `pnpm install` to install dependencies
 4. Lastly, always run `pnpm dev` for dev environment
+5. On the login page: Select "Don't have an account? Sign up" to get into the application
 
 To run it in docker compose:
 
