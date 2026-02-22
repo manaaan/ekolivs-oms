@@ -4,18 +4,18 @@ import (
 	"context"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/backend/pkg/demand_store"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/demandstore"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog"
 	"github.com/manaaan/ekolivs-oms/backend/specs/demand_api"
 )
 
 type Service struct {
-	demandStore *demand_store.Store
+	demandStore *demandstore.Store
 }
 
 func New(firestoreClient *firestore.Client) *Service {
 	return &Service{
-		demandStore: demand_store.New(firestoreClient),
+		demandStore: demandstore.New(firestoreClient),
 	}
 }
 
