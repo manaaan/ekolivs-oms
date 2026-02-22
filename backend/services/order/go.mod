@@ -4,6 +4,8 @@ go 1.24.4
 
 replace github.com/manaaan/ekolivs-oms/backend/pkg => ../../pkg
 
+replace github.com/manaaan/ekolivs-oms/backend/specs => ../../specs
+
 require (
 	cloud.google.com/go/firestore v1.18.0
 	github.com/manaaan/ekolivs-oms/backend/pkg v0.0.0-00010101000000-000000000000
