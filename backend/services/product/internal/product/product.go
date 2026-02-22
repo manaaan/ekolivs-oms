@@ -6,7 +6,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
-	"github.com/manaaan/ekolivs-oms/backend/pkg/product_store"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/productstore"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/zettle"
 	"github.com/manaaan/ekolivs-oms/backend/specs/product_api"
 	"golang.org/x/sync/errgroup"
@@ -14,7 +14,7 @@ import (
 
 type Service struct {
 	zettleService *zettle.Service
-	storeService  *product_store.Store
+	storeService  *productstore.Store
 }
 
 func New(firestoreClient *firestore.Client) (*Service, error) {
@@ -28,7 +28,7 @@ func New(firestoreClient *firestore.Client) (*Service, error) {
 
 	return &Service{
 		zettleService: zettleService,
-		storeService: &product_store.Store{
+		storeService: &productstore.Store{
 			FirestoreClient: firestoreClient,
 		},
 	}, nil
@@ -108,7 +108,7 @@ func (s Service) UpdateProduct(ctx context.Context, product *product_api.Product
 	return product, nil
 }
 
-func mapStoreToAPIProduct(storeProduct *product_store.StoreProduct) *product_api.Product {
+func mapStoreToAPIProduct(storeProduct *productstore.StoreProduct) *product_api.Product {
 	if storeProduct == nil {
 		return nil
 	}
@@ -128,11 +128,11 @@ func mapStoreToAPIProduct(storeProduct *product_store.StoreProduct) *product_api
 	}
 }
 
-func mapAPIToStoreProduct(product *product_api.Product) *product_store.StoreProduct {
+func mapAPIToStoreProduct(product *product_api.Product) *productstore.StoreProduct {
 	if product == nil {
 		return nil
 	}
-	return &product_store.StoreProduct{
+	return &productstore.StoreProduct{
 		Product: product_api.Product{
 			ID:            product.ID,
 			Name:          product.Name,
@@ -147,8 +147,8 @@ func mapAPIToStoreProduct(product *product_api.Product) *product_store.StoreProd
 			CreatedAt:     product.CreatedAt,
 			UpdatedAt:     product.UpdatedAt,
 		},
-		// TODO: Should they not just be part of the product_api.Product proto specs?
-		Supplier: product_store.GetSupplierForProduct(product.Name),
+		// TODO: Should they not just be part of the api.Product proto specs?
+		Supplier: productstore.GetSupplierForProduct(product.Name),
 		Source:   "zettle", // TODO: hardcoded Zettle right now
 	}
 }

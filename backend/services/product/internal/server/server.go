@@ -43,7 +43,7 @@ func (s Server) UpdateProduct(ctx context.Context, prod *product_api.Product) (*
 func (s Server) GetProductByID(ctx context.Context, req *product_api.ProductIDReq) (*product_api.Product, error) {
 	log, ctx := tlog.New(ctx)
 	log.Debug("GetProductByID called", "req", req)
-	if len(req.GetID()) == 0 {
+	if req.GetID() == "" {
 		return nil, status.Error(codes.InvalidArgument, "invalid request, missing product ID")
 	}
 
