@@ -1,0 +1,21 @@
+meta {
+  name: GetOrders
+  type: grpc
+  seq: 1
+}
+
+grpc {
+  url: grpc://localhost:8081
+  method: /OrderService/GetOrders
+  body: grpc
+  protoPath: ../../specs/order.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {}
+  '''
+}
