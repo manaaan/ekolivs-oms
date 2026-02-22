@@ -4,18 +4,18 @@ import (
 	"context"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/backend/pkg/order_store"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/orderstore"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog"
-	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
+	"github.com/manaaan/ekolivs-oms/backend/specs/order_api"
 )
 
 type Service struct {
-	Store *order_store.Store
+	Store *orderstore.Store
 }
 
 func New(firestoreClient *firestore.Client) *Service {
 	return &Service{
-		Store: &order_store.Store{
+		Store: &orderstore.Store{
 			FirestoreClient: firestoreClient,
 		},
 	}
@@ -32,11 +32,11 @@ func (s Service) GetOrders(ctx context.Context, req *order_api.OrdersReq) ([]*or
 	return orders, nil
 }
 
-func (s Service) GetOrderByID(ctx context.Context, ID string) (*order_api.Order, error) {
+func (s Service) GetOrderByID(ctx context.Context, id string) (*order_api.Order, error) {
 	log, ctx := tlog.New(ctx)
-	order, err := s.Store.GetOrder(ctx, ID)
+	order, err := s.Store.GetOrder(ctx, id)
 	if err != nil {
-		log.Error("failed to get order from order store", "error", err, "orderID", ID)
+		log.Error("failed to get order from order store", "error", err, "orderID", id)
 		return nil, err
 	}
 

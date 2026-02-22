@@ -7,7 +7,7 @@ import (
 	"github.com/manaaan/ekolivs-oms/backend/pkg/errkit"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/tlog"
 	"github.com/manaaan/ekolivs-oms/backend/services/order/internal/order"
-	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
+	"github.com/manaaan/ekolivs-oms/backend/specs/order_api"
 )
 
 type Server struct {
@@ -17,29 +17,29 @@ type Server struct {
 
 func (s Server) CreateOrder(ctx context.Context, create *order_api.Order) (*order_api.Order, error) {
 	log, ctx := tlog.New(ctx)
-	order, err := s.OrderService.CreateOrder(ctx, create)
+	customerOrder, err := s.OrderService.CreateOrder(ctx, create)
 	if err != nil {
 		log.Error("failed to create order", "error", err)
 		return nil, err
 	}
 
-	return order, nil
+	return customerOrder, nil
 }
 
 func (s Server) GetOrderByID(ctx context.Context, req *order_api.OrderIDReq) (*order_api.Order, error) {
 	log, ctx := tlog.New(ctx)
-	if req == nil || len(req.ID) == 0 {
+	if req == nil || req.ID == "" {
 		err := &errkit.ErrBadRequest{Err: errors.New("missing order ID on request")}
 		log.Warn(err.Error(), "req", req)
 		return nil, err
 	}
-	order, err := s.OrderService.GetOrderByID(ctx, req.ID)
+	customerOrder, err := s.OrderService.GetOrderByID(ctx, req.ID)
 	if err != nil {
 		log.Error("failed to get order by ID", "error", err, "req", req)
 		return nil, err
 	}
 
-	return order, nil
+	return customerOrder, nil
 }
 
 func (s Server) GetOrders(ctx context.Context, req *order_api.OrdersReq) (*order_api.OrdersRes, error) {
