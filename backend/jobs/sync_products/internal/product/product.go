@@ -9,7 +9,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/env"
-	"github.com/manaaan/ekolivs-oms/backend/pkg/product_store"
+	"github.com/manaaan/ekolivs-oms/backend/pkg/productstore"
 	"github.com/manaaan/ekolivs-oms/backend/pkg/zettle"
 	"github.com/manaaan/ekolivs-oms/backend/specs/product_api"
 	"golang.org/x/sync/errgroup"
@@ -17,7 +17,7 @@ import (
 
 type Service struct {
 	zettleService *zettle.Service
-	storeService  *product_store.Store
+	storeService  *productstore.Store
 }
 
 // Initialization function for call in `main` pkg that panics on failure
@@ -41,7 +41,7 @@ func New(firestoreClient *firestore.Client) (*Service, error) {
 
 	return &Service{
 		zettleService: zettleService,
-		storeService: &product_store.Store{
+		storeService: &productstore.Store{
 			FirestoreClient: firestoreClient,
 		},
 	}, nil
@@ -62,12 +62,12 @@ func (s Service) SyncProducts(ctx context.Context) error {
 				continue
 			}
 			g.Go(func() error {
-				var imageUrl *string
+				var imageURL *string
 				if zettleProduct.Presentation != nil {
-					imageUrl = zettleProduct.Presentation.ImageUrl
+					imageURL = zettleProduct.Presentation.ImageUrl
 				}
 
-				product := &product_store.StoreProduct{
+				product := &productstore.StoreProduct{
 					Product: product_api.Product{
 						ID:            variant.Uuid.String(),
 						Name:          buildProductName(zettleProduct, variant),
@@ -75,14 +75,14 @@ func (s Service) SyncProducts(ctx context.Context) error {
 						Barcode:       variant.Barcode,
 						Price:         convertToPrice(variant.Price),
 						CostPrice:     convertToPrice(variant.CostPrice),
-						ImageUrl:      imageUrl,
+						ImageUrl:      imageURL,
 						VatPercentage: zettleProduct.VatPercentage,
 						Status:        product_api.Status_ACTIVE,
 						UnitType:      convertToUnitType(zettleProduct.UnitName),
 						CreatedAt:     zettleProduct.Created,
 						UpdatedAt:     zettleProduct.Updated,
 					},
-					Supplier: product_store.GetSupplierForProduct(zettleProduct.Name),
+					Supplier: productstore.GetSupplierForProduct(zettleProduct.Name),
 					Source:   "zettle",
 				}
 
@@ -110,7 +110,7 @@ func convertToPrice(zettlePrice *zettle.Price) *product_api.Price {
 	}
 
 	return &product_api.Price{
-		Amount:     zettlePrice.Amount,
+		Amount:     float32(zettlePrice.Amount),
 		CurrencyID: string(zettlePrice.CurrencyId),
 	}
 }
