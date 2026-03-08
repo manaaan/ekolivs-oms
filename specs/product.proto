@@ -15,11 +15,11 @@ message ProductsRes {
 }
 
 message ProductIDReq {
-  string ID = 1;
+  string id = 1;
 }
 
 message Product {
-  string ID = 1;
+  string id = 1;
   string name = 2;
   optional string sku = 3;
   optional string barcode = 4;
