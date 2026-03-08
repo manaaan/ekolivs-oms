@@ -13,9 +13,13 @@ import {
   BreadcrumbSeparator,
 } from '@components/ui/breadcrumb'
 import { SidebarTrigger } from '@components/ui/sidebar'
+import { getDemands } from '@/lib/services/demand'
 
 async function CreateDemandPage() {
   const products = await getProducts()
+  const demands = await getDemands()
+  // TODO: tested connection to demands service - move to overview page - tbd
+  console.log("demands", demands);
 
   return (
     <div className="flex-1 p-4">

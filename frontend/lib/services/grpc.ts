@@ -3,8 +3,10 @@ import * as protoLoader from '@grpc/proto-loader'
 import path from 'path'
 import 'server-only'
 
-import type { ProtoGrpcType } from '@/proto/service'
+import * as productProto from '@/proto/product/product'
+import * as demandProto from '@/proto/demand/demand'
 
+// Product gRPC
 const PRODUCT_PROTO_PATH = path.join(process.cwd(), '../specs/product.proto')
 
 const productDefinition = protoLoader.loadSync(PRODUCT_PROTO_PATH, {
@@ -16,12 +18,31 @@ const productDefinition = protoLoader.loadSync(PRODUCT_PROTO_PATH, {
 
 const productGrpc = grpc.loadPackageDefinition(
   productDefinition
-) as unknown as ProtoGrpcType
+) as unknown as productProto.ProtoGrpcType
 
-// Add more clients here
 const productClient = new productGrpc.ProductService(
   process.env.PRODUCT_SERVICE_HOST as string,
   grpc.credentials.createInsecure()
 )
 
-export { productClient }
+// Demand gRPC
+const DEMAND_PROTO_PATH = path.join(process.cwd(), '../specs/demand.proto')
+
+const demandDefinition = protoLoader.loadSync(DEMAND_PROTO_PATH, {
+  longs: String,
+  enums: String,
+  defaults: true,
+  oneofs: true,
+})
+
+const demandGrpc = grpc.loadPackageDefinition(
+  demandDefinition
+) as unknown as demandProto.ProtoGrpcType
+
+// Add more clients here
+const demandClient = new demandGrpc.DemandService(
+  process.env.DEMAND_SERVICE_HOST as string,
+  grpc.credentials.createInsecure()
+)
+
+export { productClient, demandClient }
