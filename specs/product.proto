@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/manaaan/ekolivs-oms/product/product_api";
+option go_package = 'github.com/manaaan/ekolivs-oms/backend/specs/product_api';
 
 import "google/protobuf/empty.proto";
 
@@ -37,7 +37,7 @@ message Product {
 
 message Price {
   // Response with last 2 digits as decimals
-  int64 amount = 1;
+  float amount = 1;
   // Default "SEK"
   string currencyID = 2;
 }

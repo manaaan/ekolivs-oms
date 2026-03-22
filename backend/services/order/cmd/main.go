@@ -11,8 +11,7 @@ import (
 	"github.com/manaaan/ekolivs-oms/backend/pkg/gcp"
 	"github.com/manaaan/ekolivs-oms/backend/services/order/internal/order"
 	"github.com/manaaan/ekolivs-oms/backend/services/order/internal/server"
-	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
-
+	"github.com/manaaan/ekolivs-oms/backend/specs/order_api"
 	"google.golang.org/grpc"
 )
 

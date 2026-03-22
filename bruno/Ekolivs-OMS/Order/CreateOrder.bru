@@ -1,0 +1,27 @@
+meta {
+  name: CreateOrder
+  type: grpc
+  seq: 3
+}
+
+grpc {
+  url: grpc://localhost:8081
+  method: /OrderService/GetOrders
+  body: grpc
+  protoPath: ../../specs/order.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "ID": "AKTelo5uQy4OGMjc4NPl",
+      "position": [],
+      "creationDate": "2026-02-11T13:20:13+02:00",
+      "status": "DRAFT",
+      "supplier": "t bröd"
+    }
+  '''
+}

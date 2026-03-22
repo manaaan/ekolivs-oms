@@ -1,4 +1,4 @@
-package demand_store
+package demandstore
 
 import (
 	"context"
@@ -118,7 +118,7 @@ func (s Store) getItems(ctx context.Context, demand *demand_api.Demand) ([]*dema
 
 func (s Store) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Demand) (*demand_api.Demand, error) {
 	log, ctx := tlog.New(ctx)
-	err := s.FirestoreClient.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
+	err := s.FirestoreClient.RunTransaction(ctx, func(_ context.Context, tx *firestore.Transaction) error {
 		dr, copyData := prepToCreateOrUpdateDemand(s.FirestoreClient, data)
 		if err := tx.Set(dr, copyData); err != nil {
 			log.Error("failed to create or update demand", "error", err)
@@ -126,7 +126,7 @@ func (s Store) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Demand
 		}
 
 		for position, item := range data.Items {
-			_, err := s.ItemsStore.CreateOrUpdateDemandItemWithTx(tx, data.ID, item, position+1)
+			_, err := s.ItemsStore.CreateOrUpdateDemandItemWithTx(tx, data.ID, item, uint32(position+1))
 			if err != nil {
 				log.Error("failed to create or update item", "error", err)
 				return err
@@ -135,7 +135,6 @@ func (s Store) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Demand
 
 		return nil
 	})
-
 	if err != nil {
 		return nil, err
 	}
@@ -144,15 +143,19 @@ func (s Store) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Demand
 }
 
 func prepToCreateOrUpdateDemand(firestoreClient *firestore.Client, data *demand_api.Demand) (*firestore.DocumentRef, *demand_api.Demand) {
-	if len(data.ID) == 0 {
+	if data.ID == "" {
 		data.ID = firestoreClient.Collection(Collection).NewDoc().ID
 		data.CreationDate = time.Now().Format(time.RFC3339)
 	}
 
 	// remove items from demand object (JSON) since they are created as a subcollection of demand
 	// and should not be stored twice in firestore
-	myCopy := proto.Clone(data).(*demand_api.Demand)
-	myCopy.Items = nil
+	myCopy, ok := proto.Clone(data).(*demand_api.Demand)
+
+	// what to do when the assertion fails
+	if ok {
+		myCopy.Items = nil
+	}
 
 	dr := firestoreClient.Collection(Collection).Doc(myCopy.ID)
 	return dr, myCopy

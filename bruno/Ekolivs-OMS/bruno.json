@@ -2,12 +2,9 @@
   "version": "1",
   "name": "Ekolivs-OMS",
   "type": "collection",
-  "ignore": [
-    "node_modules",
-    ".git"
-  ],
-  "size": 0,
-  "filesCount": 0,
+  "ignore": ["node_modules", ".git"],
+  "size": 0.002117156982421875,
+  "filesCount": 8,
   "protobuf": {
     "protoFiles": [
       {
@@ -17,7 +14,12 @@
       {
         "path": "../../specs/product.proto",
         "type": "file"
+      },
+      {
+        "path": "../../specs/order.proto",
+        "type": "file"
       }
     ]
   }
 }
+

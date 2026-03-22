@@ -1,4 +1,4 @@
-package order_store
+package orderstore
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
-	"github.com/manaaan/ekolivs-oms/backend/services/order/order_api"
+	"github.com/manaaan/ekolivs-oms/backend/specs/order_api"
 	"google.golang.org/api/iterator"
 )
 
@@ -50,9 +50,9 @@ func (s Store) GetOrder(ctx context.Context, id string) (*order_api.Order, error
 	return mapFirestoreSnapToProtoOrder(dsnap)
 }
 
-// Overwrites the order document in firestore completely
+// Overwrites the order document in firestore completely.
 func (s Store) CreateOrUpdateOrder(ctx context.Context, data *order_api.Order) (*order_api.Order, error) {
-	if len(data.ID) == 0 {
+	if data.ID == "" {
 		data.ID = s.FirestoreClient.Collection(collection).NewDoc().ID
 		data.CreationDate = time.Now().Format(time.RFC3339)
 	}
@@ -62,7 +62,7 @@ func (s Store) CreateOrUpdateOrder(ctx context.Context, data *order_api.Order) (
 	return data, nil
 }
 
-// Remove order document in firestore
+// Remove order document in firestore.
 func (s Store) DeleteOrder(ctx context.Context, id string) error {
 	if _, err := s.FirestoreClient.Collection(collection).Doc(id).Delete(ctx); err != nil {
 		return err

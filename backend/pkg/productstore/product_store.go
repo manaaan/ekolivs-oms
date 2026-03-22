@@ -1,4 +1,4 @@
-package product_store
+package productstore
 
 import (
 	"context"
@@ -24,7 +24,7 @@ type StoreProduct struct {
 	Source   string `json:"source" firestore:"source,omitempty"`
 }
 
-// TODO: add filters to query, which require firestore indexes
+// TODO: add filters to query, which require firestore indexes.
 func (s Store) GetProducts(ctx context.Context) ([]*StoreProduct, error) {
 	var products []*StoreProduct
 	// TODO: Further sorting by price? Would require firestore indexes
@@ -60,7 +60,7 @@ func (s Store) GetProduct(ctx context.Context, id string) (*StoreProduct, error)
 	return &prod, nil
 }
 
-// Overwrites the product document in firestore completely
+// Overwrites the product document in firestore completely.
 func (s Store) CreateOrUpdateProduct(ctx context.Context, data *StoreProduct) (*StoreProduct, error) {
 	if _, err := s.FirestoreClient.Collection(collection).Doc(data.ID).Set(ctx, data); err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (s Store) CreateOrUpdateProduct(ctx context.Context, data *StoreProduct) (*
 	return data, nil
 }
 
-// Remove product document in firestore
+// Remove product document in firestore.
 func (s Store) DeleteProduct(ctx context.Context, id string) error {
 	if _, err := s.FirestoreClient.Collection(collection).Doc(id).Delete(ctx); err != nil {
 		return err
