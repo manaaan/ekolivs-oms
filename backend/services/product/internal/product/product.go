@@ -44,7 +44,7 @@ func (s Service) GetProducts(ctx context.Context) ([]*product_api.Product, error
 	products := []*product_api.Product{}
 	for _, storeProduct := range storeProducts {
 		products = append(products, &product_api.Product{
-			ID:            storeProduct.ID,
+			Id:            storeProduct.Id,
 			Name:          storeProduct.Name,
 			Sku:           storeProduct.Sku,
 			Barcode:       storeProduct.Barcode,
@@ -89,7 +89,7 @@ func (s Service) UpdateProduct(ctx context.Context, product *product_api.Product
 	g.Go(func() error {
 		// TODO: We need to map the variants back into Zettle structure
 		err := s.zettleService.UpdateProduct(
-			zettle.UpdateProductParamsExt{ProductUuid: product.ID},
+			zettle.UpdateProductParamsExt{ProductUuid: product.Id},
 			zettle.FullProductUpdateRequest{
 				Name: product.Name,
 			},
@@ -113,7 +113,7 @@ func mapStoreToAPIProduct(storeProduct *product_store.StoreProduct) *product_api
 		return nil
 	}
 	return &product_api.Product{
-		ID:            storeProduct.ID,
+		Id:            storeProduct.Id,
 		Name:          storeProduct.Name,
 		Sku:           storeProduct.Sku,
 		Barcode:       storeProduct.Barcode,
@@ -134,7 +134,7 @@ func mapAPIToStoreProduct(product *product_api.Product) *product_store.StoreProd
 	}
 	return &product_store.StoreProduct{
 		Product: product_api.Product{
-			ID:            product.ID,
+			Id:            product.Id,
 			Name:          product.Name,
 			Sku:           product.Sku,
 			Barcode:       product.Barcode,

@@ -62,7 +62,7 @@ func (s Store) GetProduct(ctx context.Context, id string) (*StoreProduct, error)
 
 // Overwrites the product document in firestore completely
 func (s Store) CreateOrUpdateProduct(ctx context.Context, data *StoreProduct) (*StoreProduct, error) {
-	if _, err := s.FirestoreClient.Collection(collection).Doc(data.ID).Set(ctx, data); err != nil {
+	if _, err := s.FirestoreClient.Collection(collection).Doc(data.Id).Set(ctx, data); err != nil {
 		return nil, err
 	}
 	return data, nil
