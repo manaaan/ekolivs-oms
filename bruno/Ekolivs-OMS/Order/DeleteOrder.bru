@@ -1,0 +1,21 @@
+meta {
+  name: DeleteOrder
+  type: grpc
+  seq: 4
+}
+
+grpc {
+  url: grpc://localhost:8081
+  method: /OrderService/GetOrders
+  body: grpc
+  protoPath: ../../specs/order.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {"ID": "KjDelo4uQy9OGMjc2NAo"}
+  '''
+}

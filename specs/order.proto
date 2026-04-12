@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/manaaan/ekolivs-oms/order/order_api";
+option  go_package = 'github.com/manaaan/ekolivs-oms/backend/specs/order_api';
 
 service OrderService {
   rpc GetOrders(OrdersReq) returns (OrdersRes) {}
@@ -43,6 +43,6 @@ message Position {
   string OrderID = 2;
   string productId = 3;
   string productName = 4;
-  int32 amount = 5;
-  int32 position = 6;
+  float amount = 5;
+  uint32 position = 6;
 }
