@@ -120,6 +120,12 @@ func (s Store) CreateOrUpdateDemand(ctx context.Context, data *demand_api.Demand
 	log, ctx := tlog.New(ctx)
 	err := s.FirestoreClient.RunTransaction(ctx, func(_ context.Context, tx *firestore.Transaction) error {
 		dr, copyData := prepToCreateOrUpdateDemand(s.FirestoreClient, data)
+		if dr == nil || copyData == nil {
+			err := errors.New("failed to proceed with a nil value")
+			log.Error("failed to create or update demand with prepToCreateOrUpdateDemand returning nil value", "error", err)
+			return err
+		}
+
 		if err := tx.Set(dr, copyData); err != nil {
 			log.Error("failed to create or update demand", "error", err)
 			return err
