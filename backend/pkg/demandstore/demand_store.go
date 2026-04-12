@@ -151,13 +151,13 @@ func prepToCreateOrUpdateDemand(firestoreClient *firestore.Client, data *demand_
 	// remove items from demand object (JSON) since they are created as a subcollection of demand
 	// and should not be stored twice in firestore
 	myCopy, ok := proto.Clone(data).(*demand_api.Demand)
-
+	var dr *firestore.DocumentRef
+	dr = nil
 	// what to do when the assertion fails
 	if ok {
 		myCopy.Items = nil
+		dr = firestoreClient.Collection(Collection).Doc(myCopy.ID)
 	}
-
-	dr := firestoreClient.Collection(Collection).Doc(myCopy.ID)
 	return dr, myCopy
 }
 
