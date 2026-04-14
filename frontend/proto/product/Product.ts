@@ -5,7 +5,7 @@ import type { Status as _Status, Status__Output as _Status__Output } from './Sta
 import type { UnitType as _UnitType, UnitType__Output as _UnitType__Output } from './UnitType';
 
 export interface Product {
-  'ID'?: (string);
+  'id'?: (string);
   'name'?: (string);
   'sku'?: (string);
   'barcode'?: (string);
@@ -26,7 +26,7 @@ export interface Product {
 }
 
 export interface Product__Output {
-  'ID': (string);
+  'id': (string);
   'name': (string);
   'sku'?: (string);
   'barcode'?: (string);

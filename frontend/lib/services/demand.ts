@@ -2,14 +2,14 @@ import { cache } from 'react'
 import 'server-only'
 
 import { GrpcError } from '@/lib/errors/grpc-error'
-import type { Product__Output } from '@/proto/product/Product'
+import type { Demand__Output } from '@/proto/demand/Demand'
 
-import { productClient } from './grpc'
+import { demandClient } from './grpc'
 
-export const getProducts = cache(
-  async (): Promise<Product__Output[]> =>
+export const getDemands = cache(
+  async (): Promise<Demand__Output[]> =>
     new Promise((resolve, reject) => {
-      productClient.getProducts({}, (error, value) => {
+      demandClient.getDemands({}, (error, value) => {
         if (error) {
           reject(
             new GrpcError(
@@ -28,7 +28,7 @@ export const getProducts = cache(
           return
         }
 
-        resolve(value.products)
+        resolve(value.demands)
       })
     })
 )

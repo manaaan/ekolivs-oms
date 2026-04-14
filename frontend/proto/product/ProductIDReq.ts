@@ -2,9 +2,9 @@
 
 
 export interface ProductIDReq {
-  'ID'?: (string);
+  'id'?: (string);
 }
 
 export interface ProductIDReq__Output {
-  'ID': (string);
+  'id': (string);
 }
